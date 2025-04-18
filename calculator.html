@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор выгоды - сравнение моделей</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .feature-badge {
+            transition: all 0.3s ease;
+        }
+        .model-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .best-choice {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+        }
+        .price-tag {
+            position: relative;
+            display: inline-block;
+        }
+        .price-tag::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: currentColor;
+            transform: rotate(-5deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Калькулятор выгоды</h1>
+            <p class="text-xl text-gray-600">Сравните до 3 моделей и найдите оптимальный вариант</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Модель 1 -->
+            <div class="model-card bg-white rounded-xl shadow-md overflow-hidden p-6" id="model1-card">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Модель 1</h3>
+                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full hidden best-choice-tag">Лучший выбор</span>
+                </div>
+                <div class="mb-4">
+                    <label for="model1-select" class="block text-sm font-medium text-gray-700 mb-1">Выберите модель</label>
+                    <select id="model1-select" class="model-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option value="">-- Не выбрано --</option>
+                        <option value="iphone13">iPhone 13 (64GB) - 59,990₽</option>
+                        <option value="iphone14">iPhone 14 (128GB) - 69,990₽</option>
+                        <option value="iphone15">iPhone 15 (128GB) - 79,990₽</option>
+                        <option value="samsungS22">Samsung Galaxy S22 (128GB) - 54,990₽</option>
+                        <option value="samsungS23">Samsung Galaxy S23 (256GB) - 74,990₽</option>
+                        <option value="xiaomi12">Xiaomi 12 (128GB) - 49,990₽</option>
+                    </select>
+                </div>
+                <div class="price-display mb-4">
+                    <p class="text-sm text-gray-500">Цена:</p>
+                    <p class="text-2xl font-bold text-gray-800 price-value">—</p>
+                </div>
+                <div class="features-display mb-4">
+                    <p class="text-sm text-gray-500 mb-2">Характеристики:</p>
+                    <div class="space-y-2 features-list">
+                        <p class="text-gray-400 italic">Выберите модель</p>
+                    </div>
+                </div>
+                <div class="score-display">
+                    <p class="text-sm text-gray-500">Баллы:</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                        <div class="bg-blue-600 h-2.5 rounded-full score-bar" style="width: 0%"></div>
+                    </div>
+                    <p class="text-right text-sm font-medium text-gray-700 mt-1 score-value">0/100</p>
+                </div>
+            </div>
+
+            <!-- Модель 2 -->
+            <div class="model-card bg-white rounded-xl shadow-md overflow-hidden p-6" id="model2-card">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Модель 2</h3>
+                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full hidden best-choice-tag">Лучший выбор</span>
+                </div>
+                <div class="mb-4">
+                    <label for="model2-select" class="block text-sm font-medium text-gray-700 mb-1">Выберите модель</label>
+                    <select id="model2-select" class="model-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option value="">-- Не выбрано --</option>
+                        <option value="iphone13">iPhone 13 (64GB) - 59,990₽</option>
+                        <option value="iphone14">iPhone 14 (128GB) - 69,990₽</option>
+                        <option value="iphone15">iPhone 15 (128GB) - 79,990₽</option>
+                        <option value="samsungS22">Samsung Galaxy S22 (128GB) - 54,990₽</option>
+                        <option value="samsungS23">Samsung Galaxy S23 (256GB) - 74,990₽</option>
+                        <option value="xiaomi12">Xiaomi 12 (128GB) - 49,990₽</option>
+                    </select>
+                </div>
+                <div class="price-display mb-4">
+                    <p class="text-sm text-gray-500">Цена:</p>
+                    <p class="text-2xl font-bold text-gray-800 price-value">—</p>
+                </div>
+                <div class="features-display mb-4">
+                    <p class="text-sm text-gray-500 mb-2">Характеристики:</p>
+                    <div class="space-y-2 features-list">
+                        <p class="text-gray-400 italic">Выберите модель</p>
+                    </div>
+                </div>
+                <div class="score-display">
+                    <p class="text-sm text-gray-500">Баллы:</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                        <div class="bg-blue-600 h-2.5 rounded-full score-bar" style="width: 0%"></div>
+                    </div>
+                    <p class="text-right text-sm font-medium text-gray-700 mt-1 score-value">0/100</p>
+                </div>
+            </div>
+
+            <!-- Модель 3 -->
+            <div class="model-card bg-white rounded-xl shadow-md overflow-hidden p-6" id="model3-card">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Модель 3</h3>
+                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full hidden best-choice-tag">Лучший выбор</span>
+                </div>
+                <div class="mb-4">
+                    <label for="model3-select" class="block text-sm font-medium text-gray-700 mb-1">Выберите модель</label>
+                    <select id="model3-select" class="model-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option value="">-- Не выбрано --</option>
+                        <option value="iphone13">iPhone 13 (64GB) - 59,990₽</option>
+                        <option value="iphone14">iPhone 14 (128GB) - 69,990₽</option>
+                        <option value="iphone15">iPhone 15 (128GB) - 79,990₽</option>
+                        <option value="samsungS22">Samsung Galaxy S22 (128GB) - 54,990₽</option>
+                        <option value="samsungS23">Samsung Galaxy S23 (256GB) - 74,990₽</option>
+                        <option value="xiaomi12">Xiaomi 12 (128GB) - 49,990₽</option>
+                    </select>
+                </div>
+                <div class="price-display mb-4">
+                    <p class="text-sm text-gray-500">Цена:</p>
+                    <p class="text-2xl font-bold text-gray-800 price-value">—</p>
+                </div>
+                <div class="features-display mb-4">
+                    <p class="text-sm text-gray-500 mb-2">Характеристики:</p>
+                    <div class="space-y-2 features-list">
+                        <p class="text-gray-400 italic">Выберите модель</p>
+                    </div>
+                </div>
+                <div class="score-display">
+                    <p class="text-sm text-gray-500">Баллы:</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                        <div class="bg-blue-600 h-2.5 rounded-full score-bar" style="width: 0%"></div>
+                    </div>
+                    <p class="text-right text-sm font-medium text-gray-700 mt-1 score-value">0/100</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Сравнение моделей</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- График сравнения баллов -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Сравнение по баллам</h3>
+                    <canvas id="scoreChart" height="250"></canvas>
+                </div>
+                
+                <!-- График цены за балл -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Цена за балл (меньше = лучше)</h3>
+                    <canvas id="valueChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md overflow-hidden p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Итоговый анализ</h2>
+            
+            <div id="best-choice-section" class="hidden">
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-trophy text-green-600 text-2xl"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-medium text-green-800">Наилучший выбор</h3>
+                            <div class="mt-2 text-green-700">
+                                <p id="best-choice-text"></p>
+                                <p class="mt-1 text-sm" id="best-choice-reason"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="comparison-results" class="space-y-4">
+                <p class="text-gray-500 italic">Выберите хотя бы две модели для сравнения</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Данные о моделях
+        const modelsData = {
+            iphone13: {
+                name: "iPhone 13 (64GB)",
+                price: 59990,
+                features: [
+                    "Экран 6.1\" Super Retina XDR",
+                    "Чип A15 Bionic",
+                    "Двойная камера 12 Мп",
+                    "64GB памяти",
+                    "iOS 15",
+                    "Водозащита IP68"
+                ],
+                score: 75
+            },
+            iphone14: {
+                name: "iPhone 14 (128GB)",
+                price: 69990,
+                features: [
+                    "Экран 6.1\" Super Retina XDR",
+                    "Чип A15 Bionic",
+                    "Улучшенная камера 12 Мп",
+                    "128GB памяти",
+                    "iOS 16",
+                    "Водозащита IP68",
+                    "Автономность до 20 часов"
+                ],
+                score: 85
+            },
+            iphone15: {
+                name: "iPhone 15 (128GB)",
+                price: 79990,
+                features: [
+                    "Экран 6.1\" Super Retina XDR",
+                    "Чип A16 Bionic",
+                    "Основная камера 48 Мп",
+                    "128GB памяти",
+                    "iOS 17",
+                    "Водозащита IP68",
+                    "USB-C разъем",
+                    "Автономность до 22 часов"
+                ],
+                score: 95
+            },
+            samsungS22: {
+                name: "Samsung Galaxy S22 (128GB)",
+                price: 54990,
+                features: [
+                    "Экран 6.1\" Dynamic AMOLED 2X",
+                    "Процессор Exynos 2200",
+                    "Тройная камера 50+12+10 Мп",
+                    "128GB памяти",
+                    "Android 12",
+                    "Водозащита IP68",
+                    "Поддержка S Pen"
+                ],
+                score: 80
+            },
+            samsungS23: {
+                name: "Samsung Galaxy S23 (256GB)",
+                price: 74990,
+                features: [
+                    "Экран 6.1\" Dynamic AMOLED 2X",
+                    "Процессор Snapdragon 8 Gen 2",
+                    "Тройная камера 50+12+10 Мп",
+                    "256GB памяти",
+                    "Android 13",
+                    "Водозащита IP68",
+                    "Поддержка S Pen",
+                    "Автономность до 22 часов"
+                ],
+                score: 90
+            },
+            xiaomi12: {
+                name: "Xiaomi 12 (128GB)",
+                price: 49990,
+                features: [
+                    "Экран 6.28\" AMOLED",
+                    "Процессор Snapdragon 8 Gen 1",
+                    "Тройная камера 50+13+5 Мп",
+                    "128GB памяти",
+                    "Android 12",
+                    "Водозащита IP53",
+                    "Быстрая зарядка 67W"
+                ],
+                score: 70
+            }
+        };
+
+        // Инициализация графиков
+        const scoreCtx = document.getElementById('scoreChart').getContext('2d');
+        const valueCtx = document.getElementById('valueChart').getContext('2d');
+        
+        let scoreChart = new Chart(scoreCtx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Баллы',
+                    data: [],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(75, 192, 192, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        let valueChart = new Chart(valueCtx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Цена за балл (₽)',
+                    data: [],
+                    backgroundColor: [
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 206, 86, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Обработчики событий для выбора моделей
+        document.querySelectorAll('.model-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const modelId = this.value;
+                const card = this.closest('.model-card');
+                
+                if (modelId) {
+                    const model = modelsData[modelId];
+                    
+                    // Обновляем цену
+                    card.querySelector('.price-value').textContent = `${model.price.toLocaleString('ru-RU')}₽`;
+                    
+                    // Обновляем характеристики
+                    const featuresList = card.querySelector('.features-list');
+                    featuresList.innerHTML = '';
+                    
+                    model.features.forEach(feature => {
+                        const featureEl = document.createElement('p');
+                        featureEl.className = 'flex items-center text-gray-700';
+                        featureEl.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> ${feature}`;
+                        featuresList.appendChild(featureEl);
+                    });
+                    
+                    // Обновляем баллы
+                    const scoreBar = card.querySelector('.score-bar');
+                    const scoreValue = card.querySelector('.score-value');
+                    scoreBar.style.width = `${model.score}%`;
+                    scoreValue.textContent = `${model.score}/100`;
+                    
+                    // Добавляем класс для анимации
+                    scoreBar.classList.add('transition-all', 'duration-500');
+                } else {
+                    // Сбрасываем значения, если модель не выбрана
+                    card.querySelector('.price-value').textContent = '—';
+                    card.querySelector('.features-list').innerHTML = '<p class="text-gray-400 italic">Выберите модель</p>';
+                    card.querySelector('.score-bar').style.width = '0%';
+                    card.querySelector('.score-value').textContent = '0/100';
+                }
+                
+                // Обновляем сравнение
+                updateComparison();
+            });
+        });
+
+        // Функция обновления сравнения
+        function updateComparison() {
+            const selectedModels = [];
+            
+            document.querySelectorAll('.model-select').forEach((select, index) => {
+                if (select.value) {
+                    selectedModels.push({
+                        id: select.value,
+                        name: modelsData[select.value].name,
+                        price: modelsData[select.value].price,
+                        score: modelsData[select.value].score,
+                        cardId: `model${index+1}-card`
+                    });
+                }
+            });
+            
+            // Если выбрано меньше 2 моделей, скрываем результаты
+            if (selectedModels.length < 2) {
+                document.getElementById('comparison-results').innerHTML = '<p class="text-gray-500 italic">Выберите хотя бы две модели для сравнения</p>';
+                document.getElementById('best-choice-section').classList.add('hidden');
+                
+                // Очищаем графики
+                scoreChart.data.labels = [];
+                scoreChart.data.datasets[0].data = [];
+                scoreChart.update();
+                
+                valueChart.data.labels = [];
+                valueChart.data.datasets[0].data = [];
+                valueChart.update();
+                
+                // Убираем метки "Лучший выбор"
+                document.querySelectorAll('.best-choice-tag').forEach(tag => {
+                    tag.classList.add('hidden');
+                });
+                
+                document.querySelectorAll('.model-card').forEach(card => {
+                    card.classList.remove('best-choice', 'border-2', 'border-green-500');
+                });
+                
+                return;
+            }
+            
+            // Обновляем графики
+            scoreChart.data.labels = selectedModels.map(model => model.name);
+            scoreChart.data.datasets[0].data = selectedModels.map(model => model.score);
+            scoreChart.update();
+            
+            valueChart.data.labels = selectedModels.map(model => model.name);
+            valueChart.data.datasets[0].data = selectedModels.map(model => (model.price / model.score).toFixed(0));
+            valueChart.update();
+            
+            // Находим лучший вариант (максимальные баллы за минимальную цену)
+            let bestModel = null;
+            let bestValue = Infinity;
+            
+            selectedModels.forEach(model => {
+                const value = model.price / model.score;
+                if (value < bestValue) {
+                    bestValue = value;
+                    bestModel = model;
+                }
+            });
+            
+            // Показываем лучший выбор
+            document.getElementById('best-choice-section').classList.remove('hidden');
+            document.getElementById('best-choice-text').textContent = bestModel.name;
+            document.getElementById('best-choice-reason').textContent = `Лучшее соотношение цены и характеристик (${(bestModel.price / bestModel.score).toFixed(0)}₽ за балл)`;
+            
+            // Обновляем метки "Лучший выбор"
+            document.querySelectorAll('.best-choice-tag').forEach(tag => {
+                tag.classList.add('hidden');
+            });
+            
+            document.querySelectorAll('.model-card').forEach(card => {
+                card.classList.remove('best-choice', 'border-2', 'border-green-500');
+            });
+            
+            const bestCard = document.getElementById(bestModel.cardId);
+            bestCard.querySelector('.best-choice-tag').classList.remove('hidden');
+            bestCard.classList.add('best-choice', 'border-2', 'border-green-500');
+            
+            // Генерируем текстовое сравнение
+            let comparisonHTML = '<div class="space-y-4">';
+            
+            // Сравнение по цене
+            const sortedByPrice = [...selectedModels].sort((a, b) => a.price - b.price);
+            comparisonHTML += `
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="font-medium text-blue-800 mb-2"><i class="fas fa-tag mr-2"></i> Сравнение по цене</h3>
+                    <p>${sortedByPrice.map((model, i) => 
+                        `${i+1}. ${model.name} - ${model.price.toLocaleString('ru-RU')}₽`).join('<br>')}
+                    </p>
+                    <p class="mt-2 text-sm text-blue-600">
+                        Экономия при выборе ${sortedByPrice[0].name} вместо ${sortedByPrice[sortedByPrice.length-1].name}: 
+                        ${(sortedByPrice[sortedByPrice.length-1].price - sortedByPrice[0].price).toLocaleString('ru-RU')}₽
+                    </p>
+                </div>
+            `;
+            
+            // Сравнение по характеристикам
+            const sortedByScore = [...selectedModels].sort((a, b) => b.score - a.score);
+            comparisonHTML += `
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <h3 class="font-medium text-purple-800 mb-2"><i class="fas fa-star mr-2"></i> Сравнение по характеристикам</h3>
+                    <p>${sortedByScore.map((model, i) => 
+                        `${i+1}. ${model.name} - ${model.score} баллов`).join('<br>')}
+                    </p>
+                    <p class="mt-2 text-sm text-purple-600">
+                        ${sortedByScore[0].name} превосходит ${sortedByScore[sortedByScore.length-1].name} на 
+                        ${sortedByScore[0].score - sortedByScore[sortedByScore.length-1].score} баллов
+                    </p>
+                </div>
+            `;
+            
+            // Сравнение по цене за балл
+            const sortedByValue = [...selectedModels].sort((a, b) => (a.price/a.score) - (b.price/b.score));
+            comparisonHTML += `
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h3 class="font-medium text-green-800 mb-2"><i class="fas fa-balance-scale mr-2"></i> Соотношение цены и характеристик</h3>
+                    <p>${sortedByValue.map((model, i) => 
+                        `${i+1}. ${model.name} - ${(model.price/model.score).toFixed(0)}₽ за балл`).join('<br>')}
+                    </p>
+                    <p class="mt-2 text-sm text-green-600">
+                        ${sortedByValue[0].name} предлагает лучшее соотношение цены и характеристик
+                    </p>
+                </div>
+            `;
+            
+            comparisonHTML += '</div>';
+            document.getElementById('comparison-results').innerHTML = comparisonHTML;
+        }
+    </script>
+</body>
+</html>
+

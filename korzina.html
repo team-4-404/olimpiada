@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина и оформление заказа</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .cart-item {
+            transition: all 0.3s ease;
+        }
+        .cart-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .quantity-btn {
+            transition: all 0.2s ease;
+        }
+        .quantity-btn:hover {
+            background-color: #e5e7eb;
+        }
+        .input-error {
+            border-color: #ef4444;
+        }
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .checkout-step {
+            transition: all 0.3s ease;
+        }
+        .checkout-step.active {
+            border-left: 4px solid #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Хлебные крошки -->
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="#" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-home mr-2"></i>
+                        Главная
+                    </a>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">Корзина</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Основной контент -->
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800 mb-6">Ваша корзина</h1>
+                    
+                    <!-- Пустая корзина -->
+                    <div id="empty-cart" class="text-center py-12 hidden">
+                        <i class="fas fa-shopping-cart text-5xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-medium text-gray-700 mb-2">Ваша корзина пуста</h3>
+                        <p class="text-gray-500 mb-6">Добавьте товары, чтобы продолжить</p>
+                        <a href="#" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                            <i class="fas fa-arrow-left mr-2"></i> Вернуться к покупкам
+                        </a>
+                    </div>
+                    
+                    <!-- Список товаров -->
+                    <div id="cart-items">
+                        <div class="cart-item bg-gray-50 rounded-lg p-4 mb-4 flex flex-col md:flex-row">
+                            <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-4">
+                                <img src="https://via.placeholder.com/100" alt="Товар" class="w-24 h-24 object-cover rounded">
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Смартфон iPhone 13 128GB</h3>
+                                        <p class="text-sm text-gray-500">Синий</p>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-red-500">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="flex items-center justify-between mt-4">
+                                    <div class="flex items-center">
+                                        <button class="quantity-btn w-8 h-8 border border-gray-300 rounded-l-lg flex items-center justify-center">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" value="1" class="w-12 h-8 border-t border-b border-gray-300 text-center">
+                                        <button class="quantity-btn w-8 h-8 border border-gray-300 rounded-r-lg flex items-center justify-center">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="font-bold text-gray-800">59 990 ₽</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="cart-item bg-gray-50 rounded-lg p-4 mb-4 flex flex-col md:flex-row">
+                            <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-4">
+                                <img src="https://via.placeholder.com/100" alt="Товар" class="w-24 h-24 object-cover rounded">
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">Чехол для iPhone 13</h3>
+                                        <p class="text-sm text-gray-500">Силиконовый</p>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-red-500">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="flex items-center justify-between mt-4">
+                                    <div class="flex items-center">
+                                        <button class="quantity-btn w-8 h-8 border border-gray-300 rounded-l-lg flex items-center justify-center">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" value="2" class="w-12 h-8 border-t border-b border-gray-300 text-center">
+                                        <button class="quantity-btn w-8 h-8 border border-gray-300 rounded-r-lg flex items-center justify-center">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="font-bold text-gray-800">3 990 ₽</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Промокод -->
+                    <div class="mt-6">
+                        <div class="flex">
+                            <input type="text" placeholder="Введите промокод" class="flex-grow border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-r-lg hover:bg-blue-700 transition">Применить</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Форма оформления заказа -->
+                <div id="checkout-form" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Оформление заказа</h2>
+                    
+                    <!-- Шаги оформления -->
+                    <div class="flex mb-8 overflow-x-auto">
+                        <div class="checkout-step active px-4 py-2 border-b-2 border-blue-600 text-blue-600 font-medium">
+                            <i class="fas fa-user mr-2"></i> Контакты
+                        </div>
+                        <div class="checkout-step px-4 py-2 border-b-2 border-gray-200 text-gray-500 font-medium">
+                            <i class="fas fa-truck mr-2"></i> Доставка
+                        </div>
+                        <div class="checkout-step px-4 py-2 border-b-2 border-gray-200 text-gray-500 font-medium">
+                            <i class="fas fa-credit-card mr-2"></i> Оплата
+                        </div>
+                    </div>
+                    
+                    <!-- Контактная информация -->
+                    <div id="contact-info">
+                        <h3 class="text-lg font-medium text-gray-800 mb-4">Контактная информация</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">Имя*</label>
+                                <input type="text" id="first-name" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <p class="error-message hidden">Пожалуйста, введите имя</p>
+                            </div>
+                            <div>
+                                <label for="last-name" class="block text-sm font-medium text-gray-700 mb-1">Фамилия*</label>
+                                <input type="text" id="last-name" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <p class="error-message hidden">Пожалуйста, введите фамилию</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email*</label>
+                            <input type="email" id="email" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <p class="error-message hidden">Пожалуйста, введите корректный email</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Телефон*</label>
+                            <input type="tel" id="phone" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <p class="error-message hidden">Пожалуйста, введите корректный телефон</p>
+                        </div>
+                        
+                        <div class="flex items-center mb-8">
+                            <input type="checkbox" id="create-account" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="create-account" class="ml-2 text-sm text-gray-700">Создать аккаунт</label>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button class="text-blue-600 font-medium flex items-center">
+                                <i class="fas fa-arrow-left mr-2"></i> Вернуться в корзину
+                            </button>
+                            <button id="continue-to-shipping" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                                Продолжить <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Доставка (скрыто по умолчанию) -->
+                    <div id="shipping-info" class="hidden">
+                        <h3 class="text-lg font-medium text-gray-800 mb-4">Способ доставки</h3>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" id="courier" name="shipping" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" checked>
+                                <label for="courier" class="ml-3 block">
+                                    <span class="font-medium text-gray-700">Курьерская доставка</span>
+                                    <span class="block text-sm text-gray-500">Доставка курьером на следующий день - 500 ₽</span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" id="pickup" name="shipping" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <label for="pickup" class="ml-3 block">
+                                    <span class="font-medium text-gray-700">Самовывоз</span>
+                                    <span class="block text-sm text-gray-500">Бесплатно. Адреса пунктов выдачи</span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" id="post" name="shipping" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <label for="post" class="ml-3 block">
+                                    <span class="font-medium text-gray-700">Почта России</span>
+                                    <span class="block text-sm text-gray-500">Доставка за 5-14 дней - 300 ₽</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-lg font-medium text-gray-800 mb-4">Адрес доставки</h3>
+                        
+                        <div class="mb-6">
+                            <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Адрес*</label>
+                            <input type="text" id="address" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <p class="error-message hidden">Пожалуйста, введите адрес</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                            <div>
+                                <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Город*</label>
+                                <input type="text" id="city" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <p class="error-message hidden">Пожалуйста, введите город</p>
+                            </div>
+                            <div>
+                                <label for="postal-code" class="block text-sm font-medium text-gray-700 mb-1">Индекс</label>
+                                <input type="text" id="postal-code" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Страна*</label>
+                                <select id="country" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="RU">Россия</option>
+                                    <option value="KZ">Казахстан</option>
+                                    <option value="BY">Беларусь</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button class="text-blue-600 font-medium flex items-center back-to-contact">
+                                <i class="fas fa-arrow-left mr-2"></i> Контактная информация
+                            </button>
+                            <button id="continue-to-payment" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                                Продолжить <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Оплата (скрыто по умолчанию) -->
+                    <div id="payment-info" class="hidden">
+                        <h3 class="text-lg font-medium text-gray-800 mb-4">Способ оплаты</h3>
+                        
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" id="credit-card" name="payment" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" checked>
+                                <label for="credit-card" class="ml-3 block">
+                                    <span class="font-medium text-gray-700">Банковская карта</span>
+                                    <span class="block text-sm text-gray-500">Оплата картой онлайн</span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" id="cash" name="payment" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <label for="cash" class="ml-3 block">
+                                    <span class="font-medium text-gray-700">Наличными при получении</span>
+                                    <span class="block text-sm text-gray-500">Только для курьерской доставки</span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
+                                <input type="radio" id="apple-pay" name="payment" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <label for="apple-pay" class="ml-3 block">
+                                    <span class="font-medium text-gray-700">Apple Pay</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Форма для карты -->
+                        <div id="credit-card-form" class="mb-8">
+                            <div class="mb-4">
+                                <label for="card-number" class="block text-sm font-medium text-gray-700 mb-1">Номер карты*</label>
+                                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <p class="error-message hidden">Пожалуйста, введите номер карты</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="card-expiry" class="block text-sm font-medium text-gray-700 mb-1">Срок действия*</label>
+                                    <input type="text" id="card-expiry" placeholder="MM/YY" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <p class="error-message hidden">Пожалуйста, введите срок действия</p>
+                                </div>
+                                <div>
+                                    <label for="card-cvc" class="block text-sm font-medium text-gray-700 mb-1">CVC*</label>
+                                    <input type="text" id="card-cvc" placeholder="CVC" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <p class="error-message hidden">Пожалуйста, введите CVC</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="card-name" class="block text-sm font-medium text-gray-700 mb-1">Имя на карте*</label>
+                                <input type="text" id="card-name" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <p class="error-message hidden">Пожалуйста, введите имя</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button class="text-blue-600 font-medium flex items-center back-to-shipping">
+                                <i class="fas fa-arrow-left mr-2"></i> Доставка
+                            </button>
+                            <button id="place-order" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
+                                Оформить заказ <i class="fas fa-check ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Боковая панель с итогами -->
+            <div class="lg:w-1/3">
+                <div class="bg-white rounded-lg shadow-md p-6 sticky top-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Ваш заказ</h2>
+                    
+                    <div class="border-b border-gray-200 pb-4 mb-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">Товары (3)</span>
+                            <span class="font-medium">67 970 ₽</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">Скидка</span>
+                            <span class="text-green-600">-1 000 ₽</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Доставка</span>
+                            <span class="font-medium">500 ₽</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between text-lg font-bold text-gray-800 mb-6">
+                        <span>Итого</span>
+                        <span>67 470 ₽</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-center mb-2">
+                            <input type="checkbox" id="agree-terms" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="agree-terms" class="ml-2 text-sm text-gray-700">Я согласен с <a href="#" class="text-blue-600 hover:underline">условиями</a></label>
+                        </div>
+                        <p class="text-xs text-gray-500">Нажимая на кнопку, вы соглашаетесь с политикой конфиденциальности и условиями продажи</p>
+                    </div>
+                    
+                    <button id="checkout-button" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition">
+                        Оформить заказ
+                    </button>
+                    
+                    <div class="mt-4 text-center text-sm text-gray-500">
+                        <p>Или оплатить с помощью</p>
+                        <div class="flex justify-center space-x-4 mt-2">
+                            <button class="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                <i class="fab fa-apple-pay text-2xl"></i>
+                            </button>
+                            <button class="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                <i class="fab fa-google-pay text-2xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Управление количеством товаров
+        document.querySelectorAll('.quantity-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                let value = parseInt(input.value);
+                
+                if (this.querySelector('.fa-minus')) {
+                    if (value > 1) {
+                        input.value = value - 1;
+                    }
+                } else {
+                    input.value = value + 1;
+                }
+                
+                // Здесь можно добавить обновление суммы товара
+            });
+        });
+        
+        // Удаление товара
+        document.querySelectorAll('.cart-item button').forEach(btn => {
+            if (btn.querySelector('.fa-times')) {
+                btn.addEventListener('click', function() {
+                    this.closest('.cart-item').remove();
+                    // Проверка на пустую корзину
+                    if (document.querySelectorAll('.cart-item').length === 0) {
+                        document.getElementById('empty-cart').classList.remove('hidden');
+                        document.getElementById('cart-items').classList.add('hidden');
+                    }
+                });
+            }
+        });
+        
+        // Проверка на пустую корзину при загрузке
+        if (document.querySelectorAll('.cart-item').length === 0) {
+            document.getElementById('empty-cart').classList.remove('hidden');
+            document.getElementById('cart-items').classList.add('hidden');
+        }
+        
+        // Переключение шагов оформления заказа
+        document.getElementById('continue-to-shipping').addEventListener('click', function() {
+            // Простая валидация
+            let isValid = true;
+            
+            const firstName = document.getElementById('first-name');
+            const lastName = document.getElementById('last-name');
+            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
+            
+            if (!firstName.value.trim()) {
+                firstName.classList.add('input-error');
+                firstName.nextElementSibling.classList.remove('hidden');
+                isValid = false;
+            } else {
+                firstName.classList.remove('input-error');
+                firstName.nextElementSibling.classList.add('hidden');
+            }
+            
+            if (!lastName.value.trim()) {
+                lastName.classList.add('input-error');
+                lastName.nextElementSibling.classList.remove('hidden');
+                isValid = false;
+            } else {
+                lastName.classList.remove('input-error');
+                lastName.nextElementSibling.classList.add('hidden');
+            }
+            
+            if (!email.value.trim() || !/^\S+@\S+\.\S+$/.test(email.value)) {
+                email.classList.add('input-error');
+                email.nextElementSibling.classList.remove('hidden');
+                isValid = false;
+            } else {
+                email.classList.remove('input-error');
+                email.nextElementSibling.classList.add('hidden');
+            }
+            
+            if (!phone.value.trim() || !/^[\d\s\(\)-]+$/.test(phone.value)) {
+                phone.classList.add('input-error');
+                phone.nextElementSibling.classList.remove('hidden');
+                isValid = false;
+            } else {
+                phone.classList.remove('input-error');
+                phone.nextElementSibling.classList.add('hidden');
+            }
+            
+            if (isValid) {
+                document.getElementById('contact-info').classList.add('hidden');
+                document.getElementById('shipping-info').classList.remove('hidden');
+                
+                // Обновляем шаги
+                document.querySelectorAll('.checkout-step').forEach(step => {
+                    step.classList.remove('active', 'border-blue-600', 'text-blue-600');
+                    step.classList.add('border-gray-200', 'text-gray-500');
+                });
+                
+                document.querySelectorAll('.checkout-step')[1].classList.add('active', 'border-blue-600', 'text-blue-600');
+            }
+        });
+        
+        document.getElementById('continue-to-payment').addEventListener('click', function() {
+            // Простая валидация
+            let isValid = true;
+            
+            const address = document.getElementById('address');
+            const city = document.getElementById('city');
+            
+            if (!address.value.trim()) {
+                address.classList.add('input-error');
+                address.nextElementSibling.classList.remove('hidden');
+                isValid = false;
+            } else {
+                address.classList.remove('input-error');
+                address.nextElementSibling.classList.add('hidden');
+            }
+            
+            if (!city.value.trim()) {
+                city.classList.add('input-error');
+                city.nextElementSibling.classList.remove('hidden');
+                isValid = false;
+            } else {
+                city.classList.remove('input-error');
+                city.nextElementSibling.classList.add('hidden');
+            }
+            
+            if (isValid) {
+                document.getElementById('shipping-info').classList.add('hidden');
+                document.getElementById('payment-info').classList.remove('hidden');
+                
+                // Обновляем шаги
+                document.querySelectorAll('.checkout-step').forEach(step => {
+                    step.classList.remove('active', 'border-blue-600', 'text-blue-600');
+                    step.classList.add('border-gray-200', 'text-gray-500');
+                });
+                
+                document.querySelectorAll('.checkout-step')[2].classList.add('active', 'border-blue-600', 'text-blue-600');
+            }
+        });
+        
+        // Кнопки "Назад"
+        document.querySelector('.back-to-contact').addEventListener('click', function() {
+            document.getElementById('shipping-info').classList.add('hidden');
+            document.getElementById('contact-info').classList.remove('hidden');
+            
+            // Обновляем шаги
+            document.querySelectorAll('.checkout-step').forEach(step => {
+                step.classList.remove('active', 'border-blue-600', 'text-blue-600');
+                step.classList.add('border-gray-200', 'text-gray-500');
+            });
+            
+            document.querySelectorAll('.checkout-step')[0].classList.add('active', 'border-blue-600', 'text-blue-600');
+        });
+        
+        document.querySelector('.back-to-shipping').addEventListener('click', function() {
+            document.getElementById('payment-info').classList.add('hidden');
+            document.getElementById('shipping-info').classList.remove('hidden');
+            
+            // Обновляем шаги
+            document.querySelectorAll('.checkout-step').forEach(step => {
+                step.classList.remove('active', 'border-blue-600', 'text-blue-600');
+                step.classList.add('border-gray-200', 'text-gray-500');
+            });
+            
+            document.querySelectorAll('.checkout-step')[1].classList.add('active', 'border-blue-600', 'text-blue-600');
+        });
+        
+        // Оформление заказа
+        document.getElementById('place-order').addEventListener('click', function() {
+            // Простая валидация
+            let isValid = true;
+            
+            const cardNumber = document.getElementById('card-number');
+            const cardExpiry = document.getElementById('card-expiry');
+            const cardCvc = document.getElementById('card-cvc');
+            const cardName = document.getElementById('card-name');
+            
+            if (!cardNumber.value.trim()) {
+                cardNumber.classList.add('input-error');
+                cardNumber.nextElementSibling.classList.remove('hidden');
+                isValid = false;
+            } else {
+                cardNumber.classList.remove('input-error');
+                cardNumber.nextElementSibling.classList.add('hidden');
+            }
+            
+            if (!cardExpiry.value.trim()) {
+                cardExpiry.classList.add('input-error');
+                cardExpiry.nextElementSibling.classList.remove('hidden');
+                isValid = false;
+            } else {
+                cardExpiry.classList.remove('input-error');
+                cardExpiry.nextElementSibling.classList.add('hidden');
+            }
+            
+            if (!cardCvc.value.trim()) {
+                cardCvc.classList.add('input-error');
+                cardCvc.nextElementSibling.classList.remove('hidden');
+                isValid = false;
+            } else {
+                cardCvc.classList.remove('input-error');
+                cardCvc.nextElementSibling.classList.add('hidden');
+            }
+            
+            if (!cardName.value.trim()) {
+                cardName.classList.add('input-error');
+                cardName.nextElementSibling.classList.remove('hidden');
+                isValid = false;
+            } else {
+                cardName.classList.remove('input-error');
+                cardName.nextElementSibling.classList.add('hidden');
+            }
+            
+            if (!document.getElementById('agree-terms').checked) {
+                alert('Пожалуйста, согласитесь с условиями');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                alert('Заказ успешно оформлен! Спасибо за покупку!');
+                // Здесь можно добавить отправку данных на сервер
+            }
+        });
+        
+        // Кнопка "Оформить заказ" в боковой панели
+        document.getElementById('checkout-button').addEventListener('click', function() {
+            // Прокрутка к форме оформления
+            document.getElementById('checkout-form').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
