@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сравнение гаджетов | GadgetZone</title>
+    <title>Сравнение гаджетов | TechCompare</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Базовые стили и сброс */
+        /* Базовые стили */
         * {
             margin: 0;
             padding: 0;
@@ -14,20 +15,13 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            background-color: #f9fafb;
-            color: #1f2937;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            color: #333;
+            background-color: #f5f5f5;
         }
         
-        /* Темная тема */
-        body.dark {
-            background-color: #111827;
-            color: #f3f4f6;
-        }
-        
-        /* Контейнер с ограничением максимальной ширины */
+        /* Контейнер с ограничением ширины */
         .container {
             width: 100%;
             max-width: 1200px;
@@ -37,57 +31,33 @@
         
         /* Хедер */
         header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
             position: sticky;
             top: 0;
-            z-index: 50;
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 12px 0;
+            z-index: 100;
         }
         
-        .dark header {
-            background-color: rgba(31, 41, 55, 0.8);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        /* Логотип */
         .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
         }
         
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #3b82f6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .dark .logo-icon {
-            background-color: #2563eb;
-        }
-        
-        .logo-icon i {
-            color: white;
-            font-size: 20px;
-        }
-        
-        .logo-text {
-            font-size: 20px;
-            font-weight: 700;
-        }
-        
-        .logo-text span {
-            color: #3b82f6;
-        }
-        
-        .dark .logo-text span {
-            color: #2563eb;
+            color: #4f46e5;
+            font-size: 24px;
         }
         
         /* Навигация */
@@ -96,206 +66,169 @@
         }
         
         .nav-link {
-            font-weight: 500;
-            color: inherit;
+            color: #555;
             text-decoration: none;
-            transition: color 0.3s ease;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
         }
         
         .nav-link:hover {
-            color: #3b82f6;
-        }
-        
-        .dark .nav-link:hover {
-            color: #2563eb;
+            color: #4f46e5;
+            background-color: #f0f0f0;
         }
         
         .nav-link.active {
-            color: #3b82f6;
-            border-bottom: 2px solid #3b82f6;
-            padding-bottom: 4px;
-        }
-        
-        .dark .nav-link.active {
-            color: #2563eb;
-            border-bottom-color: #2563eb;
+            color: #4f46e5;
+            background-color: #e0e7ff;
         }
         
         /* Иконки в хедере */
         .header-icons {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 15px;
         }
         
-        .icon-button {
-            padding: 8px;
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 50%;
-            transition: background-color 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .icon-button:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-        
-        .dark .icon-button:hover {
-            background-color: rgba(255, 255, 255, 0.05);
+        .icon-btn:hover {
+            background-color: #f0f0f0;
         }
         
         .cart-badge {
             position: absolute;
-            top: -4px;
-            right: -4px;
-            background-color: #3b82f6;
+            top: -5px;
+            right: -5px;
+            background-color: #4f46e5;
             color: white;
-            font-size: 12px;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        .dark .cart-badge {
-            background-color: #2563eb;
-        }
-        
         /* Мобильное меню */
-        #mobile-menu {
+        .mobile-menu {
             display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
             background-color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            z-index: 99;
         }
         
-        .dark #mobile-menu {
-            background-color: #1f2937;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        
-        .mobile-menu-link {
+        .mobile-menu.active {
             display: block;
-            padding: 12px 0;
-            font-weight: 500;
-            color: inherit;
+        }
+        
+        .mobile-link {
+            display: block;
+            padding: 10px 0;
+            color: #555;
             text-decoration: none;
-            transition: color 0.3s ease;
+            font-weight: 500;
         }
         
-        .mobile-menu-link:hover {
-            color: #3b82f6;
-        }
-        
-        .dark .mobile-menu-link:hover {
-            color: #2563eb;
+        .mobile-link.active {
+            color: #4f46e5;
         }
         
         /* Основное содержимое */
         main {
-            padding: 32px 0;
+            padding: 30px 0;
         }
         
         /* Заголовок страницы */
         .page-header {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            margin-bottom: 32px;
+            margin-bottom: 30px;
         }
         
         .page-title {
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            color: #333;
         }
         
         .page-actions {
             display: flex;
-            gap: 16px;
+            gap: 15px;
         }
         
         .btn {
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 6px;
             font-weight: 500;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        
-        .btn-secondary {
-            background-color: #f3f4f6;
-            color: #1f2937;
-        }
-        
-        .dark .btn-secondary {
-            background-color: #374151;
-            color: #f3f4f6;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #e5e7eb;
-        }
-        
-        .dark .btn-secondary:hover {
-            background-color: #4b5563;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 15px;
         }
         
         .btn-primary {
-            background-color: #3b82f6;
+            background-color: #4f46e5;
             color: white;
         }
         
-        .dark .btn-primary {
-            background-color: #2563eb;
-        }
-        
         .btn-primary:hover {
-            background-color: #2563eb;
+            background-color: #4338ca;
         }
         
-        .dark .btn-primary:hover {
-            background-color: #1d4ed8;
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #555;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
         }
         
         /* Карточки устройств */
         .devices-grid {
             display: grid;
-            gap: 24px;
-            margin-bottom: 32px;
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
         .device-card {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
             overflow: hidden;
-            position: relative;
             transition: all 0.3s ease;
         }
         
-        .dark .device-card {
-            background-color: #1f2937;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        
         .device-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .dark .device-card:hover {
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .device-remove {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 32px;
-            height: 32px;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
             background-color: #ef4444;
             color: white;
             border-radius: 50%;
@@ -303,49 +236,39 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        
-        .device-remove:hover {
-            background-color: #dc2626;
+            z-index: 2;
         }
         
         .device-image {
-            padding: 16px;
-            height: 160px;
+            padding: 20px;
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
         
         .device-image img {
-            height: 100%;
+            max-height: 100%;
+            max-width: 100%;
             object-fit: contain;
         }
         
         .device-info {
-            padding: 16px;
-            border-top: 1px solid #e5e7eb;
-        }
-        
-        .dark .device-info {
-            border-top-color: #374151;
+            padding: 15px;
+            border-top: 1px solid #eee;
         }
         
         .device-name {
             font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 4px;
+            font-weight: 600;
+            margin-bottom: 5px;
         }
         
         .device-description {
-            color: #6b7280;
+            color: #777;
             font-size: 14px;
-            margin-bottom: 12px;
-        }
-        
-        .dark .device-description {
-            color: #9ca3af;
+            margin-bottom: 15px;
         }
         
         .device-footer {
@@ -356,134 +279,100 @@
         
         .device-price {
             font-weight: 700;
+            color: #333;
         }
         
         .device-rating {
             display: flex;
             align-items: center;
-            gap: 4px;
-        }
-        
-        .device-rating i {
+            gap: 5px;
             color: #f59e0b;
+            font-weight: 500;
         }
         
         /* Таблица сравнения */
         .comparison-table {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
             overflow: hidden;
-            margin-bottom: 32px;
-        }
-        
-        .dark .comparison-table {
-            background-color: #1f2937;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
         }
         
         .table-container {
             overflow-x: auto;
+            padding: 10px;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
-            text-align: left;
+            min-width: 600px;
         }
         
         th, td {
-            padding: 16px;
-            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
         }
         
-        .dark th, .dark td {
-            border-bottom-color: #374151;
-        }
-        
-        thead th {
-            background-color: #f9fafb;
+        th {
             font-weight: 600;
-            width: 25%;
+            background-color: #f9fafb;
         }
         
-        .dark thead th {
-            background-color: #1f2937;
-        }
-        
-        tbody th {
-            font-weight: 500;
-        }
-        
-        .section-title {
-            background-color: #f3f4f6;
+        .section-title th {
+            background-color: #f0f0f0;
             font-weight: 700;
             font-size: 16px;
         }
         
-        .dark .section-title {
-            background-color: #111827;
-        }
-        
-        .highlight-cell {
-            background-color: rgba(254, 240, 138, 0.3);
-        }
-        
-        .dark .highlight-cell {
-            background-color: rgba(245, 158, 11, 0.2);
+        .highlight {
+            background-color: #fff8e1;
+            font-weight: 600;
         }
         
         /* Графики производительности */
         .charts-section {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-            margin-bottom: 32px;
-        }
-        
-        .dark .charts-section {
-            background-color: #1f2937;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 30px;
         }
         
         .charts-title {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         
         .charts-grid {
             display: grid;
-            gap: 24px;
+            gap: 20px;
         }
         
         .chart-container {
             background-color: #f9fafb;
-            padding: 16px;
+            padding: 15px;
             border-radius: 8px;
         }
         
-        .dark .chart-container {
-            background-color: #111827;
-        }
-        
         .chart-title {
-            font-weight: 500;
-            margin-bottom: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
         
         .chart {
             height: 200px;
-            width: 100%;
         }
         
         .chart-bars {
             display: flex;
             align-items: flex-end;
-            height: 80%;
-            gap: 8px;
+            height: 150px;
+            gap: 15px;
+            margin-bottom: 10px;
         }
         
         .chart-bar {
@@ -495,168 +384,82 @@
         
         .bar {
             width: 100%;
-            border-radius: 4px 4px 0 0;
+            border-radius: 5px 5px 0 0;
+            transition: height 0.5s ease;
         }
         
         .bar-iphone {
-            background-color: #3b82f6;
-            height: 80%;
-        }
-        
-        .dark .bar-iphone {
-            background-color: #2563eb;
+            background-color: #4f46e5;
+            height: 70%;
         }
         
         .bar-samsung {
             background-color: #10b981;
-            height: 100%;
-        }
-        
-        .dark .bar-samsung {
-            background-color: #059669;
+            height: 90%;
         }
         
         .bar-xiaomi {
             background-color: #8b5cf6;
-            height: 95%;
-        }
-        
-        .dark .bar-xiaomi {
-            background-color: #7c3aed;
+            height: 85%;
         }
         
         .bar-pixel {
             background-color: #ef4444;
-            height: 65%;
-        }
-        
-        .dark .bar-pixel {
-            background-color: #dc2626;
+            height: 60%;
         }
         
         .bar-value {
             font-size: 12px;
-            margin-top: 4px;
+            margin-top: 5px;
+            font-weight: 500;
         }
         
         .bar-label {
             font-size: 12px;
-            color: #6b7280;
-        }
-        
-        .dark .bar-label {
-            color: #9ca3af;
-        }
-        
-        .chart-caption {
-            text-align: center;
-            font-size: 12px;
-            color: #6b7280;
-            margin-top: 8px;
-        }
-        
-        .dark .chart-caption {
-            color: #9ca3af;
-        }
-        
-        /* Выводы */
-        .conclusion {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-        }
-        
-        .dark .conclusion {
-            background-color: #1f2937;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        
-        .conclusion-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        
-        .conclusion-content {
-            line-height: 1.7;
-        }
-        
-        .conclusion-content p {
-            margin-bottom: 12px;
-        }
-        
-        .conclusion-content ul {
-            margin-bottom: 12px;
-            padding-left: 24px;
-        }
-        
-        .conclusion-content li {
-            margin-bottom: 8px;
-        }
-        
-        .conclusion-content strong {
-            font-weight: 600;
+            color: #777;
         }
         
         /* Футер */
         footer {
             background-color: #1f2937;
-            color: #d1d5db;
-            padding: 48px 0;
-            margin-top: 48px;
+            color: #e5e7eb;
+            padding: 40px 0;
         }
         
-        .footer-grid {
+        .footer-content {
             display: grid;
-            gap: 32px;
+            gap: 30px;
         }
         
         .footer-logo {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
         }
         
         .footer-logo-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #3b82f6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #818cf8;
         }
         
-        .footer-logo-icon i {
-            color: white;
-            font-size: 20px;
-        }
-        
-        .footer-logo-text {
-            font-size: 20px;
-            font-weight: 700;
-        }
-        
-        .footer-logo-text span {
-            color: #3b82f6;
-        }
-        
-        .footer-description {
-            font-size: 14px;
-            margin-bottom: 16px;
+        .footer-text {
             color: #9ca3af;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
         }
         
         .footer-social {
             display: flex;
-            gap: 16px;
+            gap: 15px;
         }
         
         .social-link {
             color: #9ca3af;
-            font-size: 20px;
+            font-size: 18px;
             transition: color 0.3s ease;
         }
         
@@ -666,20 +469,21 @@
         
         .footer-title {
             font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 16px;
+            font-weight: 600;
             color: white;
+            margin-bottom: 15px;
         }
         
         .footer-links {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
         
         .footer-link {
             color: #9ca3af;
             text-decoration: none;
+            font-size: 14px;
             transition: color 0.3s ease;
         }
         
@@ -687,58 +491,24 @@
             color: white;
         }
         
-        .footer-contact {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        
-        .footer-contact i {
-            font-size: 14px;
-        }
-        
-        .footer-divider {
-            border-top: 1px solid #374151;
-            padding-top: 32px;
-            margin-top: 32px;
-        }
-        
         .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 20px;
+            margin-top: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
-            font-size: 14px;
+            gap: 15px;
             color: #9ca3af;
+            font-size: 14px;
         }
         
         .footer-links-bottom {
             display: flex;
-            gap: 16px;
+            gap: 15px;
         }
         
-        .footer-link-bottom {
-            color: #9ca3af;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-link-bottom:hover {
-            color: white;
-        }
-        
-        /* Анимации */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
-        }
-        
-        /* Адаптивные стили */
+        /* Адаптивность */
         @media (min-width: 320px) {
             .devices-grid {
                 grid-template-columns: 1fr;
@@ -748,7 +518,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .footer-grid {
+            .footer-content {
                 grid-template-columns: 1fr;
             }
         }
@@ -756,17 +526,11 @@
         @media (min-width: 768px) {
             .nav-desktop {
                 display: flex;
-                align-items: center;
-                gap: 32px;
+                gap: 20px;
             }
             
-            .page-header {
-                flex-direction: row;
-                align-items: center;
-            }
-            
-            .page-title {
-                margin-bottom: 0;
+            .mobile-menu-btn {
+                display: none;
             }
             
             .devices-grid {
@@ -777,7 +541,7 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .footer-grid {
+            .footer-content {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
@@ -787,13 +551,13 @@
                 grid-template-columns: repeat(4, 1fr);
             }
             
-            .footer-grid {
+            .footer-content {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
         
         @media (min-width: 1440px) {
-            .footer-grid {
+            .footer-content {
                 grid-template-columns: repeat(4, 1fr);
             }
             
@@ -808,66 +572,60 @@
     <!-- Хедер -->
     <header>
         <div class="container">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div class="header-content">
                 <!-- Логотип -->
-                <div class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-microchip"></i>
-                    </div>
-                    <div class="logo-text">Gadget<span>Zone</span></div>
-                </div>
-
+                <a href="#" class="logo">
+                    <i class="fas fa-microchip logo-icon"></i>
+                    <span>TechCompare</span>
+                </a>
+                
                 <!-- Навигация -->
                 <nav class="nav-desktop">
                     <a href="#" class="nav-link">Каталог</a>
                     <a href="#" class="nav-link active">Сравнение</a>
-                    <a href="#" class="nav-link">Симулятор</a>
-                    <a href="#" class="nav-link">Аксессуары</a>
-                    <a href="#" class="nav-link">Калькулятор</a>
-                    <a href="#" class="nav-link">Контакты</a>
+                    <a href="#" class="nav-link">Обзоры</a>
+                    <a href="#" class="nav-link">Новости</a>
                 </nav>
-
+                
                 <!-- Иконки -->
                 <div class="header-icons">
-                    <!-- Переключатель темы -->
-                    <button id="theme-toggle" class="icon-button">
-                        <i class="fas fa-moon dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:block"></i>
+                    <button class="icon-btn">
+                        <i class="fas fa-search"></i>
                     </button>
                     
-                    <!-- Корзина -->
-                    <button class="icon-button relative">
+                    <button class="icon-btn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    
+                    <button class="icon-btn relative">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-badge">3</span>
+                        <span class="cart-badge">2</span>
                     </button>
                     
-                    <!-- Кнопка мобильного меню -->
-                    <button id="mobile-menu-button" class="icon-button md:hidden">
+                    <button class="icon-btn mobile-menu-btn">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
             </div>
         </div>
-
+        
         <!-- Мобильное меню -->
-        <div id="mobile-menu" class="hidden">
-            <div class="container" style="padding: 12px 0; display: flex; flex-direction: column; gap: 8px;">
-                <a href="#" class="mobile-menu-link">Каталог</a>
-                <a href="#" class="mobile-menu-link" style="color: #3b82f6;">Сравнение</a>
-                <a href="#" class="mobile-menu-link">Симулятор</a>
-                <a href="#" class="mobile-menu-link">Аксессуары</a>
-                <a href="#" class="mobile-menu-link">Калькулятор</a>
-                <a href="#" class="mobile-menu-link">Контакты</a>
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="container">
+                <a href="#" class="mobile-link">Каталог</a>
+                <a href="#" class="mobile-link active">Сравнение</a>
+                <a href="#" class="mobile-link">Обзоры</a>
+                <a href="#" class="mobile-link">Новости</a>
             </div>
         </div>
     </header>
-
+    
     <!-- Основное содержимое -->
     <main>
         <div class="container">
             <!-- Заголовок страницы -->
             <div class="page-header">
-                <h1 class="page-title">Сравнение гаджетов</h1>
+                <h1 class="page-title">Сравнение смартфонов</h1>
                 
                 <div class="page-actions">
                     <button class="btn btn-secondary">
@@ -878,11 +636,11 @@
                     </button>
                 </div>
             </div>
-
+            
             <!-- Устройства для сравнения -->
             <div class="devices-grid">
                 <!-- Устройство 1 -->
-                <div class="device-card fade-in">
+                <div class="device-card">
                     <div class="device-remove">
                         <i class="fas fa-times"></i>
                     </div>
@@ -903,7 +661,7 @@
                 </div>
                 
                 <!-- Устройство 2 -->
-                <div class="device-card fade-in">
+                <div class="device-card">
                     <div class="device-remove">
                         <i class="fas fa-times"></i>
                     </div>
@@ -924,7 +682,7 @@
                 </div>
                 
                 <!-- Устройство 3 -->
-                <div class="device-card fade-in">
+                <div class="device-card">
                     <div class="device-remove">
                         <i class="fas fa-times"></i>
                     </div>
@@ -945,7 +703,7 @@
                 </div>
                 
                 <!-- Устройство 4 -->
-                <div class="device-card fade-in">
+                <div class="device-card">
                     <div class="device-remove">
                         <i class="fas fa-times"></i>
                     </div>
@@ -965,7 +723,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Таблица сравнения -->
             <div class="comparison-table">
                 <div class="table-container">
@@ -1021,21 +779,21 @@
                                 <th>Диагональ</th>
                                 <td>6.1"</td>
                                 <td>6.8"</td>
-                                <td class="highlight-cell">6.73"</td>
+                                <td class="highlight">6.73"</td>
                                 <td>6.7"</td>
                             </tr>
                             <tr>
                                 <th>Разрешение</th>
                                 <td>2556x1179</td>
-                                <td class="highlight-cell">3088x1440</td>
-                                <td class="highlight-cell">3200x1440</td>
+                                <td class="highlight">3088x1440</td>
+                                <td class="highlight">3200x1440</td>
                                 <td>3120x1440</td>
                             </tr>
                             <tr>
                                 <th>Частота обновления</th>
                                 <td>120Hz</td>
-                                <td class="highlight-cell">1-120Hz</td>
-                                <td class="highlight-cell">1-120Hz</td>
+                                <td class="highlight">1-120Hz</td>
+                                <td class="highlight">1-120Hz</td>
                                 <td>10-120Hz</td>
                             </tr>
                             
@@ -1053,8 +811,8 @@
                             <tr>
                                 <th>Оперативная память</th>
                                 <td>6GB</td>
-                                <td class="highlight-cell">12GB</td>
-                                <td class="highlight-cell">12GB</td>
+                                <td class="highlight">12GB</td>
+                                <td class="highlight">12GB</td>
                                 <td>12GB</td>
                             </tr>
                             <tr>
@@ -1072,8 +830,8 @@
                             <tr>
                                 <th>Основная камера</th>
                                 <td>48MP + 12MP + 12MP</td>
-                                <td class="highlight-cell">200MP + 12MP + 10MP + 10MP</td>
-                                <td class="highlight-cell">50MP + 50MP + 50MP</td>
+                                <td class="highlight">200MP + 12MP + 10MP + 10MP</td>
+                                <td class="highlight">50MP + 50MP + 50MP</td>
                                 <td>50MP + 12MP + 48MP</td>
                             </tr>
                             <tr>
@@ -1085,9 +843,9 @@
                             </tr>
                             <tr>
                                 <th>Видео</th>
-                                <td class="highlight-cell">4K@60fps</td>
-                                <td class="highlight-cell">8K@30fps</td>
-                                <td class="highlight-cell">8K@24fps</td>
+                                <td class="highlight">4K@60fps</td>
+                                <td class="highlight">8K@30fps</td>
+                                <td class="highlight">8K@24fps</td>
                                 <td>4K@60fps</td>
                             </tr>
                             
@@ -1098,34 +856,35 @@
                             <tr>
                                 <th>Емкость</th>
                                 <td>3200 mAh</td>
-                                <td class="highlight-cell">5000 mAh</td>
-                                <td class="highlight-cell">4820 mAh</td>
+                                <td class="highlight">5000 mAh</td>
+                                <td class="highlight">4820 mAh</td>
                                 <td>5000 mAh</td>
                             </tr>
                             <tr>
                                 <th>Быстрая зарядка</th>
                                 <td>20W</td>
-                                <td class="highlight-cell">45W</td>
-                                <td class="highlight-cell">120W</td>
+                                <td class="highlight">45W</td>
+                                <td class="highlight">120W</td>
                                 <td>30W</td>
                             </tr>
                             <tr>
                                 <th>Беспроводная зарядка</th>
                                 <td>15W</td>
                                 <td>15W</td>
-                                <td class="highlight-cell">50W</td>
+                                <td class="highlight">50W</td>
                                 <td>23W</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
+            
             <!-- Графики производительности -->
             <div class="charts-section">
                 <h2 class="charts-title">Сравнение производительности</h2>
                 
                 <div class="charts-grid">
+                    <!-- График 1 -->
                     <div class="chart-container">
                         <h3 class="chart-title">Тесты процессора (Geekbench 5)</h3>
                         <div class="chart">
@@ -1151,9 +910,187 @@
                                     <div class="bar-label">Pixel</div>
                                 </div>
                             </div>
-                            <div class="chart-caption">Одноядерный тест Geekbench 5</div>
                         </div>
                     </div>
-     </main>
+                    
+                    <!-- График 2 -->
+                    <div class="chart-container">
+                        <h3 class="chart-title">Автономность (часы)</h3>
+                        <div class="chart">
+                            <div class="chart-bars">
+                                <div class="chart-bar">
+                                    <div class="bar bar-iphone" style="height: 60%;"></div>
+                                    <div class="bar-value">8.2</div>
+                                    <div class="bar-label">iPhone</div>
+                                </div>
+                                <div class="chart-bar">
+                                    <div class="bar bar-samsung" style="height: 85%;"></div>
+                                    <div class="bar-value">11.5</div>
+                                    <div class="bar-label">S23</div>
+                                </div>
+                                <div class="chart-bar">
+                                    <div class="bar bar-xiaomi" style="height: 80%;"></div>
+                                    <div class="bar-value">10.8</div>
+                                    <div class="bar-label">Xiaomi</div>
+                                </div>
+                                <div class="chart-bar">
+                                    <div class="bar bar-pixel" style="height: 70%;"></div>
+                                    <div class="bar-value">9.5</div>
+                                    <div class="bar-label">Pixel</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Колонка 1 -->
+                <div>
+                    <div class="footer-logo">
+                        <i class="fas fa-microchip footer-logo-icon"></i>
+                        <span>TechCompare</span>
+                    </div>
+                    <p class="footer-text">
+                        Сервис для сравнения характеристик гаджетов и выбора лучшего устройства под ваши нужды.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Колонка 2 -->
+                <div>
+                    <h3 class="footer-title">Разделы</h3>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">Смартфоны</a>
+                        <a href="#" class="footer-link">Ноутбуки</a>
+                        <a href="#" class="footer-link">Планшеты</a>
+                        <a href="#" class="footer-link">Наушники</a>
+                        <a href="#" class="footer-link">Умные часы</a>
+                    </div>
+                </div>
+                
+                <!-- Колонка 3 -->
+                <div>
+                    <h3 class="footer-title">Информация</h3>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">О сервисе</a>
+                        <a href="#" class="footer-link">Помощь</a>
+                        <a href="#" class="footer-link">Контакты</a>
+                        <a href="#" class="footer-link">Партнеры</a>
+                        <a href="#" class="footer-link">Реклама</a>
+                    </div>
+                </div>
+                
+                <!-- Колонка 4 -->
+                <div>
+                    <h3 class="footer-title">Контакты</h3>
+                    <div class="footer-links">
+                        <a href="mailto:info@techcompare.ru" class="footer-link">
+                            <i class="fas fa-envelope"></i> info@techcompare.ru
+                        </a>
+                        <a href="tel:+78001234567" class="footer-link">
+                            <i class="fas fa-phone"></i> 8 (800) 123-45-67
+                        </a>
+                        <a href="#" class="footer-link">
+                            <i class="fas fa-map-marker-alt"></i> Москва, ул. Техническая, 15
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div>© 2023 TechCompare. Все права защищены.</div>
+                <div class="footer-links-bottom">
+                    <a href="#" class="footer-link-bottom">Политика конфиденциальности</a>
+                    <a href="#" class="footer-link-bottom">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Мобильное меню
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+        }
+        
+        // Подсветка лучших характеристик в таблице
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('tbody tr:not(.section-title)');
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length === 0) return;
+                
+                // Для числовых значений
+                if (/[\d.]+/.test(cells[0].textContent)) {
+                    let maxValue = 0;
+                    let maxIndex = 0;
+                    
+                    cells.forEach((cell, index) => {
+                        const value = parseFloat(cell.textContent);
+                        if (!isNaN(value) && value > maxValue) {
+                            maxValue = value;
+                            maxIndex = index;
+                        }
+                    });
+                    
+                    if (maxValue > 0) {
+                        cells[maxIndex].classList.add('highlight');
+                    }
+                }
+                // Для разрешения экрана (формат 0000x0000)
+                else if (/\d+x\d+/.test(cells[0].textContent)) {
+                    let maxPixels = 0;
+                    let maxIndex = 0;
+                    
+                    cells.forEach((cell, index) => {
+                        const [width, height] = cell.textContent.split('x').map(Number);
+                        const pixels = width * height;
+                        if (pixels > maxPixels) {
+                            maxPixels = pixels;
+                            maxIndex = index;
+                        }
+                    });
+                    
+                    if (maxPixels > 0) {
+                        cells[maxIndex].classList.add('highlight');
+                    }
+                }
+                // Для емкости батареи (формат 0000 mAh)
+                else if (/\d+\s?mAh/i.test(cells[0].textContent)) {
+                    let maxCapacity = 0;
+                    let maxIndex = 0;
+                    
+                    cells.forEach((cell, index) => {
+                        const capacity = parseInt(cell.textContent);
+                        if (capacity > maxCapacity) {
+                            maxCapacity = capacity;
+                            maxIndex = index;
+                        }
+                    });
+                    
+                    if (maxCapacity > 0) {
+                        cells[maxIndex].classList.add('highlight');
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
