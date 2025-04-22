@@ -6,28 +6,27 @@
     <title>iPhone 14 Pro | GadgetZone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Базовые стили и переменные */
+        /* Базовые стили */
         :root {
-            --primary-light: #3b82f6;
-            --primary-dark: #2563eb;
-            --secondary-light: #10b981;
-            --secondary-dark: #059669;
-            --bg-light: #f9fafb;
-            --bg-dark: #111827;
-            --text-light: #111827;
-            --text-dark: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-600: #4b5563;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
+            --max-width: 1000px;
+            --padding: 1rem;
+            --transition: all 0.3s ease;
+            
+            /* Цвета светлой темы */
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --accent: #2563eb;
+            --border: #e5e7eb;
+            --surface: #f8fafc;
+            
+            /* Цвета темной темы */
+            --bg-dark: #0f172a;
+            --text-dark: #f8fafc;
+            --accent-dark: #3b82f6;
+            --border-dark: #334155;
+            --surface-dark: #1e293b;
         }
 
-        /* Общие стили */
         * {
             margin: 0;
             padding: 0;
@@ -35,1325 +34,686 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             line-height: 1.5;
-            background-color: var(--bg-light);
-            color: var(--text-light);
-            transition: background-color 0.3s, color 0.3s;
+            background: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        body.dark {
-            background-color: var(--bg-dark);
-            color: var(--text-dark);
+        body.dark-theme {
+            --bg: var(--bg-dark);
+            --text: var(--text-dark);
+            --accent: var(--accent-dark);
+            --border: var(--border-dark);
+            --surface: var(--surface-dark);
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
+        /* Основное содержимое */
+        main {
+            flex: 1;
         }
 
-        button {
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-family: inherit;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Контейнер с ограничением ширины */
+        /* Контейнер */
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: var(--max-width);
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 var(--padding);
         }
 
-        /* Хедер */
-        header {
+        /* Шапка */
+        .header {
+            background: var(--surface);
             position: sticky;
             top: 0;
-            z-index: 50;
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s;
-        }
-
-        .dark header {
-            background-color: rgba(31, 41, 55, 0.8);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
         }
 
         .header-content {
+            height: 4rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 0;
+            gap: 1rem;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 1.5rem;
         }
 
-        .dark .logo-icon {
-            background-color: var(--primary-dark);
-        }
-
-        .logo-icon i {
-            color: white;
-            font-size: 20px;
-        }
-
-        .logo-text {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .logo-text span {
-            color: var(--primary-light);
-        }
-
-        .dark .logo-text span {
-            color: var(--primary-dark);
-        }
-
-        /* Навигация */
-        nav {
+        .nav {
             display: none;
+            gap: 1.5rem;
         }
 
         .nav-link {
+            color: var(--text);
+            text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: var(--transition);
         }
 
         .nav-link:hover {
-            color: var(--primary-light);
+            color: var(--accent);
         }
 
-        .dark .nav-link:hover {
-            color: var(--primary-dark);
-        }
-
-        /* Иконки в хедере */
-        .header-icons {
+        .header-controls {
             display: flex;
-            align-items: center;
-            gap: 16px;
+            gap: 0.75rem;
         }
 
-        .icon-button {
-            padding: 8px;
+        .icon-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            border: none;
             border-radius: 50%;
-            transition: background-color 0.2s;
+            background: none;
+            color: var(--text);
+            cursor: pointer;
+            transition: var(--transition);
+            display: grid;
+            place-items: center;
         }
 
-        .icon-button:hover {
-            background-color: var(--gray-200);
+        .icon-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
         }
 
-        .dark .icon-button:hover {
-            background-color: var(--gray-700);
-        }
-
-        .cart-button {
-            position: relative;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background-color: var(--primary-light);
-            color: white;
-            font-size: 12px;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dark .cart-count {
-            background-color: var(--primary-dark);
-        }
-
-        /* Мобильное меню */
-        .mobile-menu {
-            display: none;
-            background-color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark .mobile-menu {
-            background-color: var(--gray-800);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .mobile-menu-content {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding: 12px 0;
-        }
-
-        .mobile-menu-link {
-            padding: 8px 0;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .mobile-menu-link:hover {
-            color: var(--primary-light);
-        }
-
-        .dark .mobile-menu-link:hover {
-            color: var(--primary-dark);
+        .dark-theme .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
 
         /* Хлебные крошки */
         .breadcrumbs {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            color: var(--gray-600);
-            margin-bottom: 24px;
+            padding: 1.25rem 0;
+            color: #64748b;
+            font-size: 0.875rem;
         }
 
-        .dark .breadcrumbs {
-            color: var(--gray-400);
+        .breadcrumbs a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
         }
 
-        .breadcrumb-link {
-            transition: color 0.2s;
-        }
-
-        .breadcrumb-link:hover {
-            color: var(--primary-light);
-        }
-
-        .dark .breadcrumb-link:hover {
-            color: var(--primary-dark);
-        }
-
-        .breadcrumb-separator {
-            margin: 0 8px;
-            font-size: 12px;
-        }
-
-        .breadcrumb-current {
-            color: var(--gray-800);
-        }
-
-        .dark .breadcrumb-current {
-            color: var(--gray-300);
+        .breadcrumbs a:hover {
+            color: var(--accent);
         }
 
         /* Основной контент */
-        .product-section {
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
+        .product-page {
+            display: grid;
+            gap: 2rem;
+            padding: 1.5rem 0;
         }
 
-        /* Галерея изображений */
-        .product-images {
-            width: 100%;
-        }
-
-        .main-image-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 16px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 384px;
-        }
-
-        .dark .main-image-container {
-            background-color: var(--gray-800);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        /* Галерея */
+        .gallery {
+            display: grid;
+            gap: 1rem;
         }
 
         .main-image {
-            height: 100%;
+            background: var(--surface);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-image img {
+            max-width: 100%;
+            height: auto;
             object-fit: contain;
         }
 
         .thumbnails {
             display: flex;
-            gap: 8px;
+            gap: 0.75rem;
             overflow-x: auto;
-            padding-bottom: 8px;
+            padding-bottom: 0.5rem;
         }
 
-        .thumbnail-button {
-            width: 80px;
-            height: 80px;
-            background-color: white;
-            border-radius: 6px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .thumbnail {
+            width: 5rem;
+            height: 5rem;
             border: 2px solid transparent;
-            transition: border-color 0.2s;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
         }
 
-        .dark .thumbnail-button {
-            background-color: var(--gray-800);
-        }
-
-        .thumbnail-button.active {
-            border-color: var(--primary-light);
-        }
-
-        .dark .thumbnail-button.active {
-            border-color: var(--primary-dark);
-        }
-
-        .thumbnail-button:hover:not(.active) {
-            border-color: var(--gray-300);
-        }
-
-        .thumbnail-image {
-            height: 100%;
-            object-fit: contain;
+        .thumbnail.active {
+            border-color: var(--accent);
         }
 
         /* Информация о товаре */
         .product-info {
-            width: 100%;
+            background: var(--surface);
+            border-radius: 1rem;
+            padding: 1.5rem;
         }
 
-        .product-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 24px;
-        }
-
-        .dark .product-card {
-            background-color: var(--gray-800);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        .product-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
-
-        .product-title {
-            font-size: 24px;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        .product-rating {
-            display: flex;
-            align-items: center;
-            background-color: var(--gray-100);
-            padding: 4px 12px;
-            border-radius: 9999px;
-        }
-
-        .dark .product-rating {
-            background-color: var(--gray-700);
-        }
-
-        .rating-star {
-            color: #f59e0b;
-            margin-right: 4px;
-        }
-
-        .rating-count {
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-
-        .dark .rating-count {
-            color: var(--gray-400);
-        }
-
-        /* Доступность */
-        .availability {
-            display: flex;
-            align-items: center;
-            color: #10b981;
-            margin-bottom: 16px;
-        }
-
-        .dark .availability {
-            color: #34d399;
-        }
-
-        .availability-icon {
-            margin-right: 8px;
-        }
-
-        /* Цена */
         .price-block {
-            background-color: var(--gray-50);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 24px;
-        }
-
-        .dark .price-block {
-            background-color: var(--gray-700);
-        }
-
-        .price-container {
-            display: flex;
-            align-items: flex-end;
-            margin-bottom: 8px;
-        }
-
-        .current-price {
-            font-size: 32px;
+            font-size: 1.875rem;
             font-weight: 700;
-            margin-right: 12px;
+            margin: 1.5rem 0;
+            color: var(--accent);
         }
 
-        .old-price {
-            color: var(--gray-500);
-            text-decoration: line-through;
-        }
-
-        .dark .old-price {
-            color: var(--gray-400);
-        }
-
-        .discount-badge {
-            background-color: #fee2e2;
-            color: #dc2626;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 12px;
-        }
-
-        .dark .discount-badge {
-            background-color: #7f1d1d;
-            color: #fca5a5;
-        }
-
-        .credit-info {
-            font-size: 14px;
-            color: var(--gray-600);
-        }
-
-        .dark .credit-info {
-            color: var(--gray-300);
-        }
-
-        .credit-icon {
-            margin-right: 4px;
-        }
-
-        /* Выбор цвета */
-        .option-title {
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .color-options {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-
-        .color-button {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            transition: border-color 0.2s;
-        }
-
-        .color-button.active {
-            border-color: var(--primary-light);
-        }
-
-        .dark .color-button.active {
-            border-color: var(--primary-dark);
-        }
-
-        .color-button:hover:not(.active) {
-            border-color: var(--gray-300);
-        }
-
-        /* Выбор памяти */
-        .storage-options {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-
-        .storage-button {
-            padding: 8px 16px;
-            border: 1px solid var(--gray-300);
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-
-        .dark .storage-button {
-            border-color: var(--gray-600);
-        }
-
-        .storage-button:hover {
-            background-color: var(--gray-100);
-            border-color: var(--gray-400);
-        }
-
-        .dark .storage-button:hover {
-            background-color: var(--gray-700);
-            border-color: var(--gray-500);
-        }
-
-        /* Кнопки действий */
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .primary-button {
-            background-color: var(--primary-light);
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: background-color 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dark .primary-button {
-            background-color: var(--primary-dark);
-        }
-
-        .primary-button:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .dark .primary-button:hover {
-            background-color: var(--primary-light);
-        }
-
-        .button-icon {
-            margin-right: 8px;
-        }
-
-        .secondary-buttons {
+        .actions {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 1rem;
         }
 
-        .secondary-button {
-            background-color: var(--gray-100);
-            padding: 12px;
-            border-radius: 6px;
+        .btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
             font-weight: 500;
-            transition: background-color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 0.75rem;
+            transition: var(--transition);
+            cursor: pointer;
         }
 
-        .dark .secondary-button {
-            background-color: var(--gray-700);
+        .btn-primary {
+            background: var(--accent);
+            color: white;
         }
 
-        .secondary-button:hover {
-            background-color: var(--gray-200);
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
         }
 
-        .dark .secondary-button:hover {
-            background-color: var(--gray-600);
-        }
-
-        .outline-button {
-            background-color: white;
-            border: 1px solid var(--gray-300);
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dark .outline-button {
-            background-color: var(--gray-800);
-            border-color: var(--gray-600);
-        }
-
-        .outline-button:hover {
-            background-color: var(--gray-50);
-            border-color: var(--gray-400);
-        }
-
-        .dark .outline-button:hover {
-            background-color: var(--gray-700);
-        }
-
-        /* Информация о доставке */
-        .delivery-info {
-            margin-top: 24px;
-            padding-top: 16px;
-            border-top: 1px solid var(--gray-200);
-        }
-
-        .dark .delivery-info {
-            border-top-color: var(--gray-700);
-        }
-
-        .delivery-item {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            color: var(--gray-600);
-            margin-bottom: 8px;
-        }
-
-        .dark .delivery-item {
-            color: var(--gray-300);
-        }
-
-        .delivery-icon {
-            margin-right: 8px;
-        }
-
-        /* Табы */
-        .tabs-container {
-            margin-top: 48px;
-        }
-
-        .tabs-header {
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        .dark .tabs-header {
-            border-bottom-color: var(--gray-700);
-        }
-
-        .tabs-list {
-            display: flex;
-            flex-wrap: wrap;
-            list-style: none;
-        }
-
-        .tab-button {
-            display: inline-block;
-            padding: 16px;
-            border-bottom: 2px solid transparent;
-            border-radius: 6px 6px 0 0;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .tab-button.active {
-            border-bottom-color: var(--primary-light);
-            color: var(--primary-light);
-        }
-
-        .dark .tab-button.active {
-            border-bottom-color: var(--primary-dark);
-            color: var(--primary-dark);
-        }
-
-        .tab-button:not(.active):hover {
-            color: var(--gray-600);
-            border-bottom-color: var(--gray-300);
-        }
-
-        .dark .tab-button:not(.active):hover {
-            color: var(--gray-300);
-            border-bottom-color: var(--gray-600);
-        }
-
-        /* Контент табов */
-        .tab-content {
-            display: none;
-            padding: 16px;
-            background-color: white;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark .tab-content {
-            background-color: var(--gray-800);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .tab-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 24px;
-        }
-
-        /* Таблица характеристик */
+        /* Характеристики */
         .specs-table {
             width: 100%;
-            font-size: 14px;
-            text-align: left;
-            color: var(--gray-600);
             border-collapse: collapse;
-        }
-
-        .dark .specs-table {
-            color: var(--gray-300);
-        }
-
-        .specs-table tr {
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        .dark .specs-table tr {
-            border-bottom-color: var(--gray-700);
-        }
-
-        .specs-table tr:nth-child(even) {
-            background-color: rgba(243, 244, 246, 0.5);
-        }
-
-        .dark .specs-table tr:nth-child(even) {
-            background-color: rgba(31, 41, 55, 0.5);
-        }
-
-        .specs-table th {
-            padding: 12px 16px;
-            font-weight: 500;
-            color: var(--gray-900);
-            width: 33%;
-        }
-
-        .dark .specs-table th {
-            color: white;
+            margin-top: 1.5rem;
         }
 
         .specs-table td {
-            padding: 12px 16px;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        /* Пустые состояния */
-        .empty-state {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        .empty-icon {
-            font-size: 40px;
-            color: var(--gray-400);
-            margin-bottom: 16px;
-        }
-
-        .empty-text {
-            color: var(--gray-500);
-            margin-bottom: 16px;
-        }
-
-        .dark .empty-text {
-            color: var(--gray-400);
-        }
-
-        /* Графики производительности */
-        .performance-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .performance-card {
-            background-color: var(--gray-50);
-            padding: 16px;
-            border-radius: 8px;
-        }
-
-        .dark .performance-card {
-            background-color: var(--gray-700);
-        }
-
-        .performance-title {
-            font-weight: 500;
-            margin-bottom: 16px;
-        }
-
-        .performance-chart {
-            height: 300px;
-            width: 100%;
-        }
-
-        /* Аксессуары */
-        .accessories-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        .accessory-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--gray-200);
-            overflow: hidden;
-        }
-
-        .dark .accessory-card {
-            background-color: var(--gray-800);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            border-color: var(--gray-700);
-        }
-
-        .accessory-image {
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 160px;
-        }
-
-        .accessory-info {
-            padding: 16px;
-            border-top: 1px solid var(--gray-200);
-        }
-
-        .dark .accessory-info {
-            border-top-color: var(--gray-700);
-        }
-
-        .accessory-title {
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .accessory-price {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .price {
-            font-weight: 700;
-        }
-
-        .add-button {
-            color: var(--primary-light);
-            transition: text-decoration 0.2s;
-        }
-
-        .dark .add-button {
-            color: var(--primary-dark);
-        }
-
-        .add-button:hover {
-            text-decoration: underline;
-        }
-
-        /* Похожие товары */
-        .similar-products {
-            margin-top: 64px;
-        }
-
-        .section-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 24px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-        }
-
-        .product-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .dark .product-card {
-            background-color: var(--gray-800);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        .product-image {
-            position: relative;
-        }
-
-        .product-img {
-            width: 100%;
-            height: 192px;
-            object-fit: cover;
-        }
-
-        .wishlist-button {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 40px;
-            height: 40px;
-            background-color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s;
-        }
-
-        .dark .wishlist-button {
-            background-color: var(--gray-700);
-        }
-
-        .wishlist-button:hover {
-            background-color: var(--gray-100);
-        }
-
-        .dark .wishlist-button:hover {
-            background-color: var(--gray-600);
-        }
-
-        .wishlist-icon {
-            font-size: 20px;
-            color: var(--gray-700);
-        }
-
-        .dark .wishlist-icon {
-            color: var(--gray-300);
-        }
-
-        .product-badge {
-            position: absolute;
-            bottom: 8px;
-            left: 8px;
-            color: white;
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-
-        .badge-green {
-            background-color: #10b981;
-        }
-
-        .badge-red {
-            background-color: #dc2626;
-        }
-
-        .product-details {
-            padding: 16px;
-        }
-
-        .product-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 8px;
-        }
-
-        .product-name {
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .product-rating-small {
-            display: flex;
-            align-items: center;
-        }
-
-        .rating-star-small {
-            color: #f59e0b;
-            margin-right: 4px;
-            font-size: 14px;
-        }
-
-        .rating-value {
-            font-size: 14px;
-        }
-
-        .product-description {
-            color: var(--gray-600);
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-
-        .dark .product-description {
-            color: var(--gray-300);
-        }
-
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .price-container-small {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .old-price-small {
-            color: var(--gray-500);
-            font-size: 14px;
-            text-decoration: line-through;
-        }
-
-        .dark .old-price-small {
-            color: var(--gray-400);
-        }
-
-        .current-price-small {
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .detail-button {
-            background-color: var(--primary-light);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-
-        .dark .detail-button {
-            background-color: var(--primary-dark);
-        }
-
-        .detail-button:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .dark .detail-button:hover {
-            background-color: var(--primary-light);
-        }
-
-        /* Футер */
+        /* Футер на всю ширину */
         footer {
-            background-color: var(--gray-800);
-            color: var(--gray-300);
-            padding: 48px 0;
-            margin-top: 64px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            width: 100%;
         }
 
-        .footer-grid {
+        .footer-content {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem var(--padding);
+        }
+
+        .footer-container {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 32px;
+            gap: 2rem;
         }
 
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .footer-logo-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .footer-logo-icon i {
-            color: white;
-            font-size: 20px;
-        }
-
-        .footer-logo-text {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .footer-logo-text span {
-            color: var(--primary-light);
-        }
-
-        .footer-description {
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 16px;
-        }
-
-        .social-link {
-            color: var(--gray-400);
-            font-size: 20px;
-            transition: color 0.2s;
-        }
-
-        .social-link:hover {
-            color: white;
+        .footer-section {
+            display: grid;
+            gap: 1rem;
         }
 
         .footer-title {
-            font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 16px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text);
         }
 
         .footer-links {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            list-style: none;
+            display: grid;
+            gap: 0.5rem;
         }
 
-        .footer-link {
-            transition: color 0.2s;
+        .footer-link a {
+            color: var(--text);
+            text-decoration: none;
+            transition: var(--transition);
         }
 
-        .footer-link:hover {
-            color: white;
-        }
-
-        .footer-contact {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .contact-icon {
-            font-size: 14px;
+        .footer-link a:hover {
+            color: var(--accent);
         }
 
         .footer-bottom {
-            border-top: 1px solid var(--gray-700);
-            padding-top: 32px;
-            margin-top: 32px;
-            font-size: 14px;
-            color: var(--gray-500);
-        }
-
-        .footer-bottom-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .footer-links-bottom {
-            display: flex;
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        .footer-link-bottom {
-            transition: color 0.2s;
-        }
-
-        .footer-link-bottom:hover {
-            color: white;
-        }
-
-        /* Анимации */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text);
+            font-size: 0.875rem;
         }
 
         /* Адаптивность */
-        @media (min-width: 320px) {
-            .container {
-                padding: 0 10px;
-            }
-            
-            .product-title {
-                font-size: 20px;
-            }
-            
-            .current-price {
-                font-size: 28px;
-            }
-        }
-
         @media (min-width: 768px) {
-            nav {
+            .product-page {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .nav {
                 display: flex;
-                align-items: center;
-                gap: 32px;
             }
             
-            .product-section {
-                flex-direction: row;
-            }
-            
-            .product-images {
-                width: 50%;
-            }
-            
-            .product-info {
-                width: 50%;
-            }
-            
-            .performance-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .accessories-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .footer-grid {
+            .footer-container {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (min-width: 1024px) {
-            .footer-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .footer-bottom-content {
-                flex-direction: row;
-                justify-content: space-between;
-            }
-            
-            .footer-links-bottom {
-                margin-top: 0;
+            .footer-container {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
-        @media (min-width: 1440px) {
-            .accessories-grid {
-                grid-template-columns: repeat(4, 1fr);
+        @media (max-width: 767px) {
+            .nav {
+                display: none;
             }
             
-            .products-grid {
-                grid-template-columns: repeat(4, 1fr);
+            .logo-text {
+                display: none;
             }
             
-            .footer-grid {
-                grid-template-columns: repeat(4, 1fr);
+            .main-image {
+                padding: 1rem;
+            }
+            
+            .price-block {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+            
+            .specs-table td {
+                padding: 0.5rem;
+                font-size: 0.875rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
+    <header class="header">
         <div class="container header-content">
-            <!-- Logo -->
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-microchip"></i>
-                </div>
-                <span class="logo-text">Gadget<span>Zone</span></span>
-            </div>
-
-            <!-- Navigation -->
-            <nav>
+            <a href="#" class="logo">
+                <i class="fas fa-microchip logo-icon"></i>
+                <span class="logo-text">GadgetZone</span>
+            </a>
+            
+            <nav class="nav">
                 <a href="#" class="nav-link">Каталог</a>
                 <a href="#" class="nav-link">Сравнение</a>
-                <a href="#" class="nav-link">Симулятор</a>
-                <a href="#" class="nav-link">Аксессуары</a>
-                <a href="#" class="nav-link">Калькулятор</a>
-                <a href="#" class="nav-link">Контакты</a>
+                <a href="#" class="nav-link">Корзина</a>
             </nav>
-
-            <!-- Right side icons -->
-            <div class="header-icons">
-                <!-- Theme toggle -->
-                <button id="theme-toggle" class="icon-button">
-                    <i class="fas fa-moon dark:hidden"></i>
-                    <i class="fas fa-sun hidden dark:block text-yellow-300"></i>
+            
+            <div class="header-controls">
+                <button class="icon-btn" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
                 </button>
-                
-                <!-- Cart -->
-                <button class="icon-button cart-button">
+                <button class="icon-btn">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">3</span>
                 </button>
-                
-                <!-- Mobile menu button -->
-                <button id="mobile-menu-button" class="icon-button md:hidden">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="mobile-menu hidden">
-            <div class="container mobile-menu-content">
-                <a href="#" class="mobile-menu-link">Каталог</a>
-                <a href="#" class="mobile-menu-link">Сравнение</a>
-                <a href="#" class="mobile-menu-link">Симулятор</a>
-                <a href="#" class="mobile-menu-link">Аксессуары</a>
-                <a href="#" class="mobile-menu-link">Калькулятор</a>
-                <a href="#" class="mobile-menu-link">Контакты</a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="container">
-        <!-- Breadcrumbs -->
+        <!-- Хлебные крошки -->
         <div class="breadcrumbs">
-            <a href="#" class="breadcrumb-link">Главная</a>
-            <i class="fas fa-chevron-right breadcrumb-separator"></i>
-            <a href="#" class="breadcrumb-link">Смартфоны</a>
-            <i class="fas fa-chevron-right breadcrumb-separator"></i>
-            <a href="#" class="breadcrumb-link">Apple</a>
-            <i class="fas fa-chevron-right breadcrumb-separator"></i>
-            <span class="breadcrumb-current">iPhone 14 Pro</span>
+            <a href="#">Главная</a> / 
+            <a href="#">Смартфоны</a> / 
+            <a href="#">Apple</a> / 
+            
         </div>
 
-        <!-- Product Section -->
-        <div class="product-section">
-            <!-- Product Images -->
-            <div class="product-images">
-                <!-- Main Image -->
-                <div class="main-image-container">
-                    <img id="main-image" src="https://images.unsplash.com/photo-1663499484201-d2b8285b89ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="iPhone 14 Pro" class="main-image">
+        <!-- Основной контент -->
+        <div class="product-page">
+            <!-- Галерея -->
+            <div class="gallery">
+                <div class="main-image">
+                    <img src="https://images.unsplash.com/photo-1589492477829-5e65395b66cc" alt="iPhone 14 Pro" style="max-width: 80%">
+                </div>
+                <div class="thumbnails">
+                    <img src="https://images.unsplash.com/photo-1663499484201-d2b8285b89ef" class="thumbnail active">
+                    <img src="https://images.unsplash.com/photo-1661956602153-23384936a1d3" class="thumbnail">
+                    <img src="https://images.unsplash.com/photo-1589492477829-5e65395b66cc" class="thumbnail">
+                </div>
+            </div>
+            
+            <div class="product-info" data-id="23">
+              <h1></h1>
+                            <!-- если хотите выводить описание, добавьте этот элемент -->
+              <p class="description" style="margin: 1rem 0;"></p>
+              <div class="price-block"></div>
+
+                
+                <div class="actions">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-cart-plus"></i>
+                        Добавить в корзину
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-balance-scale"></i>
+                        Сравнить
+                    </button>
+                </div>
+
+                <!-- Характеристики -->
+                <h2 style="margin: 25px 0 15px">Характеристики</h2>
+              <table class="specs-table">
+                  
+                <tbody id="specs-body">
+                    
+                
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Футер на всю ширину -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-container">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-microchip" style="font-size: 1.5rem; color: var(--accent);"></i>
+                        <span style="font-weight: 600; font-size: 1.25rem;">Gadget<span style="color: var(--accent);">Zone</span></span>
+                    </div>
+                    <p style="color: var(--text);">Ваш надежный гид в мире технологий и гаджетов. Мы помогаем сделать правильный выбор.</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="#" style="color: var(--text); font-size: 1.25rem;"><i class="fab fa-vk"></i></a>
+                        <a href="#" style="color: var(--text); font-size: 1.25rem;"><i class="fab fa-telegram"></i></a>
+                        <a href="#" style="color: var(--text); font-size: 1.25rem;"><i class="fab fa-youtube"></i></a>
+                        <a href="#" style="color: var(--text); font-size: 1.25rem;"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
                 
+                <div class="footer-section">
+                    <h3 class="footer-title">Навигация</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#">Главная</a></li>
+                        <li class="footer-link"><a href="#">Каталог</a></li>
+                        <li class="footer-link"><a href="#">Сравнение</a></li>
+                        <li class="footer-link"><a href="#">Симулятор</a></li>
+                        <li class="footer-link"><a href="#">Аксессуары</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Помощь</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#">FAQ</a></li>
+                        <li class="footer-link"><a href="#">Доставка и оплата</a></li>
+                        <li class="footer-link"><a href="#">Гарантия</a></li>
+                        <li class="footer-link"><a href="#">Отзывы</a></li>
+                        <li class="footer-link"><a href="#">Блог</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Контакты</h3>
+                    <ul class="footer-links">
+                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--accent); margin-top: 0.25rem;"></i>
+                            <span>Москва, ул. Технологическая, 42</span>
+                        </li>
+                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-phone-alt" style="color: var(--accent); margin-top: 0.25rem;"></i>
+                            <span>+7 (495) 123-45-67</span>
+                        </li>
+                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-envelope" style="color: var(--accent); margin-top: 0.25rem;"></i>
+                            <span>info@gadgetzone.ru</span>
+                        </li>
+                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-clock" style="color: var(--accent); margin-top: 0.25rem;"></i>
+                            <span>Пн-Пт: 9:00-21:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 GadgetZone. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+const skipFields = ['id', 'name', 'price', 'image', 'description', 'oldPrice'];
+
+// Функция для форматирования полей продукта
+function formatFields(product) {
+  const formatted = {...product};
+  if (formatted.type) formatted.type = `Тип: ${formatted.type}`;
+  if (formatted.brand) formatted.brand = `Бренд: ${formatted.brand}`;
+  if (formatted.ram) formatted.ram = `Оперативная память: ${formatted.ram}`;
+  if (formatted.storage) formatted.storage = `Внутренняя память: ${formatted.storage}`;
+  if (formatted.rating) formatted.rating = `Рейтинг: ${formatted.rating}`;
+  if (formatted.badgeColor) formatted.badgeColor = `Цвет: ${formatted.badgeColor}`;
+  return formatted;
+}
+
+// Функция для инициализации галереи
+function initGallery(mainImageUrl, thumbnails = []) {
+  const mainImage = document.querySelector('.main-image img');
+  const thumbnailsContainer = document.querySelector('.thumbnails');
+  
+  // Устанавливаем главное изображение
+  mainImage.src = mainImageUrl;
+  mainImage.alt = document.querySelector('h1').textContent || 'Изображение товара';
+  
+  // Очищаем миниатюры
+  thumbnailsContainer.innerHTML = '';
+  
+  // Добавляем миниатюры (если они есть)
+  const allImages = thumbnails.length > 0 ? [mainImageUrl, ...thumbnails] : [mainImageUrl];
+  
+  allImages.forEach((imgUrl, index) => {
+    const thumb = document.createElement('img');
+    thumb.src = imgUrl;
+    thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+    thumb.alt = `Миниатюра ${index + 1}`;
+    thumb.addEventListener('click', function() {
+      document.querySelector('.thumbnail.active')?.classList.remove('active');
+      this.classList.add('active');
+      mainImage.src = this.src;
+    });
+    thumbnailsContainer.appendChild(thumb);
+  });
+}
+
+async function initProductPage() {
+  try {
+    // 1. Загрузка JSON
+    const res = await fetch('products.json');
+    if (!res.ok) throw new Error(res.statusText);
+    const products = await res.json();
+
+    // 2. Поиск текущего товара по data-id
+    const container = document.querySelector('.product-info');
+    const productId = Number(container.dataset.id);
+    const product = products.find(p => p.id === productId);
+    if (!product) {
+      console.error(`Товар с id=${productId} не найден`);
+      return;
+    }
+
+    // 3. Форматируем поля продукта
+    const formattedProduct = formatFields(product);
+
+    // 4. Рендер заголовка, цены и описания
+    container.querySelector('h1').textContent = formattedProduct.name;
+    container.querySelector('.price-block').textContent =
+      formattedProduct.price.toLocaleString('ru-RU') + ' ₽';
+    const descEl = container.querySelector('.description');
+    if (descEl) descEl.textContent = formattedProduct.description;
+
+    // 5. Инициализация галереи
+    initGallery(product.image);
+
+    // 6. Рендер спецификаций
+    const tbody = document.getElementById('specs-body');
+    tbody.innerHTML = '';
+    Object.entries(formattedProduct).forEach(([key, value]) => {
+      if (skipFields.includes(key) || value == null) return;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${value}</td>`;
+      tbody.append(tr);
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// === ИНИЦИАЛИЗАЦИЯ СТРАНИЦЫ ===
+document.addEventListener('DOMContentLoaded', () => {
+  initProductPage();
+
+  // — Добавление в корзину —
+  document.querySelector('.btn-primary').addEventListener('click', () => {
+    const product = {
+      id: document.querySelector('.product-info').dataset.id,
+      name: document.querySelector('h1').innerText.trim(),
+      price: parseInt(
+        document.querySelector('.price-block').innerText
+          .replace(/\s/g, '')
+          .replace(/₽/, ''),
+        10
+      ),
+      image: document.querySelector('.main-image img').src,
+      quantity: 1
+    };
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const idx = cart.findIndex(item => item.id === product.id);
+    if (idx > -1) cart[idx].quantity++;
+    else cart.push(product);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert('Товар добавлен в корзину!');
+  });
+
+  // — Переключение темы —
+  const themeToggle = document.getElementById('theme-toggle');
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    body.classList.add(savedTheme);
+    updateThemeIcon();
+  }
+  themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-theme');
+    localStorage.setItem(
+      'theme',
+      body.classList.contains('dark-theme') ? 'dark-theme' : ''
+    );
+    updateThemeIcon();
+  });
+  
+  function updateThemeIcon() {
+    const icon = themeToggle.querySelector('i');
+    icon.className = body.classList.contains('dark-theme')
+      ? 'fas fa-sun'
+      : 'fas fa-moon';
+  }
+});
+  
+  // Добавить в корзину
+  document.querySelector('.btn-primary')
+    .addEventListener('click', () => {
+      const product = {
+        id:   document.querySelector('.product-info').dataset.id,
+        name: document.querySelector('h1').innerText.trim(),
+        price: parseInt(
+          document.querySelector('.price-block').innerText
+            .replace(/\s/g, '')
+            .replace(/₽/, ''),
+          10
+        ),
+        image: document.querySelector('.main-image img').src,
+        quantity: 1
+      };
+
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const idx = cart.findIndex(item => item.id === product.id);
+
+      if (idx > -1) cart[idx].quantity++;
+      else cart.push(product);
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('Товар добавлен в корзину!');
+    });
+
+  // Переключение темы
+  const themeToggle = document.getElementById('theme-toggle');
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    body.classList.add(savedTheme);
+    updateThemeIcon();
+  }
+
+  themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-theme');
+    localStorage.setItem(
+      'theme',
+      body.classList.contains('dark-theme') ? 'dark-theme' : ''
+    );
+    updateThemeIcon();
+  });
+
+  function updateThemeIcon() {
+    const icon = themeToggle.querySelector('i');
+    icon.className = body.classList.contains('dark-theme')
+      ? 'fas fa-sun'
+      : 'fas fa-moon';
+  }
+
+  // Переключение изображений
+  document.querySelectorAll('.thumbnail').forEach(thumb => {
+    thumb.addEventListener('click', function() {
+      document.querySelector('.thumbnail.active')
+        .classList.remove('active');
+      this.classList.add('active');
+      document.querySelector('.main-image img').src = this.src;
+    });
+  });
+</script>
+
+</body>
+</html>
