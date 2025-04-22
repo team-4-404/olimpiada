@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GadgetZone - Центр навигации по миру гаджетов</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Общие стили и переменные */
@@ -107,14 +108,14 @@
             position: sticky;
             top: 0;
             z-index: 50;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
         }
 
         .dark header {
-            background-color: rgba(31, 41, 55, 0.8);
+            background-color: rgba(17, 24, 39, 0.9);
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
@@ -149,6 +150,11 @@
         .logo-text {
             font-size: 1.25rem;
             font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .dark .logo-text {
+            color: var(--text-dark);
         }
 
         .logo-highlight {
@@ -166,9 +172,13 @@
 
         .nav-link {
             font-weight: 500;
-            color: inherit;
+            color: var(--text-light);
             text-decoration: none;
             transition: var(--transition);
+        }
+
+        .dark .nav-link {
+            color: var(--text-dark);
         }
 
         .nav-link:hover {
@@ -193,7 +203,11 @@
             cursor: pointer;
             background: none;
             border: none;
-            color: inherit;
+            color: var(--text-light);
+        }
+
+        .dark .icon-btn {
+            color: var(--text-dark);
         }
 
         .icon-btn:hover {
@@ -244,13 +258,18 @@
         .mobile-menu .nav-link {
             padding: 0.5rem 1rem;
             display: block;
+            color: var(--text-light);
+        }
+
+        .dark .mobile-menu .nav-link {
+            color: var(--text-dark);
         }
 
         /* Герой секция */
         .hero {
             min-height: 70vh;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                              url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                             url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -262,8 +281,8 @@
         }
 
         .dark .hero {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                              url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                             url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
         }
 
         .hero-content {
@@ -282,118 +301,143 @@
             margin-bottom: 2rem;
         }
 
-        /* Секция с карточками */
-        .features {
-            padding: 4rem 0;
-            background-color: var(--gray-light);
+        /* Баннер с описанием */
+        .promo-banner {
+            background-color: var(--primary-light);
+            color: white;
+            padding: 3rem 1rem;
+            margin: 2rem 0;
+            border-radius: var(--border-radius);
+            position: relative;
+            overflow: hidden;
         }
 
-        .dark .features {
-            background-color: var(--gray-dark);
+        .dark .promo-banner {
+            background-color: var(--primary-dark);
+        }
+
+        .promo-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .promo-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .promo-text {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+
+        .promo-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Категории */
+        .categories {
+            padding: 4rem 0;
         }
 
         .section-title {
             font-size: 2rem;
             font-weight: 700;
+            margin-bottom: 2rem;
             text-align: center;
-            margin-bottom: 3rem;
+            color: #000000; /* Изменено на черный цвет */
         }
 
-        .cards-container {
-            display: grid;
+        .dark .section-title {
+            color: #000000; /* Остается черным в темной теме */
+        }
+
+        .categories-grid {
+            display: flex;
+            justify-content: center;
             gap: 1.5rem;
-            grid-template-columns: 1fr;
+            flex-wrap: wrap;
         }
 
-        .card {
+        .category-card {
             background-color: var(--white);
             border-radius: var(--border-radius);
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
             transition: var(--transition);
-            opacity: 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            border: 2px solid transparent;
+            width: calc(20% - 1.5rem);
+            min-width: 200px;
         }
 
-        .dark .card {
-            background-color: var(--bg-dark);
+        .dark .category-card {
+            background-color: var(--gray-dark);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
 
-        .card:hover {
+        .category-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
         }
 
-        .dark .card:hover {
+        .dark .category-card:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-dark);
         }
 
-        .card-icon {
-            width: 4rem;
-            height: 4rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-        }
-
-        .card-icon.blue {
-            background-color: rgba(59, 130, 246, 0.1);
-            color: var(--primary-light);
-        }
-
-        .card-icon.green {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: var(--secondary-light);
-        }
-
-        .card-icon.purple {
-            background-color: rgba(139, 92, 246, 0.1);
-            color: #8b5cf6;
-        }
-
-        .card-icon.yellow {
-            background-color: rgba(234, 179, 8, 0.1);
-            color: #eab308;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .card-text {
-            color: var(--text-light);
-            text-align: center;
+        .category-icon {
+            font-size: 2.5rem;
             margin-bottom: 1rem;
-        }
-
-        .dark .card-text {
-            color: var(--text-dark);
-        }
-
-        .card-link {
-            display: block;
-            text-align: center;
             color: var(--primary-light);
-            font-weight: 500;
-            text-decoration: none;
         }
 
-        .dark .card-link {
+        .dark .category-icon {
             color: var(--primary-dark);
         }
 
-        .card-link:hover {
-            text-decoration: underline;
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .dark .category-title {
+            color: var(--text-dark);
+        }
+
+        .category-count {
+            font-size: 0.875rem;
+            color: var(--gray-dark);
+        }
+
+        .dark .category-count {
+            color: var(--gray-light);
         }
 
         /* Секция с графиком */
         .chart-section {
             padding: 4rem 0;
+            background-color: var(--gray-light);
+        }
+
+        .dark .chart-section {
+            background-color: var(--gray-dark);
         }
 
         .chart-container {
@@ -410,11 +454,21 @@
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .dark .chart-title {
+            color: var(--text-dark);
         }
 
         .chart-description {
             font-size: 1.125rem;
             margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .dark .chart-description {
+            color: var(--text-dark);
         }
 
         .progress-item {
@@ -425,6 +479,14 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.5rem;
+        }
+
+        .progress-header span {
+            color: var(--text-light);
+        }
+
+        .dark .progress-header span {
+            color: var(--text-dark);
         }
 
         .progress-bar {
@@ -559,7 +621,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }
+}
 
         .footer-logo-text {
             font-size: 1.25rem;
@@ -573,6 +635,7 @@
 
         .footer-about {
             margin-bottom: 1rem;
+            color: var(--gray-light);
         }
 
         .footer-social {
@@ -656,10 +719,6 @@
                 display: none;
             }
             
-            .cards-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
             .footer-container {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -688,10 +747,6 @@
         }
 
         @media (min-width: 1024px) {
-            .cards-container {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
             .chart-container {
                 flex-direction: row;
                 align-items: center;
@@ -707,6 +762,24 @@
                 padding: 0;
             }
         }
+
+        @media (max-width: 1024px) {
+            .category-card {
+                width: calc(33.333% - 1.5rem);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .category-card {
+                width: calc(50% - 1.5rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category-card {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -714,37 +787,42 @@
     <header>
         <div class="container header-container">
             <!-- Логотип -->
-            <div class="logo">
+            <a href="index.html" class="logo">
                 <div class="logo-icon">
                     <i class="fas fa-microchip text-white"></i>
                 </div>
                 <span class="logo-text">Gadget<span class="logo-highlight">Zone</span></span>
-            </div>
+            </a>
 
             <!-- Навигация для десктопа -->
             <nav class="nav-desktop">
-                <a href="#" class="nav-link">Каталог</a>
-                <a href="#" class="nav-link">Сравнение</a>
-                <a href="#" class="nav-link">Симулятор</a>
-                <a href="#" class="nav-link">Аксессуары</a>
-                <a href="#" class="nav-link">Калькулятор</a>
-                <a href="#" class="nav-link">Контакты</a>
+                <a href="catalog.html" class="nav-link">Каталог</a>
+                <a href="compare.html" class="nav-link">Сравнение</a>
+                <a href="simulator.html" class="nav-link">Симулятор</a>
+                <a href="accessories.html" class="nav-link">Аксессуары</a>
+                <a href="calculator.html" class="nav-link">Калькулятор</a>
+                <a href="contacts.html" class="nav-link">Контакты</a>
             </nav>
 
             <!-- Иконки -->
             <div class="header-icons">
+                <!-- Профиль -->
+                <a href="profile.php" class="icon-btn">
+                    <i class="fas fa-user"></i>
+                </a>
+                
                 <!-- Переключатель темы -->
                 <button id="theme-toggle" class="icon-btn">
                     <i class="fas fa-moon dark:hidden"></i>
                     <i class="fas fa-sun hidden dark:block"></i>
                 </button>
-                
+                                
                 <!-- Корзина -->
-                <button class="icon-btn relative">
+                <a href="korzina.html" class="icon-btn relative">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge">3</span>
-                </button>
-                
+                </a>
+                                
                 <!-- Кнопка мобильного меню -->
                 <button id="mobile-menu-button" class="icon-btn md:hidden">
                     <i class="fas fa-bars"></i>
@@ -755,12 +833,14 @@
         <!-- Мобильное меню -->
         <div id="mobile-menu" class="mobile-menu">
             <div class="container">
-                <a href="#" class="nav-link">Каталог</a>
-                <a href="#" class="nav-link">Сравнение</a>
-                <a href="#" class="nav-link">Симулятор</a>
-                <a href="#" class="nav-link">Аксессуары</a>
-                <a href="#" class="nav-link">Калькулятор</a>
-                <a href="#" class="nav-link">Контакты</a>
+                <a href="catalog.html" class="nav-link">Каталог</a>
+                <a href="compare.html", class="nav-link">Сравнение</a>
+                <a href="simulator.html" class="nav-link">Симулятор</a>
+                <a href="accessories.html" class="nav-link">Аксессуары</a>
+                <a href="calculator.html" class="nav-link">Калькулятор</a>
+                <a href="contacts.html" class="nav-link">Контакты</a>
+                <a href="profile.php" class="nav-link">Профиль</a>
+                <a href="korzina.html" class="nav-link">Корзина</a>
             </div>
         </div>
     </header>
@@ -770,54 +850,71 @@
         <div class="hero-content animate-fade-in">
             <h1 class="hero-title">Подбираем гаджеты с умом</h1>
             <p class="hero-subtitle">Наш интеллектуальный помощник поможет вам найти идеальное устройство по характеристикам, цене и вашим потребностям</p>
-            <button class="btn btn-primary">Начать подбор</button>
+            <a href="catalog.html" class="btn btn-primary">Начать подбор</a>
         </div>
     </section>
 
-    <!-- Секция с карточками -->
-    <section class="features">
+    <!-- Баннер с описанием -->
+    <section class="container">
+        <div class="promo-banner">
+            <div class="promo-bg"></div>
+            <div class="promo-content">
+                <h2 class="promo-title">Лучшие гаджеты 2025 года</h2>
+                <p class="promo-text">Откройте для себя новейшие технологии и инновационные устройства в нашем каталоге. Мы собрали только проверенные модели с лучшими отзывами.</p>
+                <a href="catalog.html" class="btn btn-primary">Перейти в каталог</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Популярные категории -->
+    <section class="categories">
         <div class="container">
-            <h2 class="section-title">Наши инструменты</h2>
+            <h2 class="section-title">Популярные категории</h2>
             
-            <div class="cards-container">
-                <!-- Карточка сравнения -->
-                <div class="card" style="animation-delay: 0.1s">
-                    <div class="card-icon blue">
-                        <i class="fas fa-balance-scale text-2xl"></i>
+            <div class="categories-grid">
+                <!-- Смартфоны -->
+                <div class="category-card" onclick="navigateToCatalog('smartphones')">
+                    <div class="category-icon">
+                        <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3 class="card-title">Сравнение</h3>
-                    <p class="card-text">Сравните до 4 устройств по всем характеристикам и выберите лучший вариант</p>
-                    <a href="#" class="card-link">Попробовать →</a>
+                    <h3 class="category-title">Смартфоны</h3>
+                    <p class="category-count">Более 250 моделей</p>
                 </div>
                 
-                <!-- Карточка аксессуаров -->
-                <div class="card" style="animation-delay: 0.2s">
-                    <div class="card-icon green">
-                        <i class="fas fa-headphones text-2xl"></i>
+                <!-- Планшеты -->
+                <div class="category-card" onclick="navigateToCatalog('tablets')">
+                    <div class="category-icon">
+                        <i class="fas fa-tablet-alt"></i>
                     </div>
-                    <h3 class="card-title">Подбор аксессуаров</h3>
-                    <p class="card-text">Найдите идеальные аксессуары для вашего устройства: чехлы, наушники и многое другое</p>
-                    <a href="#" class="card-link">Подобрать →</a>
+                    <h3 class="category-title">Планшеты</h3>
+                    <p class="category-count">Более 120 моделей</p>
                 </div>
                 
-                <!-- Карточка симулятора -->
-                <div class="card" style="animation-delay: 0.3s">
-                    <div class="card-icon purple">
-                        <i class="fas fa-gamepad text-2xl"></i>
+                <!-- Ноутбуки -->
+                <div class="category-card" onclick="navigateToCatalog('laptops')">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop"></i>
                     </div>
-                    <h3 class="card-title">Симулятор</h3>
-                    <p class="card-text">Проверьте, как будут работать ваши любимые приложения на выбранном устройстве</p>
-                    <a href="#" class="card-link">Протестировать →</a>
+                    <h3 class="category-title">Ноутбуки</h3>
+                    <p class="category-count">Более 180 моделей</p>
                 </div>
                 
-                <!-- Карточка калькулятора -->
-                <div class="card" style="animation-delay: 0.4s">
-                    <div class="card-icon yellow">
-                        <i class="fas fa-calculator text-2xl"></i>
+                <!-- Наушники -->
+                <div class="category-card" onclick="navigateToCatalog('headphones')">
+                    <div class="category-icon">
+                        <i class="fas fa-headphones"></i>
                     </div>
-                    <h3 class="card-title">Калькулятор</h3>
-                    <p class="card-text">Рассчитайте стоимость владения устройством с учетом всех факторов</p>
-                    <a href="#" class="card-link">Рассчитать →</a>
+                    <h3 class="category-title">Наушники</h3>
+                    <p class="category-count">Более 350 моделей</p>
+                </div>
+                
+                <!-- Умные часы -->
+                <div class="category-card" onclick="navigateToCatalog('smartwatches')">
+                    <div class="category-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="category-title">Умные часы</h3>
+                    <p class="category-count">Более 90 моделей</p>
                 </div>
             </div>
         </div>
@@ -915,22 +1012,22 @@
                 <div>
                     <h3 class="footer-title">Навигация</h3>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="#">Главная</a></li>
-                        <li class="footer-link"><a href="#">Каталог</a></li>
-                        <li class="footer-link"><a href="#">Сравнение</a></li>
-                        <li class="footer-link"><a href="#">Симулятор</a></li>
-                        <li class="footer-link"><a href="#">Аксессуары</a></li>
+                        <li class="footer-link"><a href="index.html">Главная</a></li>
+                        <li class="footer-link"><a href="catalog.html">Каталог</a></li>
+                        <li class="footer-link"><a href="compare.html">Сравнение</a></li>
+                        <li class="footer-link"><a href="simulator.html">Симулятор</a></li>
+                        <li class="footer-link"><a href="accessories.html">Аксессуары</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h3 class="footer-title">Помощь</h3>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="#">FAQ</a></li>
-                        <li class="footer-link"><a href="#">Доставка и оплата</a></li>
-                        <li class="footer-link"><a href="#">Гарантия</a></li>
-                        <li class="footer-link"><a href="#">Отзывы</a></li>
-                        <li class="footer-link"><a href="#">Блог</a></li>
+                        <li class="footer-link"><a href="faq.html">FAQ</a></li>
+                        <li class="footer-link"><a href="delivery.html">Доставка и оплата</a></li>
+                        <li class="footer-link"><a href="warranty.html">Гарантия</a></li>
+                        <li class="footer-link"><a href="reviews.html">Отзывы</a></li>
+                        <li class="footer-link"><a href="blog.html">Блог</a></li>
                     </ul>
                 </div>
                 
@@ -958,7 +1055,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p>© 2023 GadgetZone. Все права защищены.</p>
+                <p>© 2025 GadgetZone. Все права защищены.</p>
             </div>
         </div>
     </footer>
@@ -1058,7 +1155,7 @@
         observer.observe(html, { attributes: true, attributeFilter: ['class'] });
         
         // Анимация карточек при скролле
-        const cards = document.querySelectorAll('.card');
+        const cards = document.querySelectorAll('.category-card');
         
         const animateOnScroll = () => {
             cards.forEach((card, index) => {
@@ -1073,6 +1170,14 @@
         
         window.addEventListener('scroll', animateOnScroll);
         window.addEventListener('load', animateOnScroll);
+        
+        // Навигация в каталог с фильтром
+        function navigateToCatalog(category) {
+            // Сохраняем выбранную категорию в localStorage
+            localStorage.setItem('selectedCategory', category);
+            // Перенаправляем на страницу каталога
+            window.location.href = 'catalog.html';
+        }
     </script>
 </body>
 </html>
