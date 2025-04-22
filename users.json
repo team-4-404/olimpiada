@@ -1,0 +1,18 @@
+[
+    {
+        "id": "6806aaa41cdd4",
+        "name": "test",
+        "email": "test@mail.ru",
+        "password": "111111",
+        "firstName": "test",
+        "lastName": "",
+        "avatar": "https:\/\/via.placeholder.com\/128",
+        "favorites": [],
+        "ordersCount": 0,
+        "bonusPoints": 0,
+        "joinDate": "2025-04-21",
+        "passwordChangeDate": null,
+        "phone": "",
+        "address": ""
+    }
+]
