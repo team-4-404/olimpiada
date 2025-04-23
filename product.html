@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +12,14 @@
             --max-width: 1000px;
             --padding: 1rem;
             --transition: all 0.3s ease;
-            
+
             /* Цвета светлой темы */
             --bg: #ffffff;
             --text: #1a1a1a;
             --accent: #2563eb;
             --border: #e5e7eb;
             --surface: #f8fafc;
-            
+
             /* Цвета темной темы */
             --bg-dark: #0f172a;
             --text-dark: #f8fafc;
@@ -319,11 +320,11 @@
             .product-page {
                 grid-template-columns: 1fr 1fr;
             }
-            
+
             .nav {
                 display: flex;
             }
-            
+
             .footer-container {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -339,15 +340,15 @@
             .nav {
                 display: none;
             }
-            
+
             .logo-text {
                 display: none;
             }
-            
+
             .main-image {
                 padding: 1rem;
             }
-            
+
             .price-block {
                 font-size: 1.5rem;
             }
@@ -358,7 +359,7 @@
                 padding: 0.75rem;
                 font-size: 0.875rem;
             }
-            
+
             .specs-table td {
                 padding: 0.5rem;
                 font-size: 0.875rem;
@@ -366,6 +367,7 @@
         }
     </style>
 </head>
+
 <body>
     <header class="header">
         <div class="container header-content">
@@ -373,13 +375,13 @@
                 <i class="fas fa-microchip logo-icon"></i>
                 <span class="logo-text">GadgetZone</span>
             </a>
-            
+
             <nav class="nav">
                 <a href="#" class="nav-link">Каталог</a>
                 <a href="#" class="nav-link">Сравнение</a>
                 <a href="#" class="nav-link">Корзина</a>
             </nav>
-            
+
             <div class="header-controls">
                 <button class="icon-btn" id="theme-toggle">
                     <i class="fas fa-moon"></i>
@@ -394,10 +396,10 @@
     <main class="container">
         <!-- Хлебные крошки -->
         <div class="breadcrumbs">
-            <a href="#">Главная</a> / 
-            <a href="#">Смартфоны</a> / 
-            <a href="#">Apple</a> / 
-            
+            <a href="#">Главная</a> /
+            <a href="#">Смартфоны</a> /
+            <a href="#">Apple</a> /
+
         </div>
 
         <!-- Основной контент -->
@@ -405,7 +407,8 @@
             <!-- Галерея -->
             <div class="gallery">
                 <div class="main-image">
-                    <img src="https://images.unsplash.com/photo-1589492477829-5e65395b66cc" alt="iPhone 14 Pro" style="max-width: 80%">
+                    <img src="https://images.unsplash.com/photo-1589492477829-5e65395b66cc" alt="iPhone 14 Pro"
+                        style="max-width: 80%">
                 </div>
                 <div class="thumbnails">
                     <img src="https://images.unsplash.com/photo-1663499484201-d2b8285b89ef" class="thumbnail active">
@@ -413,14 +416,15 @@
                     <img src="https://images.unsplash.com/photo-1589492477829-5e65395b66cc" class="thumbnail">
                 </div>
             </div>
-            
-            <div class="product-info" data-id="23">
-              <h1></h1>
-                            <!-- если хотите выводить описание, добавьте этот элемент -->
-              <p class="description" style="margin: 1rem 0;"></p>
-              <div class="price-block"></div>
 
-                
+            <!-- Удалите data-id из разметки -->
+            <div class="product-info" data-id="">
+                <h1></h1>
+                <!-- если хотите выводить описание, добавьте этот элемент -->
+                <p class="description" style="margin: 1rem 0;"></p>
+                <div class="price-block"></div>
+
+
                 <div class="actions">
                     <button class="btn btn-primary">
                         <i class="fas fa-cart-plus"></i>
@@ -434,13 +438,13 @@
 
                 <!-- Характеристики -->
                 <h2 style="margin: 25px 0 15px">Характеристики</h2>
-              <table class="specs-table">
-                  
-                <tbody id="specs-body">
-                    
-                
-                </tbody>
-              </table>
+                <table class="specs-table">
+
+                    <tbody id="specs-body">
+
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
@@ -452,9 +456,11 @@
                 <div class="footer-section">
                     <div class="footer-logo">
                         <i class="fas fa-microchip" style="font-size: 1.5rem; color: var(--accent);"></i>
-                        <span style="font-weight: 600; font-size: 1.25rem;">Gadget<span style="color: var(--accent);">Zone</span></span>
+                        <span style="font-weight: 600; font-size: 1.25rem;">Gadget<span
+                                style="color: var(--accent);">Zone</span></span>
                     </div>
-                    <p style="color: var(--text);">Ваш надежный гид в мире технологий и гаджетов. Мы помогаем сделать правильный выбор.</p>
+                    <p style="color: var(--text);">Ваш надежный гид в мире технологий и гаджетов. Мы помогаем сделать
+                        правильный выбор.</p>
                     <div style="display: flex; gap: 1rem;">
                         <a href="#" style="color: var(--text); font-size: 1.25rem;"><i class="fab fa-vk"></i></a>
                         <a href="#" style="color: var(--text); font-size: 1.25rem;"><i class="fab fa-telegram"></i></a>
@@ -462,7 +468,7 @@
                         <a href="#" style="color: var(--text); font-size: 1.25rem;"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3 class="footer-title">Навигация</h3>
                     <ul class="footer-links">
@@ -473,7 +479,7 @@
                         <li class="footer-link"><a href="#">Аксессуары</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3 class="footer-title">Помощь</h3>
                     <ul class="footer-links">
@@ -484,7 +490,7 @@
                         <li class="footer-link"><a href="#">Блог</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h3 class="footer-title">Контакты</h3>
                     <ul class="footer-links">
@@ -507,7 +513,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>© 2023 GadgetZone. Все права защищены.</p>
             </div>
@@ -515,205 +521,216 @@
     </footer>
 
     <script>
-const skipFields = ['id', 'name', 'price', 'image', 'description', 'oldPrice'];
 
-// Функция для форматирования полей продукта
-function formatFields(product) {
-  const formatted = {...product};
-  if (formatted.type) formatted.type = `Тип: ${formatted.type}`;
-  if (formatted.brand) formatted.brand = `Бренд: ${formatted.brand}`;
-  if (formatted.ram) formatted.ram = `Оперативная память: ${formatted.ram}`;
-  if (formatted.storage) formatted.storage = `Внутренняя память: ${formatted.storage}`;
-  if (formatted.rating) formatted.rating = `Рейтинг: ${formatted.rating}`;
-  if (formatted.badgeColor) formatted.badgeColor = `Цвет: ${formatted.badgeColor}`;
-  return formatted;
-}
 
-// Функция для инициализации галереи
-function initGallery(mainImageUrl, thumbnails = []) {
-  const mainImage = document.querySelector('.main-image img');
-  const thumbnailsContainer = document.querySelector('.thumbnails');
-  
-  // Устанавливаем главное изображение
-  mainImage.src = mainImageUrl;
-  mainImage.alt = document.querySelector('h1').textContent || 'Изображение товара';
-  
-  // Очищаем миниатюры
-  thumbnailsContainer.innerHTML = '';
-  
-  // Добавляем миниатюры (если они есть)
-  const allImages = thumbnails.length > 0 ? [mainImageUrl, ...thumbnails] : [mainImageUrl];
-  
-  allImages.forEach((imgUrl, index) => {
-    const thumb = document.createElement('img');
-    thumb.src = imgUrl;
-    thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
-    thumb.alt = `Миниатюра ${index + 1}`;
-    thumb.addEventListener('click', function() {
-      document.querySelector('.thumbnail.active')?.classList.remove('active');
-      this.classList.add('active');
-      mainImage.src = this.src;
-    });
-    thumbnailsContainer.appendChild(thumb);
-  });
-}
+        // Вспомогательная функция чтения параметров URL
+        function getProductIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.has('id') ? Number(params.get('id')) : null;
+        }
 
-async function initProductPage() {
-  try {
-    // 1. Загрузка JSON
-    const res = await fetch('products.json');
-    if (!res.ok) throw new Error(res.statusText);
-    const products = await res.json();
 
-    // 2. Поиск текущего товара по data-id
-    const container = document.querySelector('.product-info');
-    const productId = Number(container.dataset.id);
-    const product = products.find(p => p.id === productId);
-    if (!product) {
-      console.error(`Товар с id=${productId} не найден`);
-      return;
-    }
 
-    // 3. Форматируем поля продукта
-    const formattedProduct = formatFields(product);
+                const skipFields = ['id', 'name', 'price', 'image', 'description', 'oldPrice'];
 
-    // 4. Рендер заголовка, цены и описания
-    container.querySelector('h1').textContent = formattedProduct.name;
-    container.querySelector('.price-block').textContent =
-      formattedProduct.price.toLocaleString('ru-RU') + ' ₽';
-    const descEl = container.querySelector('.description');
-    if (descEl) descEl.textContent = formattedProduct.description;
+                // Функция для форматирования полей продукта
+                function formatFields(product) {
+                    const formatted = { ...product };
+                    if (formatted.type) formatted.type = `Тип: ${formatted.type}`;
+                    if (formatted.brand) formatted.brand = `Бренд: ${formatted.brand}`;
+                    if (formatted.ram) formatted.ram = `Оперативная память: ${formatted.ram}`;
+                    if (formatted.storage) formatted.storage = `Внутренняя память: ${formatted.storage}`;
+                    if (formatted.rating) formatted.rating = `Рейтинг: ${formatted.rating}`;
+                    if (formatted.badgeColor) formatted.badgeColor = `Цвет: ${formatted.badgeColor}`;
+                    return formatted;
+                }
 
-    // 5. Инициализация галереи
-    initGallery(product.image);
+                // Функция для инициализации галереи
+                function initGallery(mainImageUrl, thumbnails = []) {
+                    const mainImage = document.querySelector('.main-image img');
+                    const thumbnailsContainer = document.querySelector('.thumbnails');
 
-    // 6. Рендер спецификаций
-    const tbody = document.getElementById('specs-body');
-    tbody.innerHTML = '';
-    Object.entries(formattedProduct).forEach(([key, value]) => {
-      if (skipFields.includes(key) || value == null) return;
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${value}</td>`;
-      tbody.append(tr);
-    });
+                    // Устанавливаем главное изображение
+                    mainImage.src = mainImageUrl;
+                    mainImage.alt = document.querySelector('h1').textContent || 'Изображение товара';
 
-  } catch (err) {
-    console.error(err);
-  }
-}
+                    // Очищаем миниатюры
+                    thumbnailsContainer.innerHTML = '';
 
-// === ИНИЦИАЛИЗАЦИЯ СТРАНИЦЫ ===
-document.addEventListener('DOMContentLoaded', () => {
-  initProductPage();
+                    // Добавляем миниатюры (если они есть)
+                    const allImages = thumbnails.length > 0 ? [mainImageUrl, ...thumbnails] : [mainImageUrl];
 
-  // — Добавление в корзину —
-  document.querySelector('.btn-primary').addEventListener('click', () => {
-    const product = {
-      id: document.querySelector('.product-info').dataset.id,
-      name: document.querySelector('h1').innerText.trim(),
-      price: parseInt(
-        document.querySelector('.price-block').innerText
-          .replace(/\s/g, '')
-          .replace(/₽/, ''),
-        10
-      ),
-      image: document.querySelector('.main-image img').src,
-      quantity: 1
-    };
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const idx = cart.findIndex(item => item.id === product.id);
-    if (idx > -1) cart[idx].quantity++;
-    else cart.push(product);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert('Товар добавлен в корзину!');
-  });
+                    allImages.forEach((imgUrl, index) => {
+                        const thumb = document.createElement('img');
+                        thumb.src = imgUrl;
+                        thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+                        thumb.alt = `Миниатюра ${index + 1}`;
+                        thumb.addEventListener('click', function () {
+                            document.querySelector('.thumbnail.active')?.classList.remove('active');
+                            this.classList.add('active');
+                            mainImage.src = this.src;
+                        });
+                        thumbnailsContainer.appendChild(thumb);
+                    });
+                }
 
-  // — Переключение темы —
-  const themeToggle = document.getElementById('theme-toggle');
-  const body = document.body;
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    body.classList.add(savedTheme);
-    updateThemeIcon();
-  }
-  themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-theme');
-    localStorage.setItem(
-      'theme',
-      body.classList.contains('dark-theme') ? 'dark-theme' : ''
-    );
-    updateThemeIcon();
-  });
-  
-  function updateThemeIcon() {
-    const icon = themeToggle.querySelector('i');
-    icon.className = body.classList.contains('dark-theme')
-      ? 'fas fa-sun'
-      : 'fas fa-moon';
-  }
-});
-  
-  // Добавить в корзину
-  document.querySelector('.btn-primary')
-    .addEventListener('click', () => {
-      const product = {
-        id:   document.querySelector('.product-info').dataset.id,
-        name: document.querySelector('h1').innerText.trim(),
-        price: parseInt(
-          document.querySelector('.price-block').innerText
-            .replace(/\s/g, '')
-            .replace(/₽/, ''),
-          10
-        ),
-        image: document.querySelector('.main-image img').src,
-        quantity: 1
-      };
+                async function initProductPage() {
+                    try {
+                        // 1. Загрузка JSON
+                        const res = await fetch('products.json');
+                        if (!res.ok) throw new Error(res.statusText);
+                        const products = await res.json();
 
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const idx = cart.findIndex(item => item.id === product.id);
+                        // 2. Поиск текущего товара по data-id
+                        const container = document.querySelector('.product-info');
+                        const productId = getProductIdFromUrl();
+                        const product = products.find(p => p.id === productId);
+                        if (!product) {
+                            console.error(`Товар с id=${productId} не найден`);
+                            return;
+                        }
 
-      if (idx > -1) cart[idx].quantity++;
-      else cart.push(product);
+                        // 3. Форматируем поля продукта
+                        const formattedProduct = formatFields(product);
 
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert('Товар добавлен в корзину!');
-    });
+                        // 4. Рендер заголовка, цены и описания
+                        container.querySelector('h1').textContent = formattedProduct.name;
+                        container.querySelector('.price-block').textContent =
+                            formattedProduct.price.toLocaleString('ru-RU') + ' ₽';
+                        const descEl = container.querySelector('.description');
+                        if (descEl) descEl.textContent = formattedProduct.description;
 
-  // Переключение темы
-  const themeToggle = document.getElementById('theme-toggle');
-  const body = document.body;
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    body.classList.add(savedTheme);
-    updateThemeIcon();
-  }
+                        // 5. Инициализация галереи
+                        initGallery(product.image);
 
-  themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-theme');
-    localStorage.setItem(
-      'theme',
-      body.classList.contains('dark-theme') ? 'dark-theme' : ''
-    );
-    updateThemeIcon();
-  });
+                        // 6. Рендер спецификаций
+                        const tbody = document.getElementById('specs-body');
+                        tbody.innerHTML = '';
+                        Object.entries(formattedProduct).forEach(([key, value]) => {
+                            if (skipFields.includes(key) || value == null) return;
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `<td>${value}</td>`;
+                            tbody.append(tr);
+                        });
 
-  function updateThemeIcon() {
-    const icon = themeToggle.querySelector('i');
-    icon.className = body.classList.contains('dark-theme')
-      ? 'fas fa-sun'
-      : 'fas fa-moon';
-  }
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
 
-  // Переключение изображений
-  document.querySelectorAll('.thumbnail').forEach(thumb => {
-    thumb.addEventListener('click', function() {
-      document.querySelector('.thumbnail.active')
-        .classList.remove('active');
-      this.classList.add('active');
-      document.querySelector('.main-image img').src = this.src;
-    });
-  });
-</script>
+                // === ИНИЦИАЛИЗАЦИЯ СТРАНИЦЫ ===
+                document.addEventListener('DOMContentLoaded', () => {
+                    initProductPage();
+
+                    // — Добавление в корзину —
+                    document.querySelector('.btn-primary').addEventListener('click', () => {
+                        const product = {
+                            id: document.querySelector('.product-info').dataset.id,
+                            name: document.querySelector('h1').innerText.trim(),
+                            price: parseInt(
+                                document.querySelector('.price-block').innerText
+                                    .replace(/\s/g, '')
+                                    .replace(/₽/, ''),
+                                10
+                            ),
+                            image: document.querySelector('.main-image img').src,
+                            quantity: 1
+                        };
+                        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                        const idx = cart.findIndex(item => item.id === product.id);
+                        if (idx > -1) cart[idx].quantity++;
+                        else cart.push(product);
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        alert('Товар добавлен в корзину!');
+                    });
+
+                    // — Переключение темы —
+                    const themeToggle = document.getElementById('theme-toggle');
+                    const body = document.body;
+                    const savedTheme = localStorage.getItem('theme');
+                    if (savedTheme) {
+                        body.classList.add(savedTheme);
+                        updateThemeIcon();
+                    }
+                    themeToggle.addEventListener('click', () => {
+                        body.classList.toggle('dark-theme');
+                        localStorage.setItem(
+                            'theme',
+                            body.classList.contains('dark-theme') ? 'dark-theme' : ''
+                        );
+                        updateThemeIcon();
+                    });
+
+                    function updateThemeIcon() {
+                        const icon = themeToggle.querySelector('i');
+                        icon.className = body.classList.contains('dark-theme')
+                            ? 'fas fa-sun'
+                            : 'fas fa-moon';
+                    }
+                });
+
+                // Добавить в корзину
+                document.querySelector('.btn-primary')
+                    .addEventListener('click', () => {
+                        const product = {
+                            id: document.querySelector('.product-info').dataset.id,
+                            name: document.querySelector('h1').innerText.trim(),
+                            price: parseInt(
+                                document.querySelector('.price-block').innerText
+                                    .replace(/\s/g, '')
+                                    .replace(/₽/, ''),
+                                10
+                            ),
+                            image: document.querySelector('.main-image img').src,
+                            quantity: 1
+                        };
+
+                        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                        const idx = cart.findIndex(item => item.id === product.id);
+
+                        if (idx > -1) cart[idx].quantity++;
+                        else cart.push(product);
+
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        alert('Товар добавлен в корзину!');
+                    });
+
+                // Переключение темы
+                const themeToggle = document.getElementById('theme-toggle');
+                const body = document.body;
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme) {
+                    body.classList.add(savedTheme);
+                    updateThemeIcon();
+                }
+
+                themeToggle.addEventListener('click', () => {
+                    body.classList.toggle('dark-theme');
+                    localStorage.setItem(
+                        'theme',
+                        body.classList.contains('dark-theme') ? 'dark-theme' : ''
+                    );
+                    updateThemeIcon();
+                });
+
+                function updateThemeIcon() {
+                    const icon = themeToggle.querySelector('i');
+                    icon.className = body.classList.contains('dark-theme')
+                        ? 'fas fa-sun'
+                        : 'fas fa-moon';
+                }
+
+                // Переключение изображений
+                document.querySelectorAll('.thumbnail').forEach(thumb => {
+                    thumb.addEventListener('click', function () {
+                        document.querySelector('.thumbnail.active')
+                            .classList.remove('active');
+                        this.classList.add('active');
+                        document.querySelector('.main-image img').src = this.src;
+                    });
+                });
+    </script>
 
 </body>
+
 </html>
