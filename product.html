@@ -565,29 +565,35 @@ async function initProductPage() {
     if (!res.ok) throw new Error(res.statusText);
     const products = await res.json();
 
-    // 2. Поиск текущего товара по data-id
-    const container = document.querySelector('.product-info');
-    const productId = Number(container.dataset.id);
-    const product = products.find(p => p.id === productId);
+    // 2. Получаем ID товара из localStorage
+    const productId = localStorage.getItem('selectedProductId');
+    if (!productId) {
+      console.error('ID товара не найден');
+      return;
+    }
+
+    // 3. Поиск товара по ID
+    const product = products.products.find(p => p.id === Number(productId));
     if (!product) {
       console.error(`Товар с id=${productId} не найден`);
       return;
     }
 
-    // 3. Форматируем поля продукта
+    // 4. Форматируем поля продукта
     const formattedProduct = formatFields(product);
 
-    // 4. Рендер заголовка, цены и описания
-    container.querySelector('h1').textContent = formattedProduct.name;
-    container.querySelector('.price-block').textContent =
+    // 5. Рендер заголовка, цены и описания
+    document.querySelector('h1').textContent = formattedProduct.name;
+    document.querySelector('.price-block').textContent =
       formattedProduct.price.toLocaleString('ru-RU') + ' ₽';
-    const descEl = container.querySelector('.description');
+    const descEl = document.querySelector('.description');
     if (descEl) descEl.textContent = formattedProduct.description;
 
-    // 5. Инициализация галереи
-    initGallery(product.image);
+    // 6. Инициализация галереи
+    const images = Array.isArray(product.image) ? product.image : [product.image];
+    initGallery(images[0], images.slice(1));
 
-    // 6. Рендер спецификаций
+    // 7. Рендер спецификаций
     const tbody = document.getElementById('specs-body');
     tbody.innerHTML = '';
     Object.entries(formattedProduct).forEach(([key, value]) => {

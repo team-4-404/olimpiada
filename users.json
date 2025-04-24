@@ -14,5 +14,21 @@
         "passwordChangeDate": null,
         "phone": "",
         "address": ""
+    },
+    {
+        "id": "6808a76997974",
+        "name": "Софа",
+        "email": "kip@fa.ru",
+        "password": "123456789",
+        "firstName": "Софа",
+        "lastName": "",
+        "avatar": "https:\/\/via.placeholder.com\/128",
+        "favorites": [],
+        "ordersCount": 0,
+        "bonusPoints": 0,
+        "joinDate": "2025-04-23",
+        "passwordChangeDate": null,
+        "phone": "",
+        "address": ""
     }
 ]

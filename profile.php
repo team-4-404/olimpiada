@@ -1,97 +1,17 @@
-<?php
-// Начало сессии для хранения текущего пользователя
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Личный кабинет | GadgetZone</title>
+    <title>GadgetZone - Личный кабинет</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .theme-transition * {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-        
-        .dark .dark\:bg-gray-800 {
-            background-color: #1f2937;
-        }
-        
-        .dark .dark\:bg-gray-700 {
-            background-color: #374151;
-        }
-        
-        .dark .dark\:text-white {
-            color: #fff;
-        }
-        
-        .dark .dark\:border-gray-600 {
-            border-color: #4b5563;
-        }
-        
-        .dark .dark\:hover\:bg-gray-600:hover {
-            background-color: #4b5563;
-        }
-        
-        .avatar-upload {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .avatar-upload input[type="file"] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .avatar-edit {
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-        
-        .dark .avatar-edit {
-            background: rgba(255,255,255,0.7);
-            color: black;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-        
-        .auth-form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Стили из index.html */
+        /* Общие стили и переменные */
         :root {
             --primary-light: #3b82f6;
+            --text-dark-highlight: #e5e7eb; /* Более светлый текст для темной темы */
+            --text-muted-dark: #9ca3af;
             --primary-dark: #2563eb;
             --secondary-light: #10b981;
             --secondary-dark: #059669;
@@ -108,6 +28,13 @@ session_start();
             --transition: all 0.3s ease;
         }
 
+        /* Базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -121,6 +48,7 @@ session_start();
             background-color: var(--bg-dark);
         }
 
+        /* Контейнер с ограничением по ширине */
         .container {
             width: 100%;
             max-width: var(--max-width);
@@ -128,6 +56,56 @@ session_start();
             padding: 0 1rem;
         }
 
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-light);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .dark .btn-primary {
+            background-color: var(--primary-dark);
+        }
+
+        .dark .btn-primary:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* Анимации */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Хедер */
         header {
             position: sticky;
             top: 0;
@@ -150,6 +128,7 @@ session_start();
             padding: 0.75rem 0;
         }
 
+        /* Логотип */
         .logo {
             display: flex;
             align-items: center;
@@ -188,6 +167,7 @@ session_start();
             color: var(--primary-dark);
         }
 
+        /* Навигация */
         .nav-desktop {
             display: none;
         }
@@ -211,6 +191,7 @@ session_start();
             color: var(--primary-dark);
         }
 
+        /* Иконки в хедере */
         .header-icons {
             display: flex;
             align-items: center;
@@ -258,6 +239,7 @@ session_start();
             background-color: var(--primary-dark);
         }
 
+        /* Мобильное меню */
         .mobile-menu {
             display: none;
             background-color: var(--white);
@@ -285,6 +267,318 @@ session_start();
             color: var(--text-dark);
         }
 
+        /* Стили для личного кабинета */
+        .profile {
+            padding: 4rem 0;
+        }
+
+        .profile-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .dark .profile-title {
+            color: var(--text-dark);
+        }
+
+        .profile-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 1024px) {
+            .profile-grid {
+                grid-template-columns: 300px 1fr;
+            }
+        }
+
+        .profile-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .profile-card {
+            background-color: var(--gray-dark);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .dark .user-avatar {
+            background-color: var(--primary-dark);
+        }
+
+        .user-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .dark .user-name {
+            color: var(--text-dark);
+        }
+
+        .user-email {
+            font-size: 1rem;
+            color: var(--gray-dark);
+        }
+
+        .dark .user-email {
+            color: var(--gray-light);
+        }
+
+        .menu-list {
+            list-style: none;
+        }
+
+        .menu-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .dark .menu-link {
+            color: var(--text-dark);
+        }
+
+        .menu-link:hover, .menu-link.active {
+            background-color: var(--primary-light);
+            color: white;
+        }
+
+        .dark .menu-link:hover, .dark .menu-link.active {
+            background-color: var(--primary-dark);
+        }
+
+        .content-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .dark .content-title {
+            color: var(--text-dark);
+        }
+
+        .favorites-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        .favorite-item {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .dark .favorite-item {
+            background-color: var(--gray-dark);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .favorite-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .favorite-item:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .favorite-img {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .favorite-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .dark .favorite-name {
+            color: var(--text-dark);
+        }
+
+        .favorite-price {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+
+        .dark .favorite-price {
+            color: var(--primary-dark);
+        }
+
+       .user-details p {
+            color: var(--text-light);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray-light);
+     }
+
+       .dark .user-details p {
+            color: var(--text-dark-highlight);
+            border-bottom-color: var(--gray-dark);
+    }
+
+        .user-details .form-label {
+           color: var(--text-light);
+           font-weight: 500;
+           margin-bottom: 0.25rem;
+    }
+
+        .dark .user-details .form-label {
+            color: var(--text-muted-dark);
+    }
+
+        /* Футер */
+        footer {
+            background-color: var(--gray-dark);
+            color: var(--gray-light);
+            padding: 3rem 0;
+        }
+
+        .footer-container {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: 1fr;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .footer-logo-highlight {
+            color: var(--primary-light);
+        }
+
+        .footer-about {
+            margin-bottom: 1rem;
+            color: var(--gray-light);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            color: var(--gray-light);
+            font-size: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--white);
+        }
+
+        .footer-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link a {
+            color: var(--gray-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link a:hover {
+            color: var(--white);
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-icon {
+            color: var(--primary-light);
+            margin-top: 0.25rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+        
+        .dark #no-cart-items p {
+    color: var(--text-dark);
+}
+
+        /* Адаптивные стили */
         @media (min-width: 768px) {
             .nav-desktop {
                 display: flex;
@@ -294,15 +588,162 @@ session_start();
             .mobile-menu-btn {
                 display: none;
             }
+            
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .footer-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Стили для форм авторизации и регистрации */
+        .auth-container {
+            max-width: 500px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .auth-container {
+            background-color: var(--gray-dark);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .dark .auth-title {
+            color: var(--text-dark);
+        }
+
+        .auth-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .dark .form-label {
+            color: var(--text-dark);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--gray-light);
+            background-color: var(--white);
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .dark .form-input {
+            border-color: var(--gray-dark);
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .dark .form-input:focus {
+            border-color: var(--primary-dark);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+        }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .dark .auth-footer {
+            color: var(--text-dark);
+        }
+
+        .auth-link {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .dark .auth-link {
+            color: var(--primary-dark);
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Стили для кнопки добавления в избранное */
+        .favorite-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--white);
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: none;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .dark .favorite-btn {
+            background-color: var(--gray-dark);
+            color: var(--text-dark);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .favorite-btn.active {
+            color: #ef4444;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
-<body class="theme-transition">
+<body>
     <!-- Хедер -->
     <header>
         <div class="container header-container">
             <!-- Логотип -->
-            <a href="index.php" class="logo">
+            <a href="index.html" class="logo">
                 <div class="logo-icon">
                     <i class="fas fa-microchip text-white"></i>
                 </div>
@@ -311,18 +752,18 @@ session_start();
 
             <!-- Навигация для десктопа -->
             <nav class="nav-desktop">
-                <a href="catalog.php" class="nav-link">Каталог</a>
-                <a href="compare.php" class="nav-link">Сравнение</a>
-                <a href="simulator.php" class="nav-link">Симулятор</a>
-                <a href="accessories.php" class="nav-link">Аксессуары</a>
-                <a href="calculator.php" class="nav-link">Калькулятор</a>
-                <a href="contacts.php" class="nav-link">Контакты</a>
+                <a href="catalog.html" class="nav-link">Каталог</a>
+                <a href="compare.html" class="nav-link">Сравнение</a>
+                <a href="simulator.html" class="nav-link">Симулятор</a>
+                <a href="accessories.html" class="nav-link">Аксессуары</a>
+                <a href="calculator.html" class="nav-link">Калькулятор</a>
+                <a href="contacts.html" class="nav-link">Контакты</a>
             </nav>
 
             <!-- Иконки -->
             <div class="header-icons">
                 <!-- Профиль -->
-                <a href="profile.php" class="icon-btn">
+                <a href="profile.html" class="icon-btn">
                     <i class="fas fa-user"></i>
                 </a>
                 
@@ -333,7 +774,7 @@ session_start();
                 </button>
                                 
                 <!-- Корзина -->
-                <a href="korzina.php" class="icon-btn relative">
+                <a href="korzina.html" class="icon-btn relative">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge">3</span>
                 </a>
@@ -348,960 +789,549 @@ session_start();
         <!-- Мобильное меню -->
         <div id="mobile-menu" class="mobile-menu">
             <div class="container">
-                <a href="catalog.php" class="nav-link">Каталог</a>
-                <a href="compare.php" class="nav-link">Сравнение</a>
-                <a href="simulator.php" class="nav-link">Симулятор</a>
-                <a href="accessories.php" class="nav-link">Аксессуары</a>
-                <a href="calculator.php" class="nav-link">Калькулятор</a>
-                <a href="contacts.php" class="nav-link">Контакты</a>
-                <a href="profile.php" class="nav-link">Профиль</a>
-                <a href="korzina.php" class="nav-link">Корзина</a>
+                <a href="catalog.html" class="nav-link">Каталог</a>
+                <a href="compare.html" class="nav-link">Сравнение</a>
+                <a href="simulator.html" class="nav-link">Симулятор</a>
+                <a href="accessories.html" class="nav-link">Аксессуары</a>
+                <a href="calculator.html" class="nav-link">Калькулятор</a>
+                <a href="contacts.html" class="nav-link">Контакты</a>
+                <a href="profile.html" class="nav-link">Профиль</a>
+                <a href="korzina.html" class="nav-link">Корзина</a>
             </div>
         </div>
     </header>
 
-    <div id="auth-container" class="container mx-auto px-4 py-8 <?php echo isset($_SESSION['user']) ? 'hidden' : ''; ?>">
-        <div class="flex justify-center">
-            <div class="auth-form bg-white dark:bg-gray-700 rounded-lg shadow-md p-8 w-full">
-                <div class="flex justify-center mb-6">
-                    <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Вход в личный кабинет</h1>
-                </div>
-                
-                <div id="auth-tabs" class="flex border-b border-gray-200 dark:border-gray-600 mb-6">
-                    <button id="login-tab" class="flex-1 py-2 px-4 font-medium text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400">Вход</button>
-                    <button id="register-tab" class="flex-1 py-2 px-4 font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">Регистрация</button>
-                </div>
-                
-                <!-- Форма входа -->
-                <form id="login-form" class="space-y-4">
-                    <div>
-                        <label for="login-email" class="block text-gray-700 dark:text-gray-300 mb-1">Email</label>
-                        <input type="email" id="login-email" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
-                    </div>
-                    
-                    <div>
-                        <label for="login-password" class="block text-gray-700 dark:text-gray-300 mb-1">Пароль</label>
-                        <input type="password" id="login-password" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
-                    </div>
-                    
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <input type="checkbox" id="remember-me" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded">
-                            <label for="remember-me" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Запомнить меня</label>
-                        </div>
-                        
-                        <a href="#" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">Забыли пароль?</a>
-                    </div>
-                    
-                    <button type="submit" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition">Войти</button>
-                    
-                    <div id="login-error" class="text-red-500 text-sm hidden"></div>
-                </form>
-                
-                <!-- Форма регистрации -->
-                <form id="register-form" class="space-y-4 hidden">
-                    <div>
-                        <label for="register-name" class="block text-gray-700 dark:text-gray-300 mb-1">Имя</label>
-                        <input type="text" id="register-name" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
-                    </div>
-                    
-                    <div>
-                        <label for="register-email" class="block text-gray-700 dark:text-gray-300 mb-1">Email</label>
-                        <input type="email" id="register-email" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
-                    </div>
-                    
-                    <div>
-                        <label for="register-password" class="block text-gray-700 dark:text-gray-300 mb-1">Пароль</label>
-                        <input type="password" id="register-password" required minlength="6" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
-                    </div>
-                    
-                    <div>
-                        <label for="register-confirm-password" class="block text-gray-700 dark:text-gray-300 mb-1">Подтвердите пароль</label>
-                        <input type="password" id="register-confirm-password" required minlength="6" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
-                    </div>
-                    
-                    <div class="flex items-center">
-                        <input type="checkbox" id="terms" required class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded">
-                        <label for="terms" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Я согласен с <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">условиями использования</a></label>
-                    </div>
-                    
-                    <button type="submit" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition">Зарегистрироваться</button>
-                    
-                    <div id="register-error" class="text-red-500 text-sm hidden"></div>
-                    <div id="register-success" class="text-green-500 text-sm hidden">Регистрация прошла успешно! Теперь вы можете войти.</div>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-    <div id="profile-container" class="container mx-auto px-4 py-8 <?php echo !isset($_SESSION['user']) ? 'hidden' : ''; ?>">
-        <!-- Основное содержимое -->
-        <div class="flex flex-col lg:flex-row gap-8">
-            <!-- Боковая панель -->
-            <aside class="w-full lg:w-1/4">
-                <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 mb-6">
-                    <!-- Аватар и информация -->
-                    <div class="flex flex-col items-center mb-6">
-                        <div class="avatar-upload mb-4">
-                            <div class="w-32 h-32 rounded-full bg-gray-200 dark:bg-gray-600 overflow-hidden">
-                                <img id="avatar-preview" src="<?php echo isset($_SESSION['user']['avatar']) ? $_SESSION['user']['avatar'] : 'https://via.placeholder.com/128'; ?>" alt="Аватар" class="w-full h-full object-cover">
-                            </div>
-                            <div class="avatar-edit">
-                                <i class="fas fa-camera"></i>
-                                <input type="file" id="avatar-input" accept="image/*">
-                            </div>
-                        </div>
-                        <h2 id="user-name" class="text-xl font-semibold text-gray-800 dark:text-white"><?php echo isset($_SESSION['user']['name']) ? $_SESSION['user']['name'] : ''; ?></h2>
-                        <p id="user-email" class="text-gray-600 dark:text-gray-300"><?php echo isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : ''; ?></p>
-                        <p id="user-join-date" class="text-gray-600 dark:text-gray-300 text-sm">Пользователь с <?php echo isset($_SESSION['user']['joinDate']) ? $_SESSION['user']['joinDate'] : date('Y-m-d'); ?></p>
-                    </div>
-                    
-                    <!-- Навигация -->
-                    <nav>
-                        <ul>
-                            <li>
-                                <button data-tab="profile" class="tab-btn w-full text-left px-4 py-3 rounded-lg mb-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium">
-                                    <i class="fas fa-user mr-2"></i>Профиль
-                                </button>
-                            </li>
-                            <li>
-                                <button data-tab="favorites" class="tab-btn w-full text-left px-4 py-3 rounded-lg mb-2 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200">
-                                    <i class="fas fa-heart mr-2"></i>Избранное
-                                </button>
-                            </li>
-                            <li>
-                                <button id="logout-btn" class="w-full text-left px-4 py-3 rounded-lg mb-2 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200">
-                                    <i class="fas fa-sign-out-alt mr-2"></i>Выйти
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-                
-                <!-- Статистика -->
-                <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Статистика</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <p class="text-gray-600 dark:text-gray-300">Заказов</p>
-                            <p id="orders-count" class="text-xl font-bold text-gray-800 dark:text-white"><?php echo isset($_SESSION['user']['ordersCount']) ? $_SESSION['user']['ordersCount'] : 0; ?></p>
-                        </div>
-                        <div>
-                            <p class="text-gray-600 dark:text-gray-300">Избранных товаров</p>
-                            <p id="favorites-count" class="text-xl font-bold text-gray-800 dark:text-white"><?php echo isset($_SESSION['user']['favorites']) ? count($_SESSION['user']['favorites']) : 0; ?></p>
-                        </div>
-                        <div>
-                            <p class="text-gray-600 dark:text-gray-300">Бонусных баллов</p>
-                            <p id="bonus-points" class="text-xl font-bold text-gray-800 dark:text-white"><?php echo isset($_SESSION['user']['bonusPoints']) ? $_SESSION['user']['bonusPoints'] : 0; ?></p>
-                        </div>
-                    </div>
-                </div>
-            </aside>
-            
-            <!-- Основной контент -->
-            <main class="w-full lg:w-3/4">
-                <!-- Вкладка профиля -->
-                <div id="profile" class="tab-content active">
-                    <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 mb-6">
-                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Информация о профиле</h2>
-                        
-                        <form id="profile-form">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <div>
-                                    <label for="first-name" class="block text-gray-700 dark:text-gray-300 mb-2">Имя</label>
-                                    <input type="text" id="first-name" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white" value="<?php echo isset($_SESSION['user']['firstName']) ? $_SESSION['user']['firstName'] : ''; ?>">
-                                </div>
-                                <div>
-                                    <label for="last-name" class="block text-gray-700 dark:text-gray-300 mb-2">Фамилия</label>
-                                    <input type="text" id="last-name" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white" value="<?php echo isset($_SESSION['user']['lastName']) ? $_SESSION['user']['lastName'] : ''; ?>">
-                                </div>
-                            </div>
-                            
-                            <div class="mb-6">
-                                <label for="phone" class="block text-gray-700 dark:text-gray-300 mb-2">Телефон</label>
-                                <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white" value="<?php echo isset($_SESSION['user']['phone']) ? $_SESSION['user']['phone'] : ''; ?>">
-                            </div>
-                            
-                            <div class="mb-6">
-                                <label for="address" class="block text-gray-700 dark:text-gray-300 mb-2">Адрес</label>
-                                <textarea id="address" rows="3" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white"><?php echo isset($_SESSION['user']['address']) ? $_SESSION['user']['address'] : ''; ?></textarea>
-                            </div>
-                            
-                            <div class="flex justify-end">
-                                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Сохранить изменения</button>
-                            </div>
-                        </form>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6">
-                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Безопасность</h2>
-                        
-                        <div class="space-y-4">
-                            <div class="flex flex-col md:flex-row md:items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
-                                <div class="mb-2 md:mb-0">
-                                    <h3 class="font-medium text-gray-800 dark:text-white">Пароль</h3>
-                                    <p id="password-change-date" class="text-gray-600 dark:text-gray-300">Последнее изменение: <?php echo isset($_SESSION['user']['passwordChangeDate']) ? $_SESSION['user']['passwordChangeDate'] : 'никогда'; ?></p>
-                                </div>
-                                <button id="change-password-btn" class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition">Изменить пароль</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Вкладка избранного -->
-                <div id="favorites" class="tab-content">
-                    <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Избранные товары</h2>
-                            <div class="flex items-center">
-                                <span class="text-gray-600 dark:text-gray-300 mr-2">Сортировка:</span>
-                                <select id="favorites-sort" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
-                                    <option value="date">По дате добавления</option>
-                                    <option value="price-asc">По цене (возрастание)</option>
-                                    <option value="price-desc">По цене (убывание)</option>
-                                    <option value="popularity">По популярности</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div id="favorites-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <?php
-                            // Пример товаров для избранного
-                            $sampleProducts = [
-                                ['id' => 1, 'name' => "Смартфон Premium X", 'description' => "Высококачественный смартфон с продвинутой камерой", 'price' => 45990, 'image' => "https://via.placeholder.com/300x200", 'dateAdded' => "2023-05-15"],
-                                ['id' => 2, 'name' => "Умные часы Pro", 'description' => "Мониторинг здоровья и уведомления", 'price' => 12490, 'image' => "https://via.placeholder.com/300x200", 'dateAdded' => "2023-06-20"],
-                                ['id' => 3, 'name' => "Беспроводные наушники", 'description' => "Высокое качество звука с шумоподавлением", 'price' => 8990, 'image' => "https://via.placeholder.com/300x200", 'dateAdded' => "2023-07-10"],
-                                ['id' => 4, 'name' => "Ноутбук Ultra", 'description' => "Мощный и легкий для работы и развлечений", 'price' => 89990, 'image' => "https://via.placeholder.com/300x200", 'dateAdded' => "2023-08-05"],
-                                ['id' => 5, 'name' => "Фитнес-браслет", 'description' => "Отслеживание активности и сна", 'price' => 3490, 'image' => "https://via.placeholder.com/300x200", 'dateAdded' => "2023-08-15"],
-                                ['id' => 6, 'name' => "Электронная книга", 'description' => "Комфортное чтение без вреда для глаз", 'price' => 6990, 'image' => "https://via.placeholder.com/300x200", 'dateAdded' => "2023-09-01"]
-                            ];
-                            
-                            if (isset($_SESSION['user']['favorites']) && count($_SESSION['user']['favorites']) > 0) {
-                                foreach ($sampleProducts as $product) {
-                                    if (in_array($product['id'], $_SESSION['user']['favorites'])) {
-                                        echo '
-                                        <div class="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition">
-                                            <div class="relative">
-                                                <img src="'.$product['image'].'" alt="'.$product['name'].'" class="w-full h-48 object-cover">
-                                                <button class="remove-favorite absolute top-2 right-2 p-2 bg-white dark:bg-gray-800 rounded-full text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition" data-id="'.$product['id'].'">
-                                                    <i class="fas fa-heart"></i>
-                                                </button>
-                                            </div>
-                                            <div class="p-4">
-                                                <h3 class="font-semibold text-lg text-gray-800 dark:text-white mb-2">'.$product['name'].'</h3>
-                                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">'.$product['description'].'</p>
-                                                <div class="flex justify-between items-center">
-                                                    <span class="font-bold text-gray-800 dark:text-white">'.number_format($product['price'], 0, '', ' ').' ₽</span>
-                                                    <button class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition">В корзину</button>
-                                                </div>
-                                            </div>
-                                        </div>';
-                                    }
-                                }
-                            } else {
-                                echo '<p class="text-gray-600 dark:text-gray-300 col-span-3 text-center py-8">У вас пока нет избранных товаров</p>';
-                            }
-                            ?>
-                        </div>
-                        
-                        <div class="mt-8 flex justify-center">
-                            <button id="load-more-favorites" class="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 transition">
-                                Показать еще
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </div>
+    <!-- Контент страницы (будет заменяться в зависимости от состояния) -->
+    <main id="main-content">
+        <!-- Здесь будет отображаться либо форма входа/регистрации, либо профиль -->
+    </main>
 
-    <!-- Модальное окно смены пароля -->
-    <div id="change-password-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white dark:bg-gray-700 rounded-lg shadow-xl p-6 w-full max-w-md">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Изменение пароля</h3>
-                <button id="close-password-modal" class="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100">
-                    <i class="fas fa-times"></i>
-                </button>
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div>
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <i class="fas fa-microchip text-white"></i>
+                        </div>
+                        <span class="footer-logo-text">Gadget<span class="footer-logo-highlight">Zone</span></span>
+                    </div>
+                    <p class="footer-about">Ваш надежный гид в мире технологий и гаджетов. Мы помогаем сделать правильный выбор.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Навигация</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="index.html">Главная</a></li>
+                        <li class="footer-link"><a href="catalog.html">Каталог</a></li>
+                        <li class="footer-link"><a href="compare.html">Сравнение</a></li>
+                        <li class="footer-link"><a href="simulator.html">Симулятор</a></li>
+                        <li class="footer-link"><a href="accessories.html">Аксессуары</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Помощь</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="faq.html">FAQ</a></li>
+                        <li class="footer-link"><a href="delivery.html">Доставка и оплата</a></li>
+                        <li class="footer-link"><a href="warranty.html">Гарантия</a></li>
+                        <li class="footer-link"><a href="reviews.html">Отзывы</a></li>
+                        <li class="footer-link"><a href="blog.html">Блог</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Контакты</h3>
+                    <ul class="footer-links">
+                        <li class="footer-contact">
+                            <i class="fas fa-map-marker-alt contact-icon"></i>
+                            <span>Москва, ул. Технологическая, 42</span>
+                        </li>
+                        <li class="footer-contact">
+                            <i class="fas fa-phone-alt contact-icon"></i>
+                            <span>+7 (495) 123-45-67</span>
+                        </li>
+                        <li class="footer-contact">
+                            <i class="fas fa-envelope contact-icon"></i>
+                            <span>info@gadgetzone.ru</span>
+                        </li>
+                        <li class="footer-contact">
+                            <i class="fas fa-clock contact-icon"></i>
+                            <span>Пн-Пт: 9:00-21-00</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
             
-            <form id="change-password-form" class="space-y-4">
-                <div>
-                    <label for="current-password" class="block text-gray-700 dark:text-gray-300 mb-1">Текущий пароль</label>
-                    <input type="password" id="current-password" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
+            <div class="footer-bottom">
+                <p>© 2025 GadgetZone. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Шаблоны для динамического контента -->
+    <template id="login-template">
+        <div class="auth-container">
+            <h2 class="auth-title">Вход в аккаунт</h2>
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email" class="form-label">Email</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="Введите ваш email" required>
+                    <div id="login-email-error" class="error-message"></div>
                 </div>
                 
-                <div>
-                    <label for="new-password" class="block text-gray-700 dark:text-gray-300 mb-1">Новый пароль</label>
-                    <input type="password" id="new-password" required minlength="6" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
+                <div class="form-group">
+                    <label for="login-password" class="form-label">Пароль</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="Введите ваш пароль" required>
+                    <div id="login-password-error" class="error-message"></div>
                 </div>
                 
-                <div>
-                    <label for="confirm-new-password" class="block text-gray-700 dark:text-gray-300 mb-1">Подтвердите новый пароль</label>
-                    <input type="password" id="confirm-new-password" required minlength="6" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
-                </div>
+                <button type="submit" class="btn btn-primary">Войти</button>
                 
-                <div id="password-change-error" class="text-red-500 text-sm hidden"></div>
-                
-                <div class="flex justify-end space-x-3 pt-2">
-                    <button type="button" id="cancel-password-change" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 transition">Отмена</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Изменить пароль</button>
+                <div class="auth-footer">
+                    <p>Еще нет аккаунта? <a href="#" id="show-register" class="auth-link">Зарегистрироваться</a></p>
                 </div>
             </form>
         </div>
-    </div>
+    </template>
 
+    <template id="register-template">
+        <div class="auth-container">
+            <h2 class="auth-title">Регистрация</h2>
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-name" class="form-label">Имя</label>
+                    <input type="text" id="register-name" class="form-input" placeholder="Введите ваше имя" required>
+                    <div id="register-name-error" class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email" class="form-label">Email</label>
+                    <input type="email" id="register-email" class="form-input" placeholder="Введите ваш email" required>
+                    <div id="register-email-error" class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password" class="form-label">Пароль</label>
+                    <input type="password" id="register-password" class="form-input" placeholder="Введите пароль" required>
+                    <div id="register-password-error" class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-confirm-password" class="form-label">Подтвердите пароль</label>
+                    <input type="password" id="register-confirm-password" class="form-input" placeholder="Повторите пароль" required>
+                    <div id="register-confirm-password-error" class="error-message"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                
+                <div class="auth-footer">
+                    <p>Уже есть аккаунт? <a href="#" id="show-login" class="auth-link">Войти</a></p>
+                </div>
+            </form>
+        </div>
+    </template>
+
+    <template id="profile-template">
+        <!-- Личный кабинет -->
+        <section class="profile">
+            <div class="container">
+                <h1 class="profile-title">Личный кабинет</h1>
+                
+                <div class="profile-grid">
+                    <!-- Боковое меню -->
+                    <div class="profile-card">
+                        <div class="user-info">
+                            <div class="user-avatar" id="user-avatar">JD</div>
+                            <h2 class="user-name" id="user-name">John Doe</h2>
+                            <p class="user-email" id="user-email">john.doe@example.com</p>
+                        </div>
+                        
+                        <ul class="menu-list">
+                            <li class="menu-item">
+                                <a href="#" class="menu-link active" data-tab="info">
+                                    <i class="fas fa-user-circle mr-2"></i>Информация
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#" class="menu-link" data-tab="cart">
+                                    <i class="fas fa-shopping-cart mr-2"></i>Корзина
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="#" class="menu-link" id="logout-btn">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Выйти
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Основное содержимое -->
+                    <div class="profile-card">
+                        <!-- Информация о пользователе -->
+                        <div id="info-tab" class="tab-content active">
+                            <h2 class="content-title">Информация о пользователе</h2>
+                            
+                            <div class="user-details">
+                                <div class="form-group">
+                                    <label class="form-label">Имя:</label>
+                                    <p id="user-fullname">John Doe</p>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Email:</label>
+                                    <p id="user-email-info">john.doe@example.com</p>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Дата регистрации:</label>
+                                    <p id="user-regdate">15 января 2024</p>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Телефон:</label>
+                                    <p id="user-phone">+7 (123) 456-78-90</p>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Адрес:</label>
+                                    <p id="user-address">Москва, ул. Примерная, д. 123, кв. 45</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Корзина -->
+                        <div id="cart-tab" class="tab-content">
+                            <h2 class="content-title">Избранное</h2>
+                            <div id="no-cart-items" style="display: none;">
+                                <p>В вашем избранном пока ничего нет.</p>
+                            </div>
+                            <div id="cart-list" class="favorites-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- Скрипты -->
     <script>
-        // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', () => {
-            // Инициализация темы
-            initTheme();
-            
-            // Инициализация обработчиков событий
-            initEventHandlers();
+        // Переключение темы
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        // Проверяем сохраненную тему или системные настройки
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+        
+        // Обработчик клика по переключателю
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
         });
         
-        // Функция для авторизации
-        async function login(email, password) {
-            try {
-                const response = await fetch('auth.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'login',
-                        email: email,
-                        password: password
-                    })
-                });
-                
-                return await response.json();
-            } catch (error) {
-                console.error('Ошибка при авторизации:', error);
-                return { success: false, error: 'Ошибка соединения с сервером' };
-            }
+        // Мобильное меню
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+        
+        // База данных пользователей (хранится в localStorage в формате JSON)
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        
+        // Основной контейнер для контента
+        const mainContent = document.getElementById('main-content');
+        
+        // Функция для отображения формы входа
+        function showLoginForm() {
+            const loginTemplate = document.getElementById('login-template').content.cloneNode(true);
+            mainContent.innerHTML = '';
+            mainContent.appendChild(loginTemplate);
+            
+            // Обработчики для формы входа
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            document.getElementById('show-register').addEventListener('click', (e) => {
+                e.preventDefault();
+                showRegisterForm();
+            });
         }
         
-        // Функция для регистрации
-        async function register(name, email, password) {
-            try {
-                const response = await fetch('auth.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'register',
-                        name: name,
-                        email: email,
-                        password: password
-                    })
-                });
-                
-                return await response.json();
-            } catch (error) {
-                console.error('Ошибка при регистрации:', error);
-                return { success: false, error: 'Ошибка соединения с сервером' };
-            }
+        // Функция для отображения формы регистрации
+        function showRegisterForm() {
+            const registerTemplate = document.getElementById('register-template').content.cloneNode(true);
+            mainContent.innerHTML = '';
+            mainContent.appendChild(registerTemplate);
+            
+            // Обработчики для формы регистрации
+            document.getElementById('register-form').addEventListener('submit', handleRegister);
+            document.getElementById('show-login').addEventListener('click', (e) => {
+                e.preventDefault();
+                showLoginForm();
+            });
         }
         
-        // Функция для обновления профиля
-        async function updateProfile(userId, data) {
-            try {
-                const response = await fetch('profile.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'update',
-                        id: userId,
-                        data: data
-                    })
-                });
-                
-                return await response.json();
-            } catch (error) {
-                console.error('Ошибка при обновлении профиля:', error);
-                return { success: false, error: 'Ошибка соединения с сервером' };
-            }
-        }
-        
-        // Функция для изменения пароля
-        async function changePassword(userId, currentPassword, newPassword) {
-            try {
-                const response = await fetch('profile.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'change-password',
-                        id: userId,
-                        currentPassword: currentPassword,
-                        newPassword: newPassword
-                    })
-                });
-                
-                return await response.json();
-            } catch (error) {
-                console.error('Ошибка при изменении пароля:', error);
-                return { success: false, error: 'Ошибка соединения с сервером' };
-            }
-        }
-        
-        // Функция для обновления аватара
-        async function updateAvatar(userId, avatar) {
-            try {
-                const response = await fetch('profile.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'update-avatar',
-                        id: userId,
-                        avatar: avatar
-                    })
-                });
-                
-                return await response.json();
-            } catch (error) {
-                console.error('Ошибка при обновлении аватара:', error);
-                return { success: false, error: 'Ошибка соединения с сервером' };
-            }
-        }
-        
-        // Функция для обновления избранного
-        async function updateFavorites(userId, favorites) {
-            try {
-                const response = await fetch('profile.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'update-favorites',
-                        id: userId,
-                        favorites: favorites
-                    })
-                });
-                
-                return await response.json();
-            } catch (error) {
-                console.error('Ошибка при обновлении избранного:', error);
-                return { success: false, error: 'Ошибка соединения с сервером' };
-            }
-        }
-        
-        // Функция для выхода из системы
-        async function logout() {
-            try {
-                const response = await fetch('auth.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'logout'
-                    })
-                });
-                
-                return await response.json();
-            } catch (error) {
-                console.error('Ошибка при выходе:', error);
-                return { success: false, error: 'Ошибка соединения с сервером' };
-            }
-        }
-        
-        // Показать форму авторизации
-        function showAuth() {
-            document.getElementById('auth-container').classList.remove('hidden');
-            document.getElementById('profile-container').classList.add('hidden');
-        }
-        
-        // Показать профиль
+        // Функция для отображения профиля
         function showProfile() {
-            document.getElementById('auth-container').classList.add('hidden');
-            document.getElementById('profile-container').classList.remove('hidden');
-        }
-        
-        // Инициализация темы
-        function initTheme() {
-            const html = document.documentElement;
-            const savedTheme = localStorage.getItem('theme') || 'light';
+            const profileTemplate = document.getElementById('profile-template').content.cloneNode(true);
+            mainContent.innerHTML = '';
+            mainContent.appendChild(profileTemplate);
             
-            // Применяем сохраненную тему
-            if (savedTheme === 'dark') {
-                html.classList.add('dark');
-            } else {
-                html.classList.remove('dark');
-            }
-        }
-        
-        // Инициализация обработчиков событий
-        function initEventHandlers() {
-            // Переключение между вкладками входа и регистрации
-            document.getElementById('login-tab').addEventListener('click', () => {
-                document.getElementById('login-form').classList.remove('hidden');
-                document.getElementById('register-form').classList.add('hidden');
-                document.getElementById('login-tab').classList.add('text-blue-600', 'dark:text-blue-400', 'border-b-2', 'border-blue-600', 'dark:border-blue-400');
-                document.getElementById('register-tab').classList.remove('text-blue-600', 'dark:text-blue-400', 'border-b-2', 'border-blue-600', 'dark:border-blue-400');
-                document.getElementById('register-tab').classList.add('text-gray-600', 'dark:text-gray-400', 'hover:text-gray-800', 'dark:hover:text-gray-200');
-            });
+            // Загружаем данные пользователя
+            loadUserData();
             
-            document.getElementById('register-tab').addEventListener('click', () => {
-                document.getElementById('login-form').classList.add('hidden');
-                document.getElementById('register-form').classList.remove('hidden');
-                document.getElementById('register-tab').classList.add('text-blue-600', 'dark:text-blue-400', 'border-b-2', 'border-blue-600', 'dark:border-blue-400');
-                document.getElementById('register-tab').classList.remove('text-gray-600', 'dark:text-gray-400', 'hover:text-gray-800', 'dark:hover:text-gray-200');
-                document.getElementById('login-tab').classList.remove('text-blue-600', 'dark:text-blue-400', 'border-b-2', 'border-blue-600', 'dark:border-blue-400');
-                document.getElementById('login-tab').classList.add('text-gray-600', 'dark:text-gray-400', 'hover:text-gray-800', 'dark:hover:text-gray-200');
-            });
+            // Управление вкладками в личном кабинете
+            const tabLinks = document.querySelectorAll('.menu-link[data-tab]');
+            const tabContents = document.querySelectorAll('.tab-content');
             
-            // Форма входа
-            document.getElementById('login-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                const rememberMe = document.getElementById('remember-me').checked;
-                
-                const result = await login(email, password);
-                
-                if (result.success) {
-                    // Перезагружаем страницу после успешного входа
-                    window.location.reload();
-                } else {
-                    document.getElementById('login-error').textContent = result.error;
-                    document.getElementById('login-error').classList.remove('hidden');
-                }
-            });
-            
-            // Форма регистрации
-            document.getElementById('register-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const name = document.getElementById('register-name').value;
-                const email = document.getElementById('register-email').value;
-                const password = document.getElementById('register-password').value;
-                const confirmPassword = document.getElementById('register-confirm-password').value;
-                
-                if (password !== confirmPassword) {
-                    document.getElementById('register-error').textContent = 'Пароли не совпадают';
-                    document.getElementById('register-error').classList.remove('hidden');
-                    return;
-                }
-                
-                const result = await register(name, email, password);
-                
-                if (result.success) {
-                    document.getElementById('register-error').classList.add('hidden');
-                    document.getElementById('register-success').classList.remove('hidden');
-                    document.getElementById('register-form').reset();
+            tabLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
                     
-                    setTimeout(() => {
-                        document.getElementById('login-tab').click();
-                        document.getElementById('login-email').value = email;
-                        document.getElementById('register-success').classList.add('hidden');
-                    }, 2000);
-                } else {
-                    document.getElementById('register-error').textContent = result.error;
-                    document.getElementById('register-error').classList.remove('hidden');
-                }
+                    // Удаляем активный класс у всех ссылок и вкладок
+                    tabLinks.forEach(l => l.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Добавляем активный класс к текущей ссылке
+                    link.classList.add('active');
+                    
+                    // Показываем соответствующую вкладку
+                    const tabId = link.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
             });
             
             // Выход из аккаунта
-            document.getElementById('logout-btn').addEventListener('click', async () => {
-                const result = await logout();
-                if (result.success) {
-                    window.location.reload();
-                } else {
-                    alert('Ошибка при выходе: ' + result.error);
-                }
-            });
-            
-            // Переключение темы
-            document.getElementById('theme-toggle').addEventListener('click', () => {
-                const html = document.documentElement;
-                html.classList.toggle('dark');
-                
-                const theme = html.classList.contains('dark') ? 'dark' : 'light';
-                localStorage.setItem('theme', theme);
-            });
-            
-            // Переключение вкладок профиля
-            document.querySelectorAll('.tab-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const tabId = button.getAttribute('data-tab');
-                    
-                    // Убираем активный класс у всех кнопок и содержимого
-                    document.querySelectorAll('.tab-btn').forEach(btn => {
-                        btn.classList.remove('bg-blue-100', 'dark:bg-blue-900', 'text-blue-800', 'dark:text-blue-200');
-                        btn.classList.add('hover:bg-gray-200', 'dark:hover:bg-gray-600', 'text-gray-700', 'dark:text-gray-200');
-                    });
-                    
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    
-                    // Добавляем активный класс к текущей кнопке и содержимому
-                    button.classList.add('bg-blue-100', 'dark:bg-blue-900', 'text-blue-800', 'dark:text-blue-200');
-                    button.classList.remove('hover:bg-gray-200', 'dark:hover:bg-gray-600', 'text-gray-700', 'dark:text-gray-200');
-                    
-                    document.getElementById(tabId).classList.add('active');
-                });
-            });
-            
-            // Загрузка аватарки
-            document.getElementById('avatar-input').addEventListener('change', async (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = async (event) => {
-                        document.getElementById('avatar-preview').src = event.target.result;
-                        
-                        const result = await updateAvatar(<?php echo isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : 'null'; ?>, event.target.result);
-                        
-                        if (result.success) {
-                            window.location.reload();
-                        } else {
-                            alert('Ошибка при обновлении аватара: ' + result.error);
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-// Сохранение профиля
-document.getElementById('profile-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const updatedData = {
-        firstName: document.getElementById('first-name').value,
-        lastName: document.getElementById('last-name').value,
-        phone: document.getElementById('phone').value,
-        address: document.getElementById('address').value
-    };
-    
-    try {
-        const response = await fetch('profile_red.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'update',
-                data: updatedData
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            window.location.reload();
-        } else {
-            alert('Ошибка при сохранении: ' + result.error);
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
         }
-    } catch (error) {
-        console.error('Ошибка:', error);
-        alert('Ошибка соединения с сервером');
-    }
-});
-
-// Изменение пароля
-document.getElementById('change-password-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const currentPassword = document.getElementById('current-password').value;
-    const newPassword = document.getElementById('new-password').value;
-    const confirmNewPassword = document.getElementById('confirm-new-password').value;
-    
-    if (newPassword !== confirmNewPassword) {
-        document.getElementById('password-change-error').textContent = 'Новые пароли не совпадают';
-        document.getElementById('password-change-error').classList.remove('hidden');
-        return;
-    }
-    
-    if (newPassword.length < 6) {
-        document.getElementById('password-change-error').textContent = 'Пароль должен содержать не менее 6 символов';
-        document.getElementById('password-change-error').classList.remove('hidden');
-        return;
-    }
-    
-    try {
-        const response = await fetch('profile_red.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'change-password',
-                currentPassword: currentPassword,
-                newPassword: newPassword
-            })
-        });
         
-        const result = await response.json();
-        
-        if (result.success) {
-            document.getElementById('change-password-modal').classList.add('hidden');
-            document.getElementById('password-change-error').classList.add('hidden');
-            document.getElementById('change-password-form').reset();
-            alert('Пароль успешно изменен!');
-            window.location.reload();
-        } else {
-            document.getElementById('password-change-error').textContent = result.error;
-            document.getElementById('password-change-error').classList.remove('hidden');
-        }
-    } catch (error) {
-        console.error('Ошибка:', error);
-        alert('Ошибка соединения с сервером');
-    }
-});
-
-// Обновление аватара
-document.getElementById('avatar-input').addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-            try {
-                const response = await fetch('profile_red.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'update-avatar',
-                        avatar: event.target.result
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    window.location.reload();
-                } else {
-                    alert('Ошибка при обновлении аватара: ' + result.error);
-                }
-            } catch (error) {
-                console.error('Ошибка:', error);
-                alert('Ошибка соединения с сервером');
+        // Обработчик входа
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Сбрасываем ошибки
+            document.getElementById('login-email-error').textContent = '';
+            document.getElementById('login-password-error').textContent = '';
+            
+            // Валидация
+            let isValid = true;
+            
+            if (!email) {
+                document.getElementById('login-email-error').textContent = 'Введите email';
+                isValid = false;
             }
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-// Удаление из избранного
-document.addEventListener('click', async (e) => {
-    if (e.target.closest('.remove-favorite')) {
-        const button = e.target.closest('.remove-favorite');
-        const productId = parseInt(button.getAttribute('data-id'));
-        
-        if (confirm('Удалить товар из избранного?')) {
-            const currentFavorites = <?php echo isset($_SESSION['user']['favorites']) ? json_encode($_SESSION['user']['favorites']) : '[]'; ?>;
-            const newFavorites = currentFavorites.filter(id => id !== productId);
             
-            try {
-                const response = await fetch('profile_red.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'update-favorites',
-                        favorites: newFavorites
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    window.location.reload();
-                } else {
-                    alert('Ошибка при обновлении избранного: ' + result.error);
-                }
-            } catch (error) {
-                console.error('Ошибка:', error);
-                alert('Ошибка соединения с сервером');
+            if (!password) {
+                document.getElementById('login-password-error').textContent = 'Введите пароль';
+                isValid = false;
             }
-        }
-    }
-});
             
-            // Кнопка изменения пароля
-            document.getElementById('change-password-btn').addEventListener('click', () => {
-                document.getElementById('change-password-modal').classList.remove('hidden');
-            });
+            if (!isValid) return;
             
-            // Закрытие модального окна смены пароля
-            document.getElementById('close-password-modal').addEventListener('click', () => {
-                document.getElementById('change-password-modal').classList.add('hidden');
-                document.getElementById('password-change-error').classList.add('hidden');
-                document.getElementById('change-password-form').reset();
-            });
+            // Поиск пользователя в JSON данных
+            const user = users.find(u => u.email === email && u.password === password);
             
-            document.getElementById('cancel-password-change').addEventListener('click', () => {
-                document.getElementById('change-password-modal').classList.add('hidden');
-                document.getElementById('password-change-error').classList.add('hidden');
-                document.getElementById('change-password-form').reset();
-            });
-            
-            // Форма смены пароля
-            document.getElementById('change-password-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const currentPassword = document.getElementById('current-password').value;
-                const newPassword = document.getElementById('new-password').value;
-                const confirmNewPassword = document.getElementById('confirm-new-password').value;
-                
-                if (newPassword !== confirmNewPassword) {
-                    document.getElementById('password-change-error').textContent = 'Новые пароли не совпадают';
-                    document.getElementById('password-change-error').classList.remove('hidden');
-                    return;
-                }
-                
-                if (newPassword.length < 6) {
-                    document.getElementById('password-change-error').textContent = 'Пароль должен содержать не менее 6 символов';
-                    document.getElementById('password-change-error').classList.remove('hidden');
-                    return;
-                }
-                
-                const result = await changePassword(<?php echo isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : 'null'; ?>, currentPassword, newPassword);
-                
-                if (result.success) {
-                    document.getElementById('change-password-modal').classList.add('hidden');
-                    document.getElementById('password-change-error').classList.add('hidden');
-                    document.getElementById('change-password-form').reset();
-                    alert('Пароль успешно изменен!');
-                    window.location.reload();
-                } else {
-                    document.getElementById('password-change-error').textContent = result.error;
-                    document.getElementById('password-change-error').classList.remove('hidden');
-                }
-            });
-            
-            // Удаление из избранного
-            document.addEventListener('click', async (e) => {
-                if (e.target.closest('.remove-favorite')) {
-                    const button = e.target.closest('.remove-favorite');
-                    const productId = parseInt(button.getAttribute('data-id'));
-                    
-                    if (confirm('Удалить товар из избранного?')) {
-                        const currentFavorites = <?php echo isset($_SESSION['user']['favorites']) ? json_encode($_SESSION['user']['favorites']) : '[]'; ?>;
-                        const newFavorites = currentFavorites.filter(id => id !== productId);
-                        
-                        const result = await updateFavorites(<?php echo isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : 'null'; ?>, newFavorites);
-                        
-                        if (result.success) {
-                            window.location.reload();
-                        } else {
-                            alert('Ошибка при обновлении избранного: ' + result.error);
-                        }
-                    }
-                }
-            });
-            
-            // Сортировка избранного
-            document.getElementById('favorites-sort').addEventListener('change', () => {
-                // В реальном приложении здесь была бы перезагрузка данных с сервера
-                alert('В реальном приложении здесь загружались бы отсортированные данные с сервера');
-            });
-            
-            // Кнопка "Показать еще" в избранном
-            document.getElementById('load-more-favorites').addEventListener('click', () => {
-                alert('В реальном приложении здесь загружались бы дополнительные товары');
-            });
-
-            // Мобильное меню
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('active');
-            });
-        }
-        
-        // Удаление из избранного
-document.addEventListener('click', async (e) => {
-    if (e.target.closest('.remove-favorite')) {
-        const button = e.target.closest('.remove-favorite');
-        const productId = parseInt(button.getAttribute('data-id'));
-        
-        if (confirm('Удалить товар из избранного?')) {
-            const currentFavorites = <?php echo isset($_SESSION['user']['favorites']) ? json_encode($_SESSION['user']['favorites']) : '[]'; ?>;
-            const newFavorites = currentFavorites.filter(id => id !== productId);
-            
-            try {
-                const response = await fetch('profile_red.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'update-favorites',
-                        favorites: newFavorites
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    window.location.reload();
-                } else {
-                    alert('Ошибка при обновлении избранного: ' + result.error);
-                }
-            } catch (error) {
-                console.error('Ошибка:', error);
-                alert('Ошибка соединения с сервером');
-            }
-        }
-    }
-});
-
-// Добавление в избранное (если у вас есть такая функциональность)
-document.addEventListener('click', async (e) => {
-    if (e.target.closest('.add-favorite')) {
-        const button = e.target.closest('.add-favorite');
-        const productId = parseInt(button.getAttribute('data-id'));
-        
-        const currentFavorites = <?php echo isset($_SESSION['user']['favorites']) ? json_encode($_SESSION['user']['favorites']) : '[]'; ?>;
-        if (currentFavorites.includes(productId)) {
-            alert('Этот товар уже в избранном');
-            return;
-        }
-        
-        const newFavorites = [...currentFavorites, productId];
-        
-        try {
-            const response = await fetch('profile_red.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'update-favorites',
-                    favorites: newFavorites
-                })
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                alert('Товар добавлен в избранное!');
-                window.location.reload();
+            if (user) {
+                // Успешный вход
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showProfile();
             } else {
-                alert('Ошибка при добавлении в избранное: ' + result.error);
+                document.getElementById('login-password-error').textContent = 'Неверный email или пароль';
             }
-        } catch (error) {
-            console.error('Ошибка:', error);
-            alert('Ошибка соединения с сервером');
         }
-    }
-});
+        
+        // Обработчик регистрации
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            // Сбрасываем ошибки
+            document.getElementById('register-name-error').textContent = '';
+            document.getElementById('register-email-error').textContent = '';
+            document.getElementById('register-password-error').textContent = '';
+            document.getElementById('register-confirm-password-error').textContent = '';
+            
+            // Валидация
+            let isValid = true;
+            
+            if (!name) {
+                document.getElementById('register-name-error').textContent = 'Введите имя';
+                isValid = false;
+            }
+            
+            if (!email) {
+                document.getElementById('register-email-error').textContent = 'Введите email';
+                isValid = false;
+            } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+                document.getElementById('register-email-error').textContent = 'Введите корректный email';
+                isValid = false;
+            } else if (users.some(u => u.email === email)) {
+                document.getElementById('register-email-error').textContent = 'Пользователь с таким email уже существует';
+                isValid = false;
+            }
+            
+            if (!password) {
+                document.getElementById('register-password-error').textContent = 'Введите пароль';
+                isValid = false;
+            } else if (password.length < 6) {
+                document.getElementById('register-password-error').textContent = 'Пароль должен содержать не менее 6 символов';
+                isValid = false;
+            }
+            
+            if (!confirmPassword) {
+                document.getElementById('register-confirm-password-error').textContent = 'Подтвердите пароль';
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                document.getElementById('register-confirm-password-error').textContent = 'Пароли не совпадают';
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Создаем нового пользователя
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                password: password,
+                phone: '',
+                address: '',
+                regDate: new Date().toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }),
+                cart: []
+            };
+            
+            // Добавляем пользователя в базу (сохраняем в localStorage как JSON)
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Автоматически входим
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Показываем профиль
+            showProfile();
+        }
+        
+        // Обработчик выхода
+        function handleLogout(e) {
+            e.preventDefault();
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showLoginForm();
+        }
+        
+        // Заполняем данные пользователя
+        function loadUserData() {
+            document.getElementById('user-avatar').textContent = getInitials(currentUser.name);
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-email').textContent = currentUser.email;
+            document.getElementById('user-fullname').textContent = currentUser.name;
+            document.getElementById('user-email-info').textContent = currentUser.email;
+            document.getElementById('user-regdate').textContent = currentUser.regDate;
+            document.getElementById('user-phone').textContent = currentUser.phone || 'Не указан';
+            document.getElementById('user-address').textContent = currentUser.address || 'Не указан';
+            
+            // Загружаем корзину
+            loadCart();
+        }
+        
+        // Получаем инициалы из имени
+        function getInitials(name) {
+            return name.split(' ').map(part => part[0]).join('').toUpperCase();
+        }
+        
+        // Загрузка корзины
+        function loadCart() {
+            const cartList = document.getElementById('cart-list');
+            const noCartItems = document.getElementById('no-cart-items');
+            
+            cartList.innerHTML = '';
+            
+            if (currentUser.cart && currentUser.cart.length > 0) {
+                noCartItems.style.display = 'none';
+                
+                // Демо-товары (в реальном приложении это будут данные из базы)
+                const demoProducts = [
+                    { id: 1, name: 'iPhone 14 Pro', price: 89990, image: 'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-model-unselect-gallery-2-202209?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1660753619946' },
+                    { id: 2, name: 'Samsung Galaxy S23 Ultra', price: 84990, image: 'https://images.samsung.com/is/image/samsung/p6pim/ru/2302/gallery/ru-galaxy-s23-s918-456067-sm-s918bzadser-534866385?$650_519_PNG$' },
+                    { id: 3, name: 'Apple Watch Series 8', price: 39990, image: 'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MQDY3ref_VW_34FR+watch-45-alum-midnight-nc-8s_VW_34FR_WF_CO?wid=1400&hei=1400&trim=1%2C0&fmt=p-jpg&qlt=95&.v=1661471049497%2C1661633316261' }
+                ];
+                
+                // Показываем только те товары, которые есть в корзине
+                currentUser.cart.forEach(cartId => {
+                    const product = demoProducts.find(p => p.id === cartId);
+                    if (product) {
+                        const cartItem = document.createElement('div');
+                        cartItem.className = 'favorite-item';
+                        cartItem.innerHTML = `
+                            <img src="${product.image}" alt="${product.name}" class="favorite-img">
+                            <h3 class="favorite-name">${product.name}</h3>
+                            <p class="favorite-price">${product.price.toLocaleString('ru-RU')} ₽</p>
+                            <button class="remove-from-cart mt-2 text-sm text-red-500" data-id="${product.id}">
+                                <i class="fas fa-trash-alt mr-1"></i>Удалить
+                            </button>
+                        `;
+                        cartList.appendChild(cartItem);
+                    }
+                });
+                
+                // Обработчики для кнопок удаления
+                document.querySelectorAll('.remove-from-cart').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const productId = parseInt(this.getAttribute('data-id'));
+                        removeFromCart(productId);
+                    });
+                });
+            } else {
+                noCartItems.style.display = 'block';
+            }
+        }
+        
+        // Удаление из корзины
+        function removeFromCart(productId) {
+            currentUser.cart = currentUser.cart.filter(id => id !== productId);
+            
+            // Обновляем данные в localStorage (как JSON)
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+            
+            // Перезагружаем корзину
+            loadCart();
+        }
+        
+        // Проверяем состояние при загрузке страницы
+        window.addEventListener('DOMContentLoaded', () => {
+            if (currentUser) {
+                showProfile();
+            } else {
+                showLoginForm();
+            }
+        });
     </script>
 </body>
 </html>

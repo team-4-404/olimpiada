@@ -51,7 +51,7 @@
             padding: 0 1rem;
         }
 
-        /* Шапка */
+        /* Хедер */
         header {
             position: sticky;
             top: 0;
@@ -74,6 +74,7 @@
             padding: 0.75rem 0;
         }
 
+        /* Логотип */
         .logo {
             display: flex;
             align-items: center;
@@ -112,6 +113,7 @@
             color: var(--primary-dark);
         }
 
+        /* Навигация */
         .nav-desktop {
             display: none;
         }
@@ -135,6 +137,7 @@
             color: var(--primary-dark);
         }
 
+        /* Иконки в хедере */
         .header-icons {
             display: flex;
             align-items: center;
@@ -182,6 +185,7 @@
             background-color: var(--primary-dark);
         }
 
+        /* Мобильное меню */
         .mobile-menu {
             display: none;
             background-color: var(--white);
@@ -198,6 +202,17 @@
             flex-direction: column;
             padding: 1rem 0;
         }
+
+        .mobile-menu .nav-link {
+            padding: 0.5rem 1rem;
+            display: block;
+            color: var(--text-light);
+        }
+
+        .dark .mobile-menu .nav-link {
+            color: var(--text-dark);
+        }
+
 
         /* Стили профиля */
         .profile-section {
@@ -433,10 +448,8 @@
             <nav class="nav-desktop">
                 <a href="catalog.html" class="nav-link">Каталог</a>
                 <a href="compare.html" class="nav-link">Сравнение</a>
-                <a href="simulator.html" class="nav-link">Симулятор</a>
                 <a href="accessories.html" class="nav-link">Аксессуары</a>
                 <a href="calculator.html" class="nav-link">Калькулятор</a>
-                <a href="contacts.html" class="nav-link">Контакты</a>
             </nav>
 
             <!-- Иконки -->
@@ -453,7 +466,7 @@
                 </button>
                                 
                 <!-- Корзина -->
-                <a href="cart.html" class="icon-btn relative">
+                <a href="korzina.html" class="icon-btn relative">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge"><?= count($currentUser['cart'] ?? []) ?></span>
                 </a>
@@ -470,12 +483,10 @@
             <div class="container">
                 <a href="catalog.html" class="nav-link">Каталог</a>
                 <a href="compare.html" class="nav-link">Сравнение</a>
-                <a href="simulator.html" class="nav-link">Симулятор</a>
                 <a href="accessories.html" class="nav-link">Аксессуары</a>
                 <a href="calculator.html" class="nav-link">Калькулятор</a>
-                <a href="contacts.html" class="nav-link">Контакты</a>
                 <a href="profile.php" class="nav-link">Профиль</a>
-                <a href="cart.html" class="nav-link">Корзина</a>
+                <a href="korzina.html" class="nav-link">Корзина</a>
             </div>
         </div>
     </header>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,142 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Основной хедер */
+        .main-header {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                background-color: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(8px);
+                box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                transition: background-color 0.3s ease;
+                }
+
+                .main-header .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0.75rem 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                }
+
+                /* Логотип */
+                .logo {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                }
+
+                .logo-icon {
+                width: 40px;
+                height: 40px;
+                background: #3b82f6;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                margin-right: 10px;
+                font-size: 18px;
+                }
+
+                .logo-text {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #111;
+                }
+
+                .logo-highlight {
+                color: #3b82f6;
+                }
+
+                /* Навигация */
+                .nav-desktop {
+                display: flex;
+                gap: 1.5rem;
+                }
+
+                .nav-desktop a {
+                text-decoration: none;
+                font-weight: 500;
+                color: #333;
+                transition: color 0.3s ease;
+                }
+
+                .nav-desktop a:hover {
+                color: #3b82f6;
+                }
+
+                /* Иконки */
+                .header-icons {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                }
+
+                .icon {
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 1.1rem;
+                color: #333;
+                position: relative;
+                }
+
+                .icon:hover {
+                color: #3b82f6;
+                }
+
+                .cart-badge {
+                position: absolute;
+                top: -6px;
+                right: -6px;
+                background: #3b82f6;
+                color: white;
+                font-size: 0.7rem;
+                padding: 2px 6px;
+                border-radius: 50%;
+                }
+
+                /* Мобильное меню */
+                #burger {
+                display: none;
+                }
+
+                .mobile-menu {
+                display: none;
+                flex-direction: column;
+                background: white;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                }
+
+                .mobile-menu a {
+                padding: 1rem;
+                border-top: 1px solid #eee;
+                text-decoration: none;
+                color: #333;
+                }
+
+                .mobile-menu a:hover {
+                background-color: #f3f4f6;
+                }
+
+                /* Адаптив */
+                @media (max-width: 768px) {
+                .nav-desktop {
+                    display: none;
+                }
+
+                #burger {
+                    display: inline-block;
+                }
+
+                .mobile-menu.show {
+                    display: flex;
+                }
+            }
+
         /* Общие стили и переменные */
         :root {
             --primary-light: #3b82f6;
@@ -698,10 +835,20 @@
             font-weight: 700;
             font-size: 1.125rem;
             color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .product-name:hover {
+            color: var(--primary-light);
         }
 
         .dark .product-name {
             color: var(--text-dark);
+        }
+
+        .dark .product-name:hover {
+            color: var(--primary-dark);
         }
 
         .product-rating {
@@ -918,8 +1065,13 @@
 
         /* Анимации */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .fade-in {
@@ -931,12 +1083,12 @@
             .container {
                 padding: 0 0.75rem;
             }
-            
+
             .page-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            
+
             .search-box {
                 width: 100%;
             }
@@ -948,33 +1100,33 @@
                 align-items: center;
                 gap: 2rem;
             }
-            
+
             .mobile-menu-btn {
                 display: none;
             }
-            
+
             .page-header {
                 flex-direction: row;
                 align-items: center;
                 justify-content: space-between;
             }
-            
+
             .search-box {
                 width: 24rem;
             }
-            
+
             .catalog-layout {
                 flex-direction: row;
             }
-            
+
             .filters-sidebar {
                 width: 20rem;
             }
-            
+
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
+
             .footer-container {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -984,7 +1136,7 @@
             .products-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
-            
+
             .footer-container {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -997,233 +1149,101 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Хедер -->
-    <header>
-        <div class="container header-container">
-            <!-- Логотип -->
+    <header class="main-header">
+        <div class="container">
             <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-microchip text-white"></i>
-                </div>
-                <span class="logo-text">Gadget<span class="logo-highlight">Zone</span></span>
+            <div class="logo-icon"><i class="fas fa-microchip"></i></div>
+            <span class="logo-text">Gadget<span class="logo-highlight">Zone</span></span>
             </a>
 
-            <!-- Навигация для десктопа -->
             <nav class="nav-desktop">
-                <a href="catalog.html" class="nav-link active">Каталог</a>
-                <a href="compare.html" class="nav-link">Сравнение</a>
-                <a href="simulator.html" class="nav-link">Симулятор</a>
-                <a href="accessories.html" class="nav-link">Аксессуары</a>
-                <a href="calculator.html" class="nav-link">Калькулятор</a>
-                <a href="contacts.html" class="nav-link">Контакты</a>
+            <a href="catalog.html">Каталог</a>
+            <a href="compare.html">Сравнение</a>
+            <a href="accessories.html">Аксессуары</a>
+            <a href="calculator.html">Калькулятор</a>
             </nav>
 
-            <!-- Иконки -->
             <div class="header-icons">
-                <!-- Профиль -->
-                <a href="profile.html" class="icon-btn">
-                    <i class="fas fa-user"></i>
-                </a>
-                
-                <!-- Переключатель темы -->
-                <button id="theme-toggle" class="icon-btn">
-                    <i class="fas fa-moon dark:hidden"></i>
-                    <i class="fas fa-sun hidden dark:block"></i>
-                </button>
-                                
-                <!-- Корзина -->
-                <a href="korzina.html" class="icon-btn relative">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge">3</span>
-                </a>
-                                
-                <!-- Кнопка мобильного меню -->
-                <button id="mobile-menu-button" class="icon-btn md:hidden">
-                    <i class="fas fa-bars"></i>
-                </button>
+            <a href="profile.php" class="icon"><i class="fas fa-user"></i></a>
+            <button id="theme-toggle" class="icon"><i class="fas fa-moon"></i></button>
+            <a href="korzina.html" class="icon cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge"><?= count($currentUser['cart'] ?? []) ?></span>
+            </a>
+            <button id="burger" class="icon burger"><i class="fas fa-bars"></i></button>
             </div>
         </div>
 
-        <!-- Мобильное меню -->
         <div id="mobile-menu" class="mobile-menu">
-            <div class="container">
-                <a href="catalog.html" class="nav-link active">Каталог</a>
-                <a href="compare.html" class="nav-link">Сравнение</a>
-                <a href="simulator.html" class="nav-link">Симулятор</a>
-                <a href="accessories.html" class="nav-link">Аксессуары</a>
-                <a href="calculator.html" class="nav-link">Калькулятор</a>
-                <a href="contacts.html" class="nav-link">Контакты</a>
-                <a href="profile.html" class="nav-link">Профиль</a>
-                <a href="korzina.html" class="nav-link">Корзина</a>
-            </div>
+            <a href="catalog.html">Каталог</a>
+            <a href="compare.html">Сравнение</a>
+            <a href="accessories.html">Аксессуары</a>
+            <a href="calculator.html">Калькулятор</a>
+            <a href="profile.php">Профиль</a>
+            <a href="korzina.html">Корзина</a>
         </div>
-    </header>
+        </header>
 
     <!-- Основное содержимое -->
     <main class="container">
-        <!-- Заголовок и поиск -->
         <div class="page-header">
-            <h1 class="page-title">Каталог гаджетов</h1>
-            
+            <h1 class="page-title">Каталог товаров</h1>
             <div class="search-box">
-                <input type="text" placeholder="Поиск по каталогу..." class="search-input">
                 <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Поиск товаров...">
             </div>
         </div>
 
         <div class="catalog-layout">
-            <!-- Боковая панель фильтров -->
+            <!-- Фильтры -->
             <aside class="filters-sidebar">
                 <div class="filters-card">
-                    <!-- Заголовок фильтров -->
                     <div class="filters-header">
                         <h2 class="filters-title">Фильтры</h2>
-                        <button class="reset-filters">Сбросить все</button>
+                        <button class="reset-filters" id="resetFilters">Сбросить</button>
                     </div>
 
-                    <!-- Фильтр по типу устройства -->
+                    <!-- Цена -->
                     <div class="filter-section">
                         <div class="filter-title">
-                            <h3>Тип устройства</h3>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="filter-content">
-                            <label class="filter-option">
-                                <input type="checkbox" name="type" value="Смартфоны">
-                                <span>Смартфоны</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="type" value="Планшеты">
-                                <span>Планшеты</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="type" value="Ноутбуки">
-                                <span>Ноутбуки</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="type" value="Умные часы">
-                                <span>Умные часы</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="type" value="Наушники">
-                                <span>Наушники</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Фильтр по производителю -->
-                    <div class="filter-section">
-                        <div class="filter-title">
-                            <h3>Производитель</h3>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="filter-content">
-                            <label class="filter-option">
-                                <input type="checkbox" name="brand" value="Apple">
-                                <span>Apple</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="brand" value="Samsung">
-                                <span>Samsung</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="brand" value="Xiaomi">
-                                <span>Xiaomi</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="brand" value="Huawei">
-                                <span>Huawei</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="brand" value="OnePlus">
-                                <span>OnePlus</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Фильтр по цене -->
-                    <div class="filter-section">
-                        <div class="filter-title">
-                            <h3>Цена</h3>
+                            <span>Цена</span>
                             <i class="fas fa-chevron-down"></i>
                         </div>
                         <div class="filter-content">
                             <div class="price-labels">
                                 <span>0 ₽</span>
-                                <span>150 000 ₽</span>
+                                <span>200 000 ₽</span>
                             </div>
-                            <input type="range" min="0" max="150000" value="75000" class="price-range">
+                            <input type="range" class="price-range" id="priceRange" min="0" max="200000" step="1000">
                             <div class="price-inputs">
-                                <div>
-                                    <label class="block text-sm mb-1">От</label>
-                                    <input type="number" min="0" max="150000" value="0" class="price-input" id="price-min">
-                                </div>
-                                <div>
-                                    <label class="block text-sm mb-1">До</label>
-                                    <input type="number" min="0" max="150000" value="150000" class="price-input" id="price-max">
-                                </div>
+                                <input type="number" class="price-input" id="minPrice" placeholder="От">
+                                <input type="number" class="price-input" id="maxPrice" placeholder="До">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Фильтр по оперативной памяти -->
-                    <div class="filter-section">
+                    <!-- Бренды -->
+                    <div class="filter-section" id="brandFilters">
                         <div class="filter-title">
-                            <h3>Оперативная память</h3>
+                            <span>Бренд</span>
                             <i class="fas fa-chevron-down"></i>
                         </div>
                         <div class="filter-content">
-                            <label class="filter-option">
-                                <input type="checkbox" name="ram" value="4 ГБ">
-                                <span>4 ГБ</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="ram" value="6 ГБ">
-                                <span>6 ГБ</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="ram" value="8 ГБ">
-                                <span>8 ГБ</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="ram" value="12 ГБ">
-                                <span>12 ГБ</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="ram" value="16 ГБ">
-                                <span>16 ГБ</span>
-                            </label>
+                            <!-- Заполняется динамически -->
                         </div>
                     </div>
 
-                    <!-- Фильтр по встроенной памяти -->
-                    <div class="filter-section">
+                    <!-- Категории -->
+                    <div class="filter-section" id="categoryFilters">
                         <div class="filter-title">
-                            <h3>Встроенная память</h3>
+                            <span>Категория</span>
                             <i class="fas fa-chevron-down"></i>
                         </div>
                         <div class="filter-content">
-                            <label class="filter-option">
-                                <input type="checkbox" name="storage" value="64 ГБ">
-                                <span>64 ГБ</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="storage" value="128 ГБ">
-                                <span>128 ГБ</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="storage" value="256 ГБ">
-                                <span>256 ГБ</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="storage" value="512 ГБ">
-                                <span>512 ГБ</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="storage" value="1 ТБ">
-                                <span>1 ТБ</span>
-                            </label>
+                            <!-- Заполняется динамически -->
                         </div>
                     </div>
                 </div>
@@ -1231,385 +1251,352 @@
 
             <!-- Основная область с товарами -->
             <div class="products-main">
-                <!-- Сортировка -->
                 <div class="sorting-bar">
                     <div class="sorting-content">
-                        <div class="products-count">Найдено <span class="font-bold">0</span> товаров</div>
+                        <span class="products-count" id="productsCount">Найдено: 0 товаров</span>
                         <div class="sorting-options">
-                            <span class="sort-label">Сортировка:</span>
-                            <select class="sort-select" id="sort-select">
-                                <option>По популярности</option>
-                                <option>По новизне</option>
-                                <option>По возрастанию цены</option>
-                                <option>По убыванию цены</option>
-                                <option>По рейтингу</option>
+                            <span class="sort-label">Сортировать:</span>
+                            <select class="sort-select" id="sortSelect">
+                                <option value="popular">По популярности</option>
+                                <option value="priceAsc">Сначала дешевые</option>
+                                <option value="priceDesc">Сначала дорогие</option>
+                                <option value="new">Сначала новые</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <!-- Сетка товаров -->
-                <div class="products-grid" id="products-container">
-                    <!-- Товары будут загружены через JavaScript -->
+                <div class="products-grid" id="productsGrid">
+                    <!-- Заполняется динамически -->
                 </div>
 
-                <!-- Пагинация -->
-                <div class="pagination">
-                    <nav class="pagination-nav" id="pagination-nav">
-                        <!-- Пагинация будет сгенерирована через JavaScript -->
-                    </nav>
+                <div class="pagination" id="pagination">
+                    <!-- Заполняется динамически -->
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Подвал -->
-    <footer>
-        <div class="container">
-            <div class="footer-container">
-                <div>
-                    <div class="footer-logo">
-                        <div class="footer-logo-icon">
-                            <i class="fas fa-microchip text-white"></i>
-                        </div>
-                        <span class="footer-logo-text">Gadget<span class="footer-logo-highlight">Zone</span></span>
-                    </div>
-                    <p class="footer-about">Ваш надежный гид в мире технологий и гаджетов. Мы помогаем сделать правильный выбор.</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="footer-title">Навигация</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="index.html">Главная</a></li>
-                        <li class="footer-link"><a href="catalog.html">Каталог</a></li>
-                        <li class="footer-link"><a href="compare.html">Сравнение</a></li>
-                        <li class="footer-link"><a href="simulator.html">Симулятор</a></li>
-                        <li class="footer-link"><a href="accessories.html">Аксессуары</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="footer-title">Помощь</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="faq.html">FAQ</a></li>
-                        <li class="footer-link"><a href="delivery.html">Доставка и оплата</a></li>
-                        <li class="footer-link"><a href="warranty.html">Гарантия</a></li>
-                        <li class="footer-link"><a href="reviews.html">Отзывы</a></li>
-                        <li class="footer-link"><a href="blog.html">Блог</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="footer-title">Контакты</h3>
-                    <ul class="footer-links">
-                        <li class="footer-contact">
-                            <i class="fas fa-map-marker-alt contact-icon"></i>
-                            <span>Москва, ул. Технологическая, 42</span>
-                        </li>
-                        <li class="footer-contact">
-                            <i class="fas fa-phone-alt contact-icon"></i>
-                            <span>+7 (495) 123-45-67</span>
-                        </li>
-                        <li class="footer-contact">
-                            <i class="fas fa-envelope contact-icon"></i>
-                            <span>info@gadgetzone.ru</span>
-                        </li>
-                        <li class="footer-contact">
-                            <i class="fas fa-clock contact-icon"></i>
-                            <span>Пн-Пт: 9:00-21:00</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>© 2025 GadgetZone. Все права защищены.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Скрипты -->
     <script>
-         // Глобальные переменные
-        let allProducts = [];
-        let filteredProducts = [];
-        let currentPage = 1;
-        const productsPerPage = 9;
+        // Состояние приложения
+        const state = {
+            products: [],
+            filteredProducts: [],
+            cart: JSON.parse(localStorage.getItem('cart') || '[]'),
+            filters: {
+                minPrice: 0,
+                maxPrice: 200000,
+                brands: new Set(),
+                categories: new Set(),
+                search: ''
+            },
+            sorting: 'popular',
+            currentPage: 1,
+            itemsPerPage: 9
+        };
 
-        // Переключение темы
-        const themeToggle = document.getElementById('theme-toggle');
-        const html = document.documentElement;
-        
-        // Проверяем сохраненную тему или системные настройки
-        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            html.classList.add('dark');
-        } else {
-            html.classList.remove('dark');
-        }
-        
-        // Обработчик клика по переключателю
-        themeToggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-        });
-        
-        // Мобильное меню
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-        });
-
-        // Функция для обработки выбранной категории
-        function handleSelectedCategory() {
-            const selectedCategory = localStorage.getItem('selectedCategory');
-            if (!selectedCategory) return;
-
-            const categoryMap = {
-                'smartphones': 'Смартфоны',
-                'tablets': 'Планшеты',
-                'laptops': 'Ноутбуки',
-                'headphones': 'Наушники',
-                'smartwatches': 'Умные часы'
-            };
-
-            const categoryName = categoryMap[selectedCategory];
-            if (!categoryName) return;
-
-            // Находим чекбокс и отмечаем его
-            const checkboxes = document.querySelectorAll('.filter-option input[name="type"]');
-            checkboxes.forEach(checkbox => {
-                if (checkbox.value === categoryName) {
-                    checkbox.checked = true;
-                    // Разворачиваем секцию с фильтрами
-                    const typeFilterSection = checkbox.closest('.filter-section');
-                    if (typeFilterSection) {
-                        typeFilterSection.classList.remove('collapsed');
-                    }
-                }
-            });
-
-            // Применяем фильтрацию
-            applyFilters();
-
-            // Удаляем сохраненную категорию
-            localStorage.removeItem('selectedCategory');
+        // Загрузка данных
+        async function loadProducts() {
+            try {
+                const response = await fetch('products.json');
+                if (!response.ok) throw new Error('Ошибка загрузки данных');
+                
+                const data = await response.json();
+                state.products = data.products;
+                state.filteredProducts = [...state.products];
+                
+                initializeFilters();
+                updateProductsDisplay();
+                updateCartBadge();
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showNotification('Ошибка загрузки товаров', 'error');
+            }
         }
 
-        // Получение и отображение товаров
-        fetch('products.json')
-            .then(res => res.json())
-            .then(data => {
-                allProducts = data;
-                filteredProducts = [...allProducts];
-                
-                // Обрабатываем выбранную категорию после загрузки данных
-                handleSelectedCategory();
-                
-                renderProducts();
-                setupFilters();
-                setupFilterToggles();
-            })
-            .catch(error => {
-                console.error('Error loading products:', error);
-                // Показываем сообщение об ошибке
-                document.getElementById('products-container').innerHTML = `
-                    <div class="text-center py-8">
-                        <p class="text-red-500">Не удалось загрузить товары. Пожалуйста, попробуйте позже.</p>
-                    </div>
-                `;
+        // Инициализация фильтров
+        function initializeFilters() {
+            // Бренды
+            const brands = [...new Set(state.products.map(p => p.brand))];
+            const brandFilters = document.querySelector('#brandFilters .filter-content');
+            brandFilters.innerHTML = brands.map(brand => `
+                <label class="filter-option">
+                    <input type="checkbox" class="brand-filter" value="${brand}">
+                    <span>${brand}</span>
+                </label>
+            `).join('');
+
+            // Категории
+            const categories = [...new Set(state.products.map(p => p.category))];
+            const categoryFilters = document.querySelector('#categoryFilters .filter-content');
+            categoryFilters.innerHTML = categories.map(category => `
+                <label class="filter-option">
+                    <input type="checkbox" class="category-filter" value="${category}">
+                    <span>${category}</span>
+                </label>
+            `).join('');
+
+            // Обработчики событий
+            document.querySelectorAll('.filter-option input').forEach(input => {
+                input.addEventListener('change', updateFilters);
             });
 
-        function renderProducts() {
-            const productsContainer = document.getElementById('products-container');
-            const totalCountElem = document.querySelector('.products-count span');
-            productsContainer.innerHTML = '';
+            // Цена
+            const priceRange = document.getElementById('priceRange');
+            const minPrice = document.getElementById('minPrice');
+            const maxPrice = document.getElementById('maxPrice');
 
-            // Пагинация
-            const start = (currentPage - 1) * productsPerPage;
-            const end = start + productsPerPage;
-            const currentProducts = filteredProducts.slice(start, end);
+            priceRange.addEventListener('input', (e) => {
+                maxPrice.value = e.target.value;
+                updateFilters();
+            });
 
-            totalCountElem.textContent = filteredProducts.length;
+            minPrice.addEventListener('change', updateFilters);
+            maxPrice.addEventListener('change', updateFilters);
+        }
 
-            currentProducts.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product-card fade-in';
+        // Обновление фильтров
+        function updateFilters() {
+            state.filters.brands = new Set(
+                [...document.querySelectorAll('.brand-filter:checked')].map(cb => cb.value)
+            );
+            state.filters.categories = new Set(
+                [...document.querySelectorAll('.category-filter:checked')].map(cb => cb.value)
+            );
+            state.filters.minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+            state.filters.maxPrice = parseInt(document.getElementById('maxPrice').value) || 200000;
+            state.filters.search = document.getElementById('searchInput').value.toLowerCase();
 
-                const badgeHTML = product.badge ? `<div class="product-badge badge-${product.badgeColor}">${product.badge}</div>` : '';
-                const oldPriceHTML = product.oldPrice ? `<span class="product-old-price">${product.oldPrice.toLocaleString()} ₽</span>` : '';
-                const priceHTML = `
-                    <div class="product-prices">
-                        ${oldPriceHTML}
-                        <span class="product-price">${product.price.toLocaleString()} ₽</span>
-                    </div>
-                `;
+            filterProducts();
+        }
 
-                card.innerHTML = `
+        // Фильтрация товаров
+        function filterProducts() {
+            state.filteredProducts = state.products.filter(product => {
+                const matchesBrand = state.filters.brands.size === 0 || 
+                                   state.filters.brands.has(product.brand);
+                const matchesCategory = state.filters.categories.size === 0 || 
+                                      state.filters.categories.has(product.category);
+                const matchesPrice = product.price >= state.filters.minPrice && 
+                                   product.price <= state.filters.maxPrice;
+                const matchesSearch = product.name.toLowerCase().includes(state.filters.search) ||
+                                    product.description.toLowerCase().includes(state.filters.search);
+
+                return matchesBrand && matchesCategory && matchesPrice && matchesSearch;
+            });
+
+            sortProducts();
+            state.currentPage = 1;
+            updateProductsDisplay();
+        }
+
+        // Сортировка товаров
+        function sortProducts() {
+            switch(state.sorting) {
+                case 'priceAsc':
+                    state.filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'priceDesc':
+                    state.filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'new':
+                    state.filteredProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+                default: // popular
+                    state.filteredProducts.sort((a, b) => b.rating - a.rating);
+            }
+        }
+
+        // Обновление отображения товаров
+        function updateProductsDisplay() {
+            const start = (state.currentPage - 1) * state.itemsPerPage;
+            const end = start + state.itemsPerPage;
+            const currentProducts = state.filteredProducts.slice(start, end);
+
+            document.getElementById('productsCount').textContent = 
+                `Найдено: ${state.filteredProducts.length} товаров`;
+
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = currentProducts.map(product => `
+                <div class="product-card" data-id="${product.id}">
                     <div class="product-image">
                         <img src="${product.image}" alt="${product.name}">
-                        <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-                        ${badgeHTML}
+                        
+                        ${product.badge ? `
+                            <span class="product-badge badge-${product.badge.type}">
+                                ${product.badge.text}
+                            </span>
+                        ` : ''}
                     </div>
                     <div class="product-details">
                         <div class="product-header">
-                            <h3 class="product-name">${product.name}</h3>
+                            <h3 class="product-name" onclick="viewProduct(${product.id})" style="cursor: pointer;">${product.name}</h3>
                             <div class="product-rating">
                                 <i class="fas fa-star"></i>
-                                <span>${product.rating}</span>
+                                <span>${product.rating.toFixed(1)}</span>
                             </div>
                         </div>
                         <p class="product-description">${product.description}</p>
                         <div class="product-footer">
-                            ${priceHTML}
-                            <button class="btn btn-primary product-btn">Подробнее</button>
+                            <div class="product-prices">
+                                <span class="product-price">${product.price.toLocaleString()} ₽</span>
+                                ${product.oldPrice ? `
+                                    <span class="product-old-price">
+                                        ${product.oldPrice.toLocaleString()} ₽
+                                    </span>
+                                ` : ''}
+                            </div>
+                            <button class="btn btn-primary product-btn" 
+                                    onclick="addToCart(${product.id})">
+                                В корзину
+                            </button>
                         </div>
                     </div>
-                `;
-                productsContainer.appendChild(card);
-            });
-            renderPagination();
+                </div>
+            `).join('');
+
+            updatePagination();
         }
 
-        function renderPagination() {
-            const nav = document.getElementById('pagination-nav');
-            nav.innerHTML = '';
-            const pages = Math.ceil(filteredProducts.length / productsPerPage);
-
-            const addButton = (page, text = page) => {
-                const btn = document.createElement('button');
-                btn.className = 'pagination-btn' + (currentPage === page ? ' active' : '');
-                btn.textContent = text;
-                btn.onclick = () => {
-                    currentPage = page;
-                    renderProducts();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                };
-                nav.appendChild(btn);
-            };
-
-            if (currentPage > 1) addButton(currentPage - 1, '<i class="fas fa-chevron-left"></i>');
-            for (let i = 1; i <= pages; i++) addButton(i);
-            if (currentPage < pages) addButton(currentPage + 1, '<i class="fas fa-chevron-right"></i>');
+        // Добавляем функцию для перехода на страницу товара
+        function viewProduct(productId) {
+            localStorage.setItem('selectedProductId', productId);
+            window.location.href = 'product.html';
         }
 
-        function setupFilters() {
-            const checkboxes = document.querySelectorAll('.filter-option input');
-            checkboxes.forEach(chk => chk.addEventListener('change', applyFilters));
-
-            const priceInputs = document.querySelectorAll('.price-input');
-            priceInputs.forEach(inp => inp.addEventListener('input', function() {
-                if (this.id === 'price-min') {
-                    document.querySelector('.price-range').min = this.value;
-                } else if (this.id === 'price-max') {
-                    document.querySelector('.price-range').max = this.value;
-                }
-                applyFilters();
-            }));
-
-            const rangeInput = document.querySelector('.price-range');
-            rangeInput.addEventListener('input', function() {
-                document.getElementById('price-max').value = this.value;
-                applyFilters();
-            });
-
-            const searchInput = document.querySelector('.search-input');
-            searchInput.addEventListener('input', applyFilters);
-
-            const sortSelect = document.getElementById('sort-select');
-            sortSelect.addEventListener('change', applyFilters);
-
-            const resetButton = document.querySelector('.reset-filters');
-            resetButton.addEventListener('click', resetAllFilters);
-        }
-
-        function setupFilterToggles() {
-            document.querySelectorAll('.filter-title').forEach(title => {
-                title.addEventListener('click', () => {
-                    title.parentElement.classList.toggle('collapsed');
-                });
-                // Свернуть по умолчанию
-                title.parentElement.classList.add('collapsed');
-            });
-        }
-
-        function resetAllFilters() {
-            document.querySelectorAll('.filter-option input').forEach(chk => chk.checked = false);
-            document.getElementById('price-min').value = 0;
-            document.getElementById('price-max').value = 150000;
-            document.querySelector('.price-range').value = 75000;
-            document.querySelector('.search-input').value = '';
-            document.getElementById('sort-select').selectedIndex = 0;
-            applyFilters();
-        }
-
-        function applyFilters() {
-            const typeFilters = getCheckedValues('Тип устройства');
-            const brandFilters = getCheckedValues('Производитель');
-            const ramFilters = getCheckedValues('Оперативная память');
-            const storageFilters = getCheckedValues('Встроенная память');
-
-            const priceMin = +document.getElementById('price-min').value || 0;
-            const priceMax = +document.getElementById('price-max').value || 150000;
-
-            const search = document.querySelector('.search-input').value.toLowerCase();
-            const sortBy = document.getElementById('sort-select').value;
-
-            filteredProducts = allProducts.filter(p => {
-                return (!typeFilters.length || typeFilters.includes(normalizeType(p.type))) &&
-                       (!brandFilters.length || brandFilters.includes(p.brand)) &&
-                       (!ramFilters.length || ramFilters.includes(p.ram)) &&
-                       (!storageFilters.length || storageFilters.includes(p.storage)) &&
-                       (p.price >= priceMin && p.price <= priceMax) &&
-                       (p.name.toLowerCase().includes(search) || p.description.toLowerCase().includes(search));
-            });
-
-            switch (sortBy) {
-                case 'По возрастанию цены':
-                    filteredProducts.sort((a, b) => a.price - b.price);
-                    break;
-                case 'По убыванию цены':
-                    filteredProducts.sort((a, b) => b.price - a.price);
-                    break;
-                case 'По рейтингу':
-                    filteredProducts.sort((a, b) => b.rating - a.rating);
-                    break;
-                case 'По новизне':
-                    filteredProducts.reverse();
-                    break;
+        // Обновление пагинации
+        function updatePagination() {
+            const totalPages = Math.ceil(state.filteredProducts.length / state.itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
             }
 
-            currentPage = 1;
-            renderProducts();
+            let paginationHTML = `
+                <div class="pagination-nav">
+                    <button class="pagination-btn" 
+                            ${state.currentPage === 1 ? 'disabled' : ''} 
+                            onclick="changePage(${state.currentPage - 1})">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+            `;
+
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                    <button class="pagination-btn ${i === state.currentPage ? 'active' : ''}" 
+                            onclick="changePage(${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+
+            paginationHTML += `
+                <button class="pagination-btn" 
+                        ${state.currentPage === totalPages ? 'disabled' : ''} 
+                        onclick="changePage(${state.currentPage + 1})">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>`;
+
+            pagination.innerHTML = paginationHTML;
         }
 
-        function getCheckedValues(sectionTitle) {
-            const section = [...document.querySelectorAll('.filter-section')].find(s =>
-                s.querySelector('.filter-title h3')?.textContent.trim() === sectionTitle);
-            if (!section) return [];
-            return [...section.querySelectorAll('input[type="checkbox"]:checked')].map(input => input.value);
+        // Изменение страницы
+        function changePage(page) {
+            const totalPages = Math.ceil(state.filteredProducts.length / state.itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            state.currentPage = page;
+            updateProductsDisplay();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function normalizeType(type) {
-            const map = {
-                'Смартфон': 'Смартфоны',
-                'Планшет': 'Планшеты',
-                'Ноутбук': 'Ноутбуки',
-                'Умные часы': 'Умные часы',
-                'Наушники': 'Наушники',
-                'Смартфоны': 'Смартфоны',
-                'Планшеты': 'Планшеты',
-                'Ноутбуки': 'Ноутбуки'
-            };
-            return map[type] || type;
+        // Работа с корзиной
+        function addToCart(productId) {
+            const product = state.products.find(p => p.id === productId);
+            if (!product) return;
+
+            const cartItem = state.cart.find(item => item.id === productId);
+            if (cartItem) {
+                cartItem.quantity++;
+            } else {
+                state.cart.push({ ...product, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+            updateCartBadge();
+            showNotification('Товар добавлен в корзину');
         }
+
+        function updateCartBadge() {
+            const count = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-badge').textContent = count;
+        }
+
+        // Уведомления
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Темная тема
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', 
+                document.body.classList.contains('dark') ? 'dark' : 'light'
+            );
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            // Загрузка товаров
+            loadProducts();
+
+            // Обработчики событий
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            document.getElementById('searchInput').addEventListener('input', updateFilters);
+            document.getElementById('sortSelect').addEventListener('change', (e) => {
+                state.sorting = e.target.value;
+                sortProducts();
+                updateProductsDisplay();
+            });
+            document.getElementById('resetFilters').addEventListener('click', () => {
+                document.getElementById('searchInput').value = '';
+                document.getElementById('minPrice').value = '';
+                document.getElementById('maxPrice').value = '';
+                document.getElementById('priceRange').value = 200000;
+                document.querySelectorAll('.filter-option input').forEach(input => {
+                    input.checked = false;
+                });
+                state.filters = {
+                    minPrice: 0,
+                    maxPrice: 200000,
+                    brands: new Set(),
+                    categories: new Set(),
+                    search: ''
+                };
+                filterProducts();
+            });
+
+            // Восстановление темы
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark');
+            }
+
+            // Мобильное меню
+            document.getElementById('menu-toggle').addEventListener('click', () => {
+                document.querySelector('.mobile-menu').classList.toggle('active');
+            });
+        });
     </script>
 </body>
+
 </html>

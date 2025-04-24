@@ -7,7 +7,185 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#3b82f6',
+                            dark: '#2563eb'
+                        },
+                        secondary: {
+                            light: '#10b981',
+                            dark: '#059669'
+                        },
+                        highlight: {
+                            light: '#fef08a',
+                            dark: '#f59e0b'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'bounce-once': 'bounceOnce 0.5s ease-out'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        bounceOnce: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
+
+        /* Основной хедер */
+            .main-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease;
+            }
+
+            .main-header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            }
+
+            /* Логотип */
+            .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            }
+
+            .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 18px;
+            }
+
+            .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111;
+            }
+
+            .logo-highlight {
+            color: #3b82f6;
+            }
+
+            /* Навигация */
+            .nav-desktop {
+            display: flex;
+            gap: 1.5rem;
+            }
+
+            .nav-desktop a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #333;
+            transition: color 0.3s ease;
+            }
+
+            .nav-desktop a:hover {
+            color: #3b82f6;
+            }
+
+            /* Иконки */
+            .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            }
+
+            .icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #333;
+            position: relative;
+            }
+
+            .icon:hover {
+            color: #3b82f6;
+            }
+
+            .cart-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #3b82f6;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 50%;
+            }
+
+            /* Мобильное меню */
+            #burger {
+            display: none;
+            }
+
+            .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
+
+            .mobile-menu a {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            text-decoration: none;
+            color: #333;
+            }
+
+            .mobile-menu a:hover {
+            background-color: #f3f4f6;
+            }
+
+            /* Адаптив */
+            @media (max-width: 768px) {
+            .nav-desktop {
+                display: none;
+            }
+
+            #burger {
+                display: inline-block;
+            }
+
+            .mobile-menu.show {
+                display: flex;
+            }
+            }
+
+
+
         .feature-badge {
             transition: all 0.3s ease;
         }
@@ -70,6 +248,43 @@
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
+
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">
+            <div class="logo-icon"><i class="fas fa-microchip"></i></div>
+            <span class="logo-text">Gadget<span class="logo-highlight">Zone</span></span>
+            </a>
+
+            <nav class="nav-desktop">
+            <a href="catalog.html">Каталог</a>
+            <a href="compare.html">Сравнение</a>
+            <a href="accessories.html">Аксессуары</a>
+            <a href="calculator.html">Калькулятор</a>
+            </nav>
+
+            <div class="header-icons">
+            <a href="profile.php" class="icon"><i class="fas fa-user"></i></a>
+            <button id="theme-toggle" class="icon"><i class="fas fa-moon"></i></button>
+            <a href="korzina.html" class="icon cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge"><?= count($currentUser['cart'] ?? []) ?></span>
+            </a>
+            <button id="burger" class="icon burger"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="catalog.html">Каталог</a>
+            <a href="compare.html">Сравнение</a>
+            <a href="accessories.html">Аксессуары</a>
+            <a href="calculator.html">Калькулятор</a>
+            <a href="profile.php">Профиль</a>
+            <a href="korzina.html">Корзина</a>
+        </div>
+        </header>
+
+
     <div class="container mx-auto px-4 py-8">
         <header class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-800 mb-2">Калькулятор выгоды</h1>

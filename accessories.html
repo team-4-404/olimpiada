@@ -26,12 +26,17 @@
                         }
                     },
                     animation: {
-                        'fade-in': 'fadeIn 0.5s ease-out'
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'bounce-once': 'bounceOnce 0.5s ease-out'
                     },
                     keyframes: {
                         fadeIn: {
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' }
+                        },
+                        bounceOnce: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
                         }
                     }
                 }
@@ -39,17 +44,17 @@
         }
     </script>
     <style>
-        .accessory-card {
+        .card-accessory {
             transition: all 0.3s ease;
         }
-        .accessory-card:hover {
+        .card-accessory:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
-        .dark .accessory-card:hover {
+        .dark .card-accessory:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
-        .compatibility-badge {
+        .badge-compatibility {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -59,6 +64,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        .cart-badge {
+            transition: transform 0.2s ease;
+        }
+        .cart-button:active .cart-badge {
+            transform: scale(1.2);
         }
     </style>
 </head>
@@ -76,33 +87,36 @@
 
             <!-- Navigation -->
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#" class="font-medium hover:text-primary-light dark:hover:text-primary-dark transition">Каталог</a>
-                <a href="#" class="font-medium hover:text-primary-light dark:hover:text-primary-dark transition">Сравнение</a>
-                <a href="#" class="font-medium hover:text-primary-light dark:hover:text-primary-dark transition">Симулятор</a>
-                <a href="#" class="font-medium text-primary-light dark:text-primary-dark border-b-2 border-primary-light dark:border-primary-dark pb-1">Аксессуары</a>
-                <a href="#" class="font-medium hover:text-primary-light dark:hover:text-primary-dark transition">Калькулятор</a>
-                <a href="#" class="font-medium hover:text-primary-light dark:hover:text-primary-dark transition">Контакты</a>
+                <a href="catalog.html" class="font-medium hover:text-primary-light dark:hover:text-primary-dark transition">Каталог</a>
+                <a href="compare.html" class="font-medium hover:text-primary-light dark:hover:text-primary-dark transition">Сравнение</a>
+                <a href="accessories.html" class="font-medium text-primary-light dark:text-primary-dark border-b-2 border-primary-light dark:border-primary-dark pb-1">Аксессуары</a>
+                <a href="calculator.html" class="font-medium hover:text-primary-light dark:hover:text-primary-dark transition">Калькулятор</a>
             </nav>
 
-            <!-- Right side icons -->
-            <div class="flex items-center space-x-4">
-                <!-- Theme toggle -->
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                    <i class="fas fa-moon text-gray-700 dark:hidden"></i>
-                    <i class="fas fa-sun text-yellow-300 hidden dark:block"></i>
-                </button>
-                
-                <!-- Cart -->
-                <button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 relative transition">
-                    <i class="fas fa-shopping-cart text-gray-700 dark:text-gray-300"></i>
-                    <span class="absolute -top-1 -right-1 bg-primary-light dark:bg-primary-dark text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-                </button>
-                
-                <!-- Mobile menu button -->
-                <button id="mobile-menu-button" class="md:hidden p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                    <i class="fas fa-bars text-gray-700 dark:text-gray-300"></i>
-                </button>
-            </div>
+            <!-- Иконки -->
+                <div class="header-icons">
+                    <!-- Профиль -->
+                    <a href="profile.php" class="icon-btn">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    
+                    <!-- Переключатель темы -->
+                    <button id="theme-toggle" class="icon-btn">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                                    
+                    <!-- Корзина -->
+                    <a href="korzina.html" class="icon-btn relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge"><?= count($currentUser['cart'] ?? []) ?></span>
+                    </a>
+                                    
+                    <!-- Кнопка мобильного меню -->
+                    <button id="mobile-menu-button" class="icon-btn md:hidden">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
         </div>
 
         <!-- Mobile menu -->
@@ -125,9 +139,81 @@
             <h1 class="text-3xl font-bold mb-4 md:mb-0">Подбор аксессуаров</h1>
             
             <div class="flex items-center space-x-4">
-                <button class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-4 py-2 rounded-md font-medium transition flex items-center">
+                <button id="filter-button" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-4 py-2 rounded-md font-medium transition flex items-center">
                     <i class="fas fa-filter mr-2"></i> Фильтры
                 </button>
+                <div id="sort-dropdown" class="relative">
+                    <button id="sort-button" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-4 py-2 rounded-md font-medium transition flex items-center">
+                        <i class="fas fa-sort mr-2"></i> Сортировка
+                    </button>
+                    <div id="sort-options" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10">
+                        <ul class="py-1">
+                            <li><a href="#" data-sort="price-asc" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">По цене (дешевые)</a></li>
+                            <li><a href="#" data-sort="price-desc" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">По цене (дорогие)</a></li>
+                            <li><a href="#" data-sort="name-asc" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">По названию (А-Я)</a></li>
+                            <li><a href="#" data-sort="name-desc" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">По названию (Я-А)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Panel -->
+        <div id="filters-panel" class="hidden bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Фильтры аксессуаров</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Тип аксессуара</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="filter-type" value="case" checked>
+                            <span class="ml-2">Чехлы</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="filter-type" value="charger" checked>
+                            <span class="ml-2">Зарядные устройства</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="filter-type" value="screenprotector" checked>
+                            <span class="ml-2">Защитные стекла</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="filter-type" value="earbuds" checked>
+                            <span class="ml-2">Наушники</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Ценовой диапазон</label>
+                    <div class="flex items-center space-x-4">
+                        <input type="number" id="price-min" placeholder="От" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700">
+                        <span>-</span>
+                        <input type="number" id="price-max" placeholder="До" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700">
+                    </div>
+                    <button id="apply-price" class="mt-3 bg-primary-light dark:bg-primary-dark text-white px-3 py-1 rounded-md text-sm font-medium transition hover:bg-primary-dark dark:hover:bg-primary-light">
+                        Применить
+                    </button>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Бренд аксессуара</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="filter-brand" value="apple" checked>
+                            <span class="ml-2">Apple</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="filter-brand" value="samsung" checked>
+                            <span class="ml-2">Samsung</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="filter-brand" value="other" checked>
+                            <span class="ml-2">Другие</span>
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -195,26 +281,7 @@
                         </a>
                     </div>
                 </div>
-                <div>
-                    <h3 class="font-bold text-lg mb-4">Магазин</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-white transition">Каталог</a></li>
-                        <li><a href="#" class="hover:text-white transition">Акции</a></li>
-                        <li><a href="#" class="hover:text-white transition">Новинки</a></li>
-                        <li><a href="#" class="hover:text-white transition">Бренды</a></li>
-                        <li><a href="#" class="hover:text-white transition">Доставка и оплата</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-bold text-lg mb-4">Помощь</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-white transition">Контакты</a></li>
-                        <li><a href="#" class="hover:text-white transition">Гарантия</a></li>
-                        <li><a href="#" class="hover:text-white transition">Возврат</a></li>
-                        <li><a href="#" class="hover:text-white transition">FAQ</a></li>
-                        <li><a href="#" class="hover:text-white transition">Отзывы</a></li>
-                    </ul>
-                </div>
+                
                 <div>
                     <h3 class="font-bold text-lg mb-4">Контакты</h3>
                     <ul class="space-y-2">
@@ -245,237 +312,531 @@
         </div>
     </footer>
 
-    <script>
-        // Theme toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        const html = document.documentElement;
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"></div>
+            </div>
+            
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-lg font-bold">Корзина</h3>
+                        <button id="close-cart-modal" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="cart-items" class="mt-4 max-h-96 overflow-y-auto">
+                        <!-- Cart items will be added here -->
+                    </div>
+                    
+                    <div class="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
+                        <div class="flex justify-between font-bold">
+                            <span>Итого:</span>
+                            <span id="cart-total">0 ₽</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button id="checkout-button" class="w-full bg-primary-light dark:bg-primary-dark hover:bg-primary-dark dark:hover:bg-primary-light text-white px-4 py-2 rounded-md font-medium transition">
+                        Оформить заказ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        themeToggle.addEventListener('click', () => {
+    <script>
+        // Основной объект для хранения состояния приложения
+        const App = {
+        // Инициализация приложения
+        init() {
+            this.setupTheme();
+            this.setupMobileMenu();
+            this.setupFilters();
+            this.setupSorting();
+            this.setupDeviceSelection();
+        },
+
+        // Настройка темы (светлая/темная)
+        setupTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const html = document.documentElement;
+
+            // Проверяем сохраненную тему или предпочтения системы
+            const savedTheme = localStorage.getItem('theme') || 
+                            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            html.classList.add(savedTheme);
+
+            themeToggle.addEventListener('click', () => {
             html.classList.toggle('dark');
             localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-        });
+            });
+        },
 
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+        // Настройка мобильного меню
+        setupMobileMenu() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
 
-        mobileMenuButton.addEventListener('click', () => {
+            mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-        });
+            mobileMenu.classList.toggle('animate-fade-in');
+            });
+        },
 
-        // Device selection logic
-        const deviceBrandSelect = document.getElementById('device-brand');
-        const deviceModelSelect = document.getElementById('device-model');
-        const accessoriesGrid = document.getElementById('accessories-grid');
+        // Настройка фильтров
+        setupFilters() {
+            const filterButton = document.getElementById('filter-button');
+            const filtersPanel = document.getElementById('filters-panel');
+            const applyPriceButton = document.getElementById('apply-price');
 
-        // Device models data
-        const deviceModels = {
-            apple: [
-                { id: 'iphone14pro', name: 'iPhone 14 Pro' },
-                { id: 'iphone14', name: 'iPhone 14' },
-                { id: 'iphone13pro', name: 'iPhone 13 Pro' },
-                { id: 'iphone13', name: 'iPhone 13' },
-                { id: 'iphone12', name: 'iPhone 12' }
-            ],
-            samsung: [
-                { id: 's23ultra', name: 'Galaxy S23 Ultra' },
-                { id: 's23plus', name: 'Galaxy S23+' },
-                { id: 's23', name: 'Galaxy S23' },
-                { id: 's22ultra', name: 'Galaxy S22 Ultra' },
-                { id: 'zfold4', name: 'Galaxy Z Fold 4' }
-            ],
-            xiaomi: [
-                { id: '13pro', name: 'Xiaomi 13 Pro' },
-                { id: '13', name: 'Xiaomi 13' },
-                { id: '12tpro', name: 'Xiaomi 12T Pro' },
-                { id: '12pro', name: 'Xiaomi 12 Pro' },
-                { id: '11tpro', name: 'Xiaomi 11T Pro' }
-            ],
-            google: [
-                { id: 'pixel7pro', name: 'Pixel 7 Pro' },
-                { id: 'pixel7', name: 'Pixel 7' },
-                { id: 'pixel6pro', name: 'Pixel 6 Pro' },
-                { id: 'pixel6a', name: 'Pixel 6a' },
-                { id: 'pixel5', name: 'Pixel 5' }
-            ],
-            huawei: [
-                { id: 'p50pro', name: 'P50 Pro' },
-                { id: 'mate50pro', name: 'Mate 50 Pro' },
-                { id: 'p40pro', name: 'P40 Pro' },
-                { id: 'mate40pro', name: 'Mate 40 Pro' },
-                { id: 'p30pro', name: 'P30 Pro' }
-            ],
-            oneplus: [
-                { id: '11', name: 'OnePlus 11' },
-                { id: '10pro', name: 'OnePlus 10 Pro' },
-                { id: '9pro', name: 'OnePlus 9 Pro' },
-                { id: '8t', name: 'OnePlus 8T' },
-                { id: 'nord2', name: 'OnePlus Nord 2' }
-            ]
-        };
+            // Переключение видимости панели фильтров
+            filterButton.addEventListener('click', () => {
+            filtersPanel.classList.toggle('hidden');
+            });
 
-        // Accessories data
-        const accessoriesData = [
-            {
-                id: 'case1',
-                name: 'Чехол Spigen Ultra Hybrid',
-                price: 2490,
-                image: 'https://images.unsplash.com/photo-1601784551446-66c9e1e9e7af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
-                compatibleWith: ['iphone14pro', 'iphone14', 's23ultra', 's23plus', 's23']
-            },
-            {
-                id: 'case2',
-                name: 'Чехол Apple Silicone Case',
-                price: 3990,
-                image: 'https://images.unsplash.com/photo-1601784551446-66c9e1e9e7af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
-                compatibleWith: ['iphone14pro', 'iphone14', 'iphone13pro', 'iphone13']
-            },
-            {
-                id: 'case3',
-                name: 'Чехол Samsung Leather Cover',
-                price: 3490,
-                image: 'https://images.unsplash.com/photo-1601784551446-66c9e1e9e7af?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
-                compatibleWith: ['s23ultra', 's23plus', 's23', 's22ultra']
-            },
-            {
-                id: 'charger1',
-                name: 'Зарядное устройство Anker Nano II 30W',
-                price: 1990,
-                image: 'https://images.unsplash.com/photo-1635776062124-d1f5f9b80b8a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
-                compatibleWith: ['iphone14pro', 'iphone14', 'iphone13pro', 'iphone13', 's23ultra', 's23plus', 's23', '13pro', '13', 'pixel7pro', 'pixel7']
-            },
-            {
-                id: 'charger2',
-                name: 'Беспроводная зарядка Samsung Wireless Charger',
-                price: 2990,
-                image: 'https://images.unsplash.com/photo-1635776062124-d1f5f9b80b8a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
-                compatibleWith: ['s23ultra', 's23plus', 's23', 's22ultra', 'iphone14pro', 'iphone14', 'iphone13pro', 'iphone13']
-            },
-            {
-                id: 'screenprotector1',
-                name: 'Защитное стекло ESR для iPhone 14 Pro',
-                price: 1290,
-                image: 'https://images.unsplash.com/photo-1620384102590-9f5a5a06a2c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
-                compatibleWith: ['iphone14pro']
-            },
-            {
-                id: 'screenprotector2',
-                name: 'Защитное стекло Whitestone Dome для S23 Ultra',
-                price: 3490,
-                image: 'https://images.unsplash.com/photo-1620384102590-9f5a5a06a2c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
-                compatibleWith: ['s23ultra']
-            },
-            {
-                id: 'earbuds1',
-                name: 'AirPods Pro 2',
-                price: 17990,
-                image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
-                compatibleWith: ['iphone14pro', 'iphone14', 'iphone13pro', 'iphone13', 's23ultra', 's23plus', 's23', '13pro', '13', 'pixel7pro', 'pixel7']
-            },
-            {
-                id: 'earbuds2',
-                name: 'Galaxy Buds2 Pro',
-                price: 14990,
-                image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
-                compatibleWith: ['s23ultra', 's23plus', 's23', 's22ultra', 'iphone14pro', 'iphone14', 'iphone13pro', 'iphone13']
+            // Применение фильтра по цене
+            applyPriceButton.addEventListener('click', () => {
+            const priceMin = document.getElementById('price-min').value;
+            const priceMax = document.getElementById('price-max').value;
+            
+            this.state.filters.priceMin = priceMin ? parseInt(priceMin) : null;
+            this.state.filters.priceMax = priceMax ? parseInt(priceMax) : null;
+            
+            if (this.state.currentDevice) {
+                this.showCompatibleAccessories(this.state.currentDevice);
             }
-        ];
+            });
 
-        // Populate device models when brand is selected
-        deviceBrandSelect.addEventListener('change', function() {
+            // Обработчики для чекбоксов типов аксессуаров
+            document.querySelectorAll('.filter-type').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                if (!App.state.filters.types.includes(this.value)) {
+                    App.state.filters.types.push(this.value);
+                }
+                } else {
+                App.state.filters.types = App.state.filters.types.filter(type => type !== this.value);
+                }
+                
+                if (App.state.currentDevice) {
+                App.showCompatibleAccessories(App.state.currentDevice);
+                }
+            });
+            });
+
+            // Обработчики для чекбоксов брендов аксессуаров
+            document.querySelectorAll('.filter-brand').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                if (!App.state.filters.brands.includes(this.value)) {
+                    App.state.filters.brands.push(this.value);
+                }
+                } else {
+                App.state.filters.brands = App.state.filters.brands.filter(brand => brand !== this.value);
+                }
+                
+                if (App.state.currentDevice) {
+                App.showCompatibleAccessories(App.state.currentDevice);
+                }
+            });
+            });
+        },
+
+        // Настройка сортировки
+        setupSorting() {
+            const sortButton = document.getElementById('sort-button');
+            const sortOptions = document.getElementById('sort-options');
+
+            // Переключение видимости опций сортировки
+            sortButton.addEventListener('click', () => {
+            sortOptions.classList.toggle('hidden');
+            });
+
+            // Закрытие при клике вне элемента
+            document.addEventListener('click', (e) => {
+            if (!sortButton.contains(e.target) && !sortOptions.contains(e.target)) {
+                sortOptions.classList.add('hidden');
+            }
+            });
+
+            // Обработчики для вариантов сортировки
+            document.querySelectorAll('[data-sort]').forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const sortType = this.getAttribute('data-sort');
+                
+                if (App.state.currentDevice) {
+                App.showCompatibleAccessories(App.state.currentDevice, sortType);
+                }
+            });
+            });
+        },
+
+        // Настройка выбора устройства
+        setupDeviceSelection() {
+            const deviceBrandSelect = document.getElementById('device-brand');
+            const deviceModelSelect = document.getElementById('device-model');
+
+            // Заполнение моделей при выборе бренда
+            deviceBrandSelect.addEventListener('change', function() {
             const selectedBrand = this.value;
             
-            // Clear and disable model select
+            // Очистка и деактивация выбора модели
             deviceModelSelect.innerHTML = '<option value="">Выберите модель</option>';
             deviceModelSelect.disabled = !selectedBrand;
             
             if (selectedBrand) {
-                // Add models for selected brand
-                deviceModels[selectedBrand].forEach(model => {
-                    const option = document.createElement('option');
-                    option.value = model.id;
-                    option.textContent = model.name;
-                    deviceModelSelect.appendChild(option);
+                // Добавление моделей для выбранного бренда
+                App.deviceModels[selectedBrand].forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.id;
+                option.textContent = model.name;
+                deviceModelSelect.appendChild(option);
                 });
             }
-        });
+            });
 
-        // Show accessories when model is selected
-        deviceModelSelect.addEventListener('change', function() {
+            // Показ аксессуаров при выборе модели
+            deviceModelSelect.addEventListener('change', function() {
             const selectedModel = this.value;
             
             if (selectedModel) {
-                showCompatibleAccessories(selectedModel);
+                App.state.currentDevice = selectedModel;
+                App.showCompatibleAccessories(selectedModel);
             } else {
-                showNoDeviceSelected();
+                App.showNoDeviceSelected();
             }
-        });
+            });
+        },
 
-        // Function to show compatible accessories
-        function showCompatibleAccessories(deviceId) {
-            // Filter accessories that are compatible with selected device
-            const compatibleAccessories = accessoriesData.filter(accessory => 
-                accessory.compatibleWith.includes(deviceId)
+        // Данные о моделях устройств
+        deviceModels: {
+            apple: [
+            { id: 'iphone14pro', name: 'iPhone 14 Pro' },
+            { id: 'iphone14', name: 'iPhone 14' },
+            { id: 'iphone13pro', name: 'iPhone 13 Pro' },
+            { id: 'iphone13', name: 'iPhone 13' },
+            { id: 'iphone12', name: 'iPhone 12' }
+            ],
+            samsung: [
+            { id: 's23ultra', name: 'Galaxy S23 Ultra' },
+            { id: 's23plus', name: 'Galaxy S23+' },
+            { id: 's23', name: 'Galaxy S23' },
+            { id: 's22ultra', name: 'Galaxy S22 Ultra' },
+            { id: 'zfold4', name: 'Galaxy Z Fold 4' }
+            ],
+            xiaomi: [
+            { id: '13pro', name: 'Xiaomi 13 Pro' },
+            { id: '13', name: 'Xiaomi 13' },
+            { id: '12tpro', name: 'Xiaomi 12T Pro' },
+            { id: '12pro', name: 'Xiaomi 12 Pro' },
+            { id: '11tpro', name: 'Xiaomi 11T Pro' }
+            ],
+            google: [
+            { id: 'pixel7pro', name: 'Pixel 7 Pro' },
+            { id: 'pixel7', name: 'Pixel 7' },
+            { id: 'pixel6pro', name: 'Pixel 6 Pro' },
+            { id: 'pixel6a', name: 'Pixel 6a' },
+            { id: 'pixel5', name: 'Pixel 5' }
+            ],
+            huawei: [
+            { id: 'p50pro', name: 'P50 Pro' },
+            { id: 'mate50pro', name: 'Mate 50 Pro' },
+            { id: 'p40pro', name: 'P40 Pro' },
+            { id: 'mate40pro', name: 'Mate 40 Pro' },
+            { id: 'p30pro', name: 'P30 Pro' }
+            ],
+            oneplus: [
+            { id: '11', name: 'OnePlus 11' },
+            { id: '10pro', name: 'OnePlus 10 Pro' },
+            { id: '9pro', name: 'OnePlus 9 Pro' },
+            { id: '8t', name: 'OnePlus 8T' },
+            { id: 'nord2', name: 'OnePlus Nord 2' }
+            ]
+        },
+
+        // Данные об аксессуарах
+        accessoriesData: [
+            // Существующий чехол
+            {
+                id: 'case1',
+                name: 'Чехол Spigen Ultra Hybrid',
+                price: 2490,
+                type: 'case',
+                brand: 'other',
+                image: 'https://avatars.mds.yandex.net/get-mpic/11552111/2a000001947f21c5fde8d10d7afe01496c1b/180x240',
+                compatibleWith: ['iphone14pro']
+            },
+
+            // Apple аксессуары
+            {
+                id: 'case_apple1',
+                name: 'Чехол Apple Silicone Case для iPhone 14 Pro',
+                price: 4990,
+                type: 'case',
+                brand: 'apple',
+                image: 'https://avatars.mds.yandex.net/get-mpic/4947485/2a00000190a268889c8997a40afe4135135e/180x240',
+                compatibleWith: ['iphone14pro']
+            },
+            {
+                id: 'charger_apple1',
+                name: 'Зарядное устройство Apple 20W USB-C',
+                price: 1990,
+                type: 'charger',
+                brand: 'apple',
+                image: 'https://avatars.mds.yandex.net/get-mpic/5278457/2a00000191a3ab7c0c162ab8a582c19936a3/180x240',
+                compatibleWith: ['13pro', '13', '12tpro', 'nord2', '8t', '9pro', '10pro', '11', 'p30pro', 'mate40pro', 'p40pro', 'mate50pro', 'p50pro', 'pixel5', 'pixel6a', 'pixel6pro', 'pixel7', 'pixel7pro', '11tpro', '12pro', '12tpro', '13', '13pro', 'zfold4', 's22ultra', 's23', 's23plus', 's23ultra', 'iphone12', 'iphone13', 'iphone13pro', 'iphone14', 'iphone14pro']
+            },
+            {
+                id: 'screenprotector_apple1',
+                name: 'Защитное стекло Belkin для iPhone 14',
+                price: 2990,
+                type: 'screenprotector',
+                brand: 'apple',
+                image: 'https://avatars.mds.yandex.net/get-mpic/1362400/img_id2264752012841989453.jpeg/180x240',
+                compatibleWith: ['iphone14']
+            },
+
+            // Samsung аксессуары
+            {
+                id: 'case_samsung1',
+                name: 'Чехол Samsung Leather Cover для Galaxy S23 Ultra',
+                price: 5990,
+                type: 'case',
+                brand: 'samsung',
+                image: 'https://avatars.mds.yandex.net/get-mpic/11760083/2a0000018b18138c6200904ea64378ffcb8f/180x240',
+                compatibleWith: ['s23ultra']
+            },
+            {
+                id: 'charger_samsung1',
+                name: 'Зарядное устройство Samsung 25W Super Fast Charging',
+                price: 2490,
+                type: 'charger',
+                brand: 'samsung',
+                image: 'https://avatars.mds.yandex.net/get-mpic/12222014/2a000001959b789d6d16b66eaf2698be4806/180x240',
+                compatibleWith: ['13pro', '13', '12tpro', 'nord2', '8t', '9pro', '10pro', '11', 'p30pro', 'mate40pro', 'p40pro', 'mate50pro', 'p50pro', 'pixel5', 'pixel6a', 'pixel6pro', 'pixel7', 'pixel7pro', '11tpro', '12pro', '12tpro', '13', '13pro', 'zfold4', 's22ultra', 's23', 's23plus', 's23ultra', 'iphone12', 'iphone13', 'iphone13pro', 'iphone14', 'iphone14pro']
+            },
+            {
+                id: 'earbuds_samsung1',
+                name: 'Наушники Samsung Galaxy Buds2 Pro',
+                price: 12990,
+                type: 'earbuds',
+                brand: 'samsung',
+                image: 'https://avatars.mds.yandex.net/get-mpic/1865885/img_id5581794763396416085.jpeg/180x240',
+                compatibleWith: ['13pro', '13', '12tpro', 'nord2', '8t', '9pro', '10pro', '11', 'p30pro', 'mate40pro', 'p40pro', 'mate50pro', 'p50pro', 'pixel5', 'pixel6a', 'pixel6pro', 'pixel7', 'pixel7pro', '11tpro', '12pro', '12tpro', '13', '13pro', 'zfold4', 's22ultra', 's23', 's23plus', 's23ultra', 'iphone12', 'iphone13', 'iphone13pro', 'iphone14', 'iphone14pro']
+            },
+
+            // Xiaomi аксессуары
+            {
+                id: 'case_xiaomi1',
+                name: 'Чехол Xiaomi Smart Cover для 13 Pro',
+                price: 1990,
+                type: 'case',
+                brand: 'xiaomi',
+                image: 'https://avatars.mds.yandex.net/get-mpic/4372348/2a0000018f9a8a9101f35378fa710d316ec3/180x240',
+                compatibleWith: ['13pro']
+            },
+            {
+                id: 'charger_xiaomi1',
+                name: 'Зарядное устройство Xiaomi 67W Turbo Charger',
+                price: 3490,
+                type: 'charger',
+                brand: 'xiaomi',
+                image: 'https://avatars.mds.yandex.net/get-mpic/13714821/2a00000193275ab58a0ecfefcad672cf1bbf/180x240',
+                compatibleWith: ['13pro', '13', '12tpro', 'nord2', '8t', '9pro', '10pro', '11', 'p30pro', 'mate40pro', 'p40pro', 'mate50pro', 'p50pro', 'pixel5', 'pixel6a', 'pixel6pro', 'pixel7', 'pixel7pro', '11tpro', '12pro', '12tpro', '13', '13pro', 'zfold4', 's22ultra', 's23', 's23plus', 's23ultra', 'iphone12', 'iphone13', 'iphone13pro', 'iphone14', 'iphone14pro']
+            },
+
+            // Google аксессуары
+            {
+                id: 'case_google1',
+                name: 'Чехол Google Case для Pixel 7 Pro',
+                price: 3990,
+                type: 'case',
+                brand: 'google',
+                image: 'https://avatars.mds.yandex.net/get-mpic/12387925/2a0000018f95efc0f4663430d21fb11535d9/180x240',
+                compatibleWith: ['pixel7pro']
+            },
+            {
+                id: 'screenprotector_google1',
+                name: 'Защитное стекло Google для Pixel 7',
+                price: 1990,
+                type: 'screenprotector',
+                brand: 'google',
+                image: 'https://avatars.mds.yandex.net/get-mpic/4728959/2a0000018f95e4a3ca28b37be6727bb665b4/180x240',
+                compatibleWith: ['pixel7']
+            },
+
+            // Huawei аксессуары
+            {
+                id: 'case_huawei1',
+                name: 'Чехол Huawei Smart View Cover для P50 Pro',
+                price: 2990,
+                type: 'case',
+                brand: 'huawei',
+                image: 'https://avatars.mds.yandex.net/get-mpic/4334746/2a00000190c8266a3b5fab8d15b0018c7184/180x240',
+                compatibleWith: ['p50pro']
+            },
+            {
+                id: 'earbuds_huawei1',
+                name: 'Наушники Huawei FreeBuds Pro 2',
+                price: 9990,
+                type: 'earbuds',
+                brand: 'huawei',
+                image: 'https://avatars.mds.yandex.net/get-mpic/7631660/2a0000018a5f3666cb0a782f48a6fcb6892e/180x240',
+                compatibleWith: ['13pro', '13', '12tpro', 'nord2', '8t', '9pro', '10pro', '11', 'p30pro', 'mate40pro', 'p40pro', 'mate50pro', 'p50pro', 'pixel5', 'pixel6a', 'pixel6pro', 'pixel7', 'pixel7pro', '11tpro', '12pro', '12tpro', '13', '13pro', 'zfold4', 's22ultra', 's23', 's23plus', 's23ultra', 'iphone12', 'iphone13', 'iphone13pro', 'iphone14', 'iphone14pro']
+            },
+
+            // OnePlus аксессуары
+            {
+                id: 'case_oneplus1',
+                name: 'Чехол OnePlus Sandstone Case для 11',
+                price: 2490,
+                type: 'case',
+                brand: 'oneplus',
+                image: 'https://avatars.mds.yandex.net/get-mpic/4448948/2a00000191ebb90254f813454fcd118d14c9/180x240',
+                compatibleWith: ['11']
+            },
+            {
+                id: 'charger_oneplus1',
+                name: 'Зарядное устройство OnePlus 80W SuperVOOC',
+                price: 4990,
+                type: 'charger',
+                brand: 'oneplus',
+                image: 'https://avatars.mds.yandex.net/get-mpic/5219133/2a00000190cfb2cd487d9b12b148ca87d345/180x240',
+                compatibleWith: ['13pro', '13', '12tpro', 'nord2', '8t', '9pro', '10pro', '11', 'p30pro', 'mate40pro', 'p40pro', 'mate50pro', 'p50pro', 'pixel5', 'pixel6a', 'pixel6pro', 'pixel7', 'pixel7pro', '11tpro', '12pro', '12tpro', '13', '13pro', 'zfold4', 's22ultra', 's23', 's23plus', 's23ultra', 'iphone12', 'iphone13', 'iphone13pro', 'iphone14', 'iphone14pro']
+            },
+
+            // Универсальные аксессуары (other)
+            {
+                id: 'earbuds_universal1',
+                name: 'Наушники Soundcore Liberty 4',
+                price: 7990,
+                type: 'earbuds',
+                brand: 'other',
+                image: 'https://avatars.mds.yandex.net/get-mpic/5103899/2a0000019373f08e3a11fc0a69534ca894b7/180x240',
+                compatibleWith: ['13pro', '13', '12tpro', 'nord2', '8t', '9pro', '10pro', '11', 'p30pro', 'mate40pro', 'p40pro', 'mate50pro', 'p50pro', 'pixel5', 'pixel6a', 'pixel6pro', 'pixel7', 'pixel7pro', '11tpro', '12pro', '12tpro', '13', '13pro', 'zfold4', 's22ultra', 's23', 's23plus', 's23ultra', 'iphone12', 'iphone13', 'iphone13pro', 'iphone14', 'iphone14pro']
+            }
+        ],
+
+        // Состояние приложения
+        state: {
+            currentDevice: null,
+            filters: {
+            types: ['case', 'charger', 'screenprotector', 'earbuds'],
+            brands: ['apple', 'samsung', 'other'],
+            priceMin: null,
+            priceMax: null
+            },
+            cart: []
+        },
+
+        // Показать совместимые аксессуары
+        showCompatibleAccessories(deviceId, sortType = null) {
+            // Фильтрация аксессуаров
+            let compatibleAccessories = this.accessoriesData.filter(accessory => 
+            accessory.compatibleWith.includes(deviceId) &&
+            this.state.filters.types.includes(accessory.type) &&
+            this.state.filters.brands.includes(accessory.brand) &&
+            (this.state.filters.priceMin === null || accessory.price >= this.state.filters.priceMin) &&
+            (this.state.filters.priceMax === null || accessory.price <= this.state.filters.priceMax)
             );
+
+            // Сортировка
+            if (sortType) {
+            switch(sortType) {
+                case 'price-asc':
+                compatibleAccessories.sort((a, b) => a.price - b.price);
+                break;
+                case 'price-desc':
+                compatibleAccessories.sort((a, b) => b.price - a.price);
+                break;
+                case 'name-asc':
+                compatibleAccessories.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+                case 'name-desc':
+                compatibleAccessories.sort((a, b) => b.name.localeCompare(a.name));
+                break;
+            }
+            }
+
+            // Генерация HTML
+            const accessoriesGrid = document.getElementById('accessories-grid');
             
             if (compatibleAccessories.length > 0) {
-                // Create grid with compatible accessories
-                let html = `
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        <h2 class="col-span-full text-xl font-bold mb-2">Совместимые аксессуары</h2>
-                        <p class="col-span-full text-gray-600 dark:text-gray-300 mb-4">Найдено ${compatibleAccessories.length} аксессуаров</p>
-                `;
-                
-                compatibleAccessories.forEach(accessory => {
-                    html += `
-                        <div class="accessory-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden relative">
-                            <div class="compatibility-badge bg-green-500 text-white">
-                                <i class="fas fa-check text-xs"></i>
-                            </div>
-                            <div class="p-4 flex items-center justify-center h-40 bg-gray-50 dark:bg-gray-700">
-                                <img src="${accessory.image}" alt="${accessory.name}" class="h-full object-contain">
-                            </div>
-                            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
-                                <h3 class="font-bold text-lg mb-2">${accessory.name}</h3>
-                                <div class="flex justify-between items-center">
-                                    <span class="font-bold">${accessory.price.toLocaleString()} ₽</span>
-                                    <button class="bg-primary-light dark:bg-primary-dark hover:bg-primary-dark dark:hover:bg-primary-light text-white px-3 py-1 rounded-md text-sm font-medium transition">
-                                        В корзину
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                html += `</div>`;
-                accessoriesGrid.innerHTML = html;
-            } else {
-                // No compatible accessories found
-                accessoriesGrid.innerHTML = `
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
-                        <div class="mx-auto w-24 h-24 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
-                            <i class="fas fa-exclamation-circle text-gray-400 text-3xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Совместимые аксессуары не найдены</h3>
-                        <p class="text-gray-600 dark:text-gray-300">К сожалению, для выбранного устройства нет доступных аксессуаров в нашем каталоге</p>
+            let html = `
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <h2 class="col-span-full text-xl font-bold mb-2">Совместимые аксессуары</h2>
+                <p class="col-span-full text-gray-600 dark:text-gray-300 mb-4">Найдено ${compatibleAccessories.length} аксессуаров</p>
+            `;
+            
+            compatibleAccessories.forEach(accessory => {
+                html += `
+                <div class="card-accessory bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden relative">
+                    <div class="badge-compatibility bg-green-500 text-white">
+                    <i class="fas fa-check text-xs"></i>
                     </div>
+                    <div class="p-4 flex items-center justify-center h-40 bg-gray-50 dark:bg-gray-700">
+                    <img src="${accessory.image}" alt="${accessory.name}" class="h-full object-contain">
+                    </div>
+                    <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                    <h3 class="font-bold text-lg mb-2">${accessory.name}</h3>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold"> ~ ${accessory.price.toLocaleString()} ₽</span>
+                    </div>
+                    </div>
+                </div>
                 `;
-            }
-        }
+            });
+            
+            html += `</div>`;
+            accessoriesGrid.innerHTML = html;
 
-        // Function to show no device selected state
-        function showNoDeviceSelected() {
+            // Добавление обработчиков для кнопок "В корзину"
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                const accessoryId = this.getAttribute('data-id');
+                App.addToCart(accessoryId);
+                });
+            });
+            } else {
             accessoriesGrid.innerHTML = `
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
-                    <div class="mx-auto w-24 h-24 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-mobile-alt text-gray-400 text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Выберите устройство</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Пожалуйста, выберите бренд и модель вашего устройства, чтобы увидеть совместимые аксессуары</p>
+                <div class="mx-auto w-24 h-24 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-exclamation-circle text-gray-400 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Совместимые аксессуары не найдены</h3>
+                <p class="text-gray-600 dark:text-gray-300">Попробуйте изменить параметры фильтрации</p>
                 </div>
             `;
-        }
+            }
+        },
+
+        // Показать состояние "устройство не выбрано"
+        showNoDeviceSelected() {
+            const accessoriesGrid = document.getElementById('accessories-grid');
+            accessoriesGrid.innerHTML = `
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-12 text-center">
+                <div class="mx-auto w-24 h-24 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-mobile-alt text-gray-400 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Выберите устройство</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-6">Пожалуйста, выберите бренд и модель вашего устройства, чтобы увидеть совместимые аксессуары</p>
+            </div>
+            `;
+        },
+        };
+
+        // Инициализация приложения при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+        App.init();
+        });
     </script>
 </body>
-</html>
+</html> 
