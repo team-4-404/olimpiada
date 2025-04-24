@@ -77,7 +77,7 @@ http://gadgetzone/</pre>
     <strong>Шахмурзаев Тамерлан</strong> — калькулятор
   </div>
     <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-      <strong>Яман Зайнап</strong> — сравнение товаров
+      <strong>Яман Зайнап</strong> — сравнение товаров <br>
     </div>
   </div>
 </div>
