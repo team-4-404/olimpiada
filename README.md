@@ -59,33 +59,25 @@ http://gadgetzone/</pre>
 <h2>👥 Команда проекта</h2>
 <div style="display: flex; flex-wrap: wrap; gap: 15px;">
   <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-    <strong>Александр Коршунов</strong> —<br>
-    Главная страница, личный кабинет, авторизация
+    <strong>Александр Коршунов</strong> — главная страница, личный кабинет, авторизация
   </div>
   <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-    <strong>Мария Дубровская</strong> —<br>
-    Карточки товара
+    <strong>Мария Дубровская</strong> — карточки товара
   </div>
   <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-    <strong>Сташкова Софья</strong> —<br>
-    Главная страница, каталог
+    <strong>Сташкова Софья</strong> — главная страница, каталог
   </div>
   <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-    <strong>Федоскова Дарья</strong> —<br>
-    Страница аксессуаров
+    <strong>Федоскова Дарья</strong> — страница аксессуаров
   </div>
   <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-    <strong>Фомкин Георгий</strong> —<br>
-    Дебаг
+    <strong>Фомкин Георгий</strong> — дебаг
   </div>
   <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-    <strong>Шахмурзаев Тамерлан</strong> —<br>
-    Калькулятор
+    <strong>Шахмурзаев Тамерлан</strong> — калькулятор
   </div>
-</div>
     <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-      <strong>Яман Зайнап</strong><br>
-      Сравнение товаров
+      <strong>Яман Зайнап</strong> — сравнение товаров
     </div>
   </div>
 </div>
