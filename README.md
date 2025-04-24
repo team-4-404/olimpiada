@@ -29,6 +29,7 @@
 
   <h2>⚙️ Запуск локально</h2>
   <pre style="background: #f4f4f4; padding: 15px; border-radius: 5px;">
+    
 # Шаг 1. Скачай архив с проектом или клонируй репозиторий:
 git clone https://github.com/your-username/gadgetzone.git
 cd gadgetzone
@@ -43,11 +44,9 @@ http://gadgetzone/</pre>
   <ul>
     <li>📦 Каталог с фильтрацией, сортировкой, тёмной темой</li>
     <li>🛒 Корзина с добавлением, удалением, счётчиком</li>
-    <li>❤️ Избранное с уведомлениями</li>
-    <li>👤 Профиль с редактированием email и пароля</li>
     <li>📊 Калькулятор выгоды</li>
     <li>📱 Адаптивная верстка</li>
-    <li>🔐 Авторизация / регистрация / эмуляция email</li>
+    <li>🔐 Авторизация / регистрация </li>
   </ul>
 
   <h2>🛠 Требования</h2>
@@ -57,32 +56,33 @@ http://gadgetzone/</pre>
     <li>Браузер (лучше всего — Google Chrome)</li>
   </ul>
 
-  <h2>👥 Команда проекта</h2>
-  <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-      <strong>Александр Коршунов</strong><br>
-      Главная страница, личный кабинет, авторизация
-    </div>
-    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-      <strong>Мария Дубровская</strong><br>
-      Карточки товара
-    </div>
-    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-      <strong>Сташкова Софья</strong><br>
-      Главная страница, каталог
-    </div>
-    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-      <strong>Федоскова Дарья</strong><br>
-      Страница аксессуаров
-    </div>
-    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-      <strong>Фомкин Георгий</strong><br>
-      Дебаг
-    </div>
-    <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
-      <strong>Шахмурзаев Тамерлан</strong><br>
-      Калькулятор
-    </div>
+<h2>👥 Команда проекта</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+  <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
+    <strong>Александр Коршунов</strong> —<br>
+    Главная страница, личный кабинет, авторизация
+  </div>
+  <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
+    <strong>Мария Дубровская</strong> —<br>
+    Карточки товара
+  </div>
+  <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
+    <strong>Сташкова Софья</strong> —<br>
+    Главная страница, каталог
+  </div>
+  <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
+    <strong>Федоскова Дарья</strong> —<br>
+    Страница аксессуаров
+  </div>
+  <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
+    <strong>Фомкин Георгий</strong> —<br>
+    Дебаг
+  </div>
+  <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
+    <strong>Шахмурзаев Тамерлан</strong> —<br>
+    Калькулятор
+  </div>
+</div>
     <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; width: 200px;">
       <strong>Яман Зайнап</strong><br>
       Сравнение товаров
